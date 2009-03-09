@@ -1,0 +1,124 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone.app.registry">
+
+    <include package="plone.supermodel" />
+
+    <!-- export/import steps -->
+
+    <gs:importStep
+        name="plone.app.registry"
+        title="Manage the configuration registry"
+        description="Add or remove records, or change values"
+        handler=".handler.import_registry">
+        <depends name="componentregistry"/>
+        <depends name="toolset"/>
+    </gs:importStep>
+    
+    <gs:exportStep
+        name="plone.app.registry"
+        title="Export the configuration registry schemata"
+        description="Exports records and settings"
+        handler=".handler.export_registry"
+        />
+        
+    <!-- body adapter -->
+    
+    <adapter
+        factory=".handler.RegistryXMLAdapter"
+        name='plone.app.registry'
+        />
+    
+    <!-- plone.supermodel field handlers -->
+    
+    <utility
+        component=".fields.BytesHandler"
+        name="plone.registry.field.Bytes"
+        />
+    <utility
+        component=".fields.BytesLineHandler"
+        name="plone.registry.field.BytesLine"
+        />
+    <utility
+        component=".fields.ASCIIHandler"
+        name="plone.registry.field.ASCII"
+        />
+    <utility
+        component=".fields.ASCIILineHandler"
+        name="plone.registry.field.ASCIILine"
+        />
+    <utility
+        component=".fields.TextHandler"
+        name="plone.registry.field.Text"
+        />
+    <utility
+        component=".fields.TextLineHandler"
+        name="plone.registry.field.TextLine"
+        />
+    <utility
+        component=".fields.BoolHandler"
+        name="plone.registry.field.Bool"
+        />
+    <utility
+        component=".fields.IntHandler"
+        name="plone.registry.field.Int"
+        />
+    <utility
+        component=".fields.FloatHandler"
+        name="plone.registry.field.Float"
+        />
+    <utility
+        component=".fields.TupleHandler"
+        name="plone.registry.field.Tule"
+        />
+    <utility
+        component=".fields.ListHandler"
+        name="plone.registry.field.List"
+        />
+    <utility
+        component=".fields.SetHandler"
+        name="plone.registry.field.Set"
+        />
+    <utility
+        component=".fields.FrozenSetHandler"
+        name="plone.registry.field.FrozenSet"
+        />
+    <utility
+        component=".fields.PasswordHandler"
+        name="plone.registry.field.Password"
+        />
+    <utility
+        component=".fields.DictHandler"
+        name="plone.registry.field.Dict"
+        />
+    <utility
+        component=".fields.DatetimeHandler"
+        name="plone.registry.field.Datetime"
+        />
+    <utility
+        component=".fields.DateHandler"
+        name="plone.registry.field.Date"
+        />
+    <utility
+        component=".fields.TimedeltaHandler"
+        name="plone.registry.field.Timedelta"
+        />
+    <utility
+        component=".fields.SourceTextHandler"
+        name="plone.registry.field.SourceText"
+        />
+    <utility
+        component=".fields.URIHandler"
+        name="plone.registry.field.URI"
+        />
+    <utility
+        component=".fields.IdHandler"
+        name="plone.registry.field.Id"
+        />
+    <utility
+        component=".fields.DottedNameHandler"
+        name="plone.registry.field.DottedName"
+        />
+
+</configure>

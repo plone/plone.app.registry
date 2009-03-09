@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone.app.registry">
+      
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+<div metal:fill-slot="prefs_configlet_content">
+
+    <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration registry</h1>
+    
+    <p class="documentDescription" i18n:translate="description_registry">
+        The table below shows record currently managed by the configuration
+        registry. Click on a record to edit it.
+    </p>
+    
+    <table class="listing">
+        <thead>
+            <tr>
+                <th i18n:translate="heading_name">Name</th>
+                <th i18n:translate="heading_title">Title</th>
+                <th i18n:translate="heading_title">Description</th>
+                <th i18n:translate="heading_type">Type</th>
+                <th i18n:translate="heading_value">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr tal:repeat="record context/records/values">
+                <td>
+                    <a tal:content="record/__name__"
+                       tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
+                       />
+                </td>
+                <td>
+                    <a tal:content="record/field/title"
+                       tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
+                       />
+                </td>
+                <td tal:content="record/field/description" />
+                <td tal:content="record/field/__class__/__name__" />
+                <td tal:content="python: unicode(record.value)"
+                    tal:on-error="string:?" />
+            </tr>
+        </tbody>
+    </table>
+        
+</div>
+</body>
+</html>
+
