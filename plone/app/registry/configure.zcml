@@ -5,6 +5,7 @@
     i18n_domain="plone.app.registry">
 
     <include package="plone.registry" />
+    
     <include package=".exportimport" />
     <include package=".browser" />
 

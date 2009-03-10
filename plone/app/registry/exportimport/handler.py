@@ -1,65 +1,92 @@
-from zope.component import adapts
-from zope.component import queryMultiAdapter, queryUtility
+from zope.component import queryUtility
 
-import zope.schema
-from zope.schema.interfaces import IFromUnicode, ICollection
+from elementtree import ElementTree
 
 from zope.dottedname.resolve import resolve
 
 from plone.registry.interfaces import IRegistry, IPersistentField, IInterfaceAwareRecord
 from plone.registry import Record
 
-from Products.GenericSetup.interfaces import IBody
-from Products.GenericSetup.interfaces import ISetupEnviron
-from Products.GenericSetup.utils import XMLAdapterBase
-
 from plone.supermodel.interfaces import IFieldExportImportHandler
-from plone.supermodel.serializer import IFieldNameExtractor
+from plone.supermodel.interfaces import IFieldNameExtractor
+
+from plone.supermodel.utils import pretty_xml, element_to_value, value_to_element
 
 _marker = object()
 
-class RegistryXMLAdapter(XMLAdapterBase):
-    adapts(IRegistry, ISetupEnviron)
+def import_registry(context):
+    
+    logger = context.getLogger('plone.app.registry')
+    registry = queryUtility(IRegistry)
+    
+    if registry is None:
+        logger.info("Cannot find registry")
+        return
 
-    _LOGGER_ID = 'plone.app.registry'
+    body = context.readDataFile('registry.xml')
+    if body is not None:
+        importer = RegistryImporter(registry, context)
+        importer.importDocument(body)
+        
+def export_registry(context):
 
-    name = 'plone.app.registry'
+    logger = context.getLogger('plone.app.registry')
+    registry = queryUtility(IRegistry)
+    
+    if registry is None:
+        logger.info("Cannot find registry")
+        return
 
-    def _importNode(self, node):
+    exporter = RegistryExporter(registry, context)
+    body = exporter.exportDocument()
+    if body is not None:
+        context.writeDataFile('registry.xml', body, 'text/xml')
+
+class RegistryImporter(object):
+    """Helper classt to import a registry file
+    """
+
+    LOGGER_ID = 'plone.app.registry'
+
+    def __init__(self, context, environ):
+        self.context = context
+        self.environ = environ
+        self.logger = environ.getLogger(self.LOGGER_ID)
+
+    def importDocument(self, document):
+        tree = ElementTree.fromstring(document)
         
         if self.environ.shouldPurge():
             self.context.records.clear()
 
-        for child in node.childNodes:
-            
-            if child.nodeName.lower() == 'record':
-                self._importRecord(child)
-            elif child.nodeName.lower() == 'records':
-                self._importRecords(child)
+        for node in tree:
+            if node.tag.lower() == 'record':
+                self.importRecord(node)
+            elif node.tag.lower() == 'records':
+                self.importRecords(node)
 
-    def _exportNode(self):
-        root = self._doc.createElement('registry')
+    def importRecord(self, node):
         
-        for record in self.context.records.values():
-            child = self._doc.createElement('record')
-            self._exportRecord(record, child)
-            root.appendChild(child)
+        name = str(node.get('name', ''))
+        delete = node.get('delete', 'false')
+        
+        interface_name = str(node.get('interface', ''))
+        field_name = str(node.get('field', ''))
 
-        return root
-        
-    def _importRecord(self, node):
-        
-        name = str(node.getAttribute('name'))
-        delete = node.getAttribute('delete')
-        
-        interface_name = str(node.getAttribute('interface'))
-        field_name = str(node.getAttribute('field'))
-
-        if not name and interface_name and field_name:
+        if not name and (interface_name and field_name):
             name = "%s.%s" % (interface_name, field_name,)
         
-        if delete.lower() == 'true' and name in self.context.records:
-            del self.context.records[name]
+        if not name:
+            self.logger.error("No name given for <record /> node!")
+            return
+        
+        # Handle deletion and quit
+        if delete.lower() == 'true':
+            if name in self.context.records:
+                del self.context.records[name]
+                self.logger.info("Deleted record %s." % name)
+            else:
+                self.logger.warn("Record %s was marked for deletion, but was not found." % name)
             return
         
         # See if we have an existing record
@@ -69,42 +96,47 @@ class RegistryXMLAdapter(XMLAdapterBase):
         field = None
         value = _marker
         
-        field_node = None
-        value_node = None
-        
         # If we are given an interface and field name, try to resolve them
         if interface_name and field_name:
             try:
                 interface = resolve(interface_name)
                 field = IPersistentField(interface[field_name])
             except ImportError:
-                self._logger.warn("Failed to import interface %s for record %s" % (interface_name, name))
+                self.logger.warn("Failed to import interface %s for record %s" % (interface_name, name))
                 interface = None
-                field_name = None
+                field = None
             except KeyError:
-                self._logger.warn("Interface %s specified for record %s has no field %s." % (interface_name, name, field_name,))
+                self.logger.warn("Interface %s specified for record %s has no field %s." % (interface_name, name, field_name,))
                 interface = None
-                field_name = None
+                field = None
             except TypeError:
-                self._logger.warn("Field %s in interface %s specified for record %s cannot be used as a persistent field." % (field_name, interface_name, name,))            
+                self.logger.warn("Field %s in interface %s specified for record %s cannot be used as a persistent field." % (field_name, interface_name, name,))            
                 interface = None
-                field_name = None
+                field = None
         
         # Find field and value nodes
-        for child in node.childNodes:
-            if child.nodeName.lower() == 'field':
+        
+        field_node = None
+        value_node = None
+         
+        for child in node:
+            if child.tag.lower() == 'field':
                 field_node = child
-            elif child.nodeName.lower() == 'value':
+            elif child.tag.lower() == 'value':
                 value_node = child
         
         # Let field not potentially override interface[field_name]
         if field_node is not None:
-            field_type = node.getAttribute('type')
+            field_type = node.get('type')
             field_type_handler = queryUtility(IFieldExportImportHandler, name=field_type)
             if field_type_handler is None:
-                self._logger.warn("Field of type %s used for record %s is not supported." % (field_type, name))
+                self.logger.error("Field of type %s used for record %s is not supported." % (field_type, name))
+                return
             else:
                 field = field_type_handler.read(field_node)
+                if not IPersistentField.providedBy(field):
+                    self.logger.error("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
+                    return
         
         # Fall back to existing record if neither a field node nor the
         # interface yielded a field
@@ -116,23 +148,13 @@ class RegistryXMLAdapter(XMLAdapterBase):
             field = existing_record.field
         
         if field is None:
-            raise KeyError(u"Cannot find a field for the record %s. Add a <field /> element or interface." % name)
+            self.logger.error("Cannot find a field for the record %s. Add a <field /> element or reference an interface and field name." % name)
+            return
         
         # Extract the value
-        
-        # TODO: Doesn't handle dict fields
+
         if value_node is not None:
-            if ICollection.providedBy(field):
-                value_type = field.value_type
-                value = []
-                for child in value_node.childNodes:
-                    if child.nodeName.lower() != 'element':
-                        continue
-                    element_value = self._extract_text(child)
-                    value.append(self._from_unicode(value_type, element_value))
-                value = self._field_typecast(value_type, value)
-            else:
-                value = self.from_unicode(field, self._extract_text(child))
+            value = element_to_value(field, value_node, default=_marker)
 
         # Now either construct or update the record
         
@@ -142,113 +164,67 @@ class RegistryXMLAdapter(XMLAdapterBase):
         if existing_record is not None:
             if change_field:
                 existing_record.field = field
-            existing_record.value = value
+            if value != existing_record.value:
+                existing_record.value = value
         else:
-            self.context.records[name] = Record(field, interface=interface, field_name=field_name)
+            self.context.records[name] = Record(field, value, 
+                                                interface=interface,
+                                                field_name=field_name)
 
-    def _importRecords(self, node):
+    def importRecords(self, node):
         
-        # May raise ImportError if interface can't be found
-        interface = resolve(str(node.getAttribute('interface')))
+        # May raise ImportError if interface can't be found or KeyError if
+        # attribute is missing.
+        interface = resolve(str(node.attrib['interface']))
         omit = []
         
-        for child in node.childNodes:
-            if child.nodeName.lower() == 'omit':
-                omit.append(self._extract_text(child))
+        for child in node:
+            if child.tag.lower() == 'omit':
+                if child.text:
+                    omit.append(unicode(child.text))
         
         self.context.register_interface(interface, omit=tuple(omit))
+
+class RegistryExporter(object):
+    
+    LOGGER_ID = 'plone.app.registry'
+
+    def __init__(self, context, environ):
+        self.context = context
+        self.environ = environ
+        self.logger = environ.getLogger(self.LOGGER_ID)
+    
+    def exportDocument(self):
+        root = ElementTree.Element('registry')
         
-    def _exportRecord(self, record, node):
+        for record in self.context.records.values():
+            node = self.exportRecord(record)
+            root.append(node)
+
+        return pretty_xml(root)
+
+    def exportRecord(self, record):
         
-        node.setAttribute('name', record.__name__)
+        node = ElementTree.Element('record')
+        node.attrib['name'] = record.__name__
         
         if IInterfaceAwareRecord.providedBy(record):
-            node.setAttribute('interface', record.interface_name)
-            node.setAttribute('field', record.field_name)
+            node.attrib['interface'] = record.interface_name
+            node.attrib['field'] = record.field_name
 
         # write field
         
-        name_extractor = IFieldNameExtractor(record.field)
-        field_type = name_extractor()
+        field_type = IFieldNameExtractor(record.field)()
         handler = queryUtility(IFieldExportImportHandler, name=field_type)
         if handler is None:
-            self._logger.warn("Field type %s specified for record %s cannot be exported" % (field_type, record.__name__,))
+            self.logger.warn("Field type %s specified for record %s cannot be exported" % (field_type, record.__name__,))
         else:
-            field_element = handler.write(record.field, 'value', field_type)
-            field_element.removeAttribute('name')
-            node.appendChild(field_element)
+            field_element = handler.write(record.field, None, field_type, element_name='field')
+            node.append(field_element)
             
         # write value
         
-        value_element = self._doc.createElement('value')
-        
-        # TODO: Doesn't handle dict fields
-        if ICollection.providedBy(record.field):
-            for e in record.value:
-                list_element = self._doc.createElement('element')
-                list_element.append(self._doc.createTextNode(unicode(e)))
-                value_element.appendChild(list_element)
-        else:
-            value_element.append(self._doc.createTextNode(unicode(record.value)))
-    
-    # helpers
-    
-    def _extract_text(self, node):
-        node.normalize()
-        if len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
-            return unicode(node.childNodes[0].data)
-        return None
-        
-    # borrowed from plone.supermodel
-    
-    def _from_unicode(self, field, value):
-        if isinstance(value, str):
-            value = unicode(value)        
-        if IFromUnicode.providedBy(field) or isinstance(field, zope.schema.Bool):
-            return field.fromUnicode(value)
-        else:
-            return self.field_typecast(field, value)
-    
-    def _field_typecast(self, field, value):
-        typecast = getattr(field, '_type', None)
-        if typecast is not None:
-            if not isinstance(typecast, (list, tuple)):
-                typecast = (typecast,)
-            for tc in reversed(typecast):
-                if callable(tc):
-                    try:
-                        value = tc(value)
-                        break
-                    except:
-                        pass
-        return value
+        value_element = value_to_element(record.field, record.value, name='value', force=True)
+        node.append(value_element)
 
-def import_registry(context):
-    
-    logger = context.getLogger('plone.app.registry')
-    registry = queryUtility(IRegistry)
-    
-    if registry is None:
-        logger.info("Cannot find registry")
-        return
-
-    importer = queryMultiAdapter((registry, context), IBody, name='plone.app.registry')
-    if importer:
-        body = context.readDataFile('registry.xml')
-        if body is not None:
-            importer.body = body
-    
-def export_registry(context):
-
-    logger = context.getLogger('plone.app.registry')
-    registry = queryUtility(IRegistry)
-    
-    if registry is None:
-        logger.info("Cannot find registry")
-        return
-
-    exporter = queryMultiAdapter((registry, context), IBody, name='plone.app.registry')
-    if exporter:
-        body = exporter.body
-        if body is not None:
-            context.writeDataFile('registry.xml', body, exporter.mime_type)
+        return node

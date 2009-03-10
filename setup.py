@@ -29,6 +29,7 @@ setup(name='plone.app.registry',
           'plone.supermodel',
           'plone.app.z3cform',
           'Plone',
+          'elementtree',
       ],
       entry_points="""
       # -*- Entry points: -*-

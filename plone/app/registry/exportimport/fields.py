@@ -1,34 +1,36 @@
-from plone.supermodel.exportimport import BaseHandler
+import plone.supermodel.exportimport
 from plone.registry import field
 
 # Field import/export handlers
 
-BytesHandler = BaseHandler(field.Bytes, element_name="field")
-BytesLineHandler = BaseHandler(field.BytesLine, element_name="field")
+BytesHandler = plone.supermodel.exportimport.BaseHandler(field.Bytes)
+BytesLineHandler = plone.supermodel.exportimport.BaseHandler(field.BytesLine)
 
-ASCIIHandler = BaseHandler(field.ASCII, element_name="field")
-ASCIILineHandler = BaseHandler(field.ASCIILine, element_name="field")
+ASCIIHandler = plone.supermodel.exportimport.BaseHandler(field.ASCII)
+ASCIILineHandler = plone.supermodel.exportimport.BaseHandler(field.ASCIILine)
 
-IdHandler = BaseHandler(field.Id, element_name="field")
-DottedNameHandler = BaseHandler(field.DottedName, element_name="field")
-TextHandler = BaseHandler(field.Text, element_name="field")
-TextLineHandler = BaseHandler(field.TextLine, element_name="field")
+TextHandler = plone.supermodel.exportimport.BaseHandler(field.Text)
+TextLineHandler = plone.supermodel.exportimport.BaseHandler(field.TextLine)
 
-PasswordHandler = BaseHandler(field.Password, element_name="field")
-URIHandler = BaseHandler(field.URI, element_name="field")
-SourceTextHandler = BaseHandler(field.SourceText, element_name="field")
+PasswordHandler = plone.supermodel.exportimport.BaseHandler(field.Password)
+SourceTextHandler = plone.supermodel.exportimport.BaseHandler(field.SourceText)
 
-BoolHandler = BaseHandler(field.Bool, element_name="field")
-IntHandler = BaseHandler(field.Int, element_name="field")
-FloatHandler = BaseHandler(field.Float, element_name="field")
+DottedNameHandler = plone.supermodel.exportimport.BaseHandler(field.DottedName)
+URIHandler = plone.supermodel.exportimport.BaseHandler(field.URI)
+IdHandler = plone.supermodel.exportimport.BaseHandler(field.Id)
 
-DatetimeHandler = BaseHandler(field.Datetime, element_name="field")
-DateHandler = BaseHandler(field.Date, element_name="field")
-TimedeltaHandler = BaseHandler(field.Timedelta, element_name="field")
+BoolHandler = plone.supermodel.exportimport.BaseHandler(field.Bool)
+IntHandler = plone.supermodel.exportimport.BaseHandler(field.Int)
+FloatHandler = plone.supermodel.exportimport.BaseHandler(field.Float)
 
-TupleHandler = BaseHandler(field.Tuple, element_name="field")
-ListHandler = BaseHandler(field.List, element_name="field")
-SetHandler = BaseHandler(field.Set, element_name="field")
-FrozenSetHandler = BaseHandler(field.FrozenSet, element_name="field")
+DatetimeHandler = plone.supermodel.exportimport.BaseHandler(field.Datetime)
+DateHandler = plone.supermodel.exportimport.BaseHandler(field.Date)
 
-DictHandler = BaseHandler(field.Dict, element_name="field")
+TupleHandler = plone.supermodel.exportimport.BaseHandler(field.Tuple)
+ListHandler = plone.supermodel.exportimport.BaseHandler(field.List)
+SetHandler = plone.supermodel.exportimport.BaseHandler(field.Set)
+FrozenSetHandler = plone.supermodel.exportimport.BaseHandler(field.FrozenSet)
+
+DictHandler = plone.supermodel.exportimport.DictHandler(field.Dict)
+
+ChoiceHandler = plone.supermodel.exportimport.ChoiceHandler(field.Choice)
