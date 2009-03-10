@@ -94,37 +94,461 @@ class TestImport(ExportImportTest):
         self.assertEquals(0, len(self.registry.records))
         
     def test_import_records(self):
-        pass
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(3, len(self.registry.records))
+        
+        self.failUnless('plone.app.registry.tests.data.ITestSettings.name' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.ITestSettings.age' in self.registry)
         
     def test_import_records_disallowed(self):
-        pass
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettingsDisallowed" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        
+        try:
+            import_registry(context)
+        except TypeError:
+            pass
+        else:
+            self.fail()
         
     def test_import_records_omit(self):
-        pass
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettingsDisallowed">
+        <omit>blob</omit>
+    </records>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(3, len(self.registry.records))
+        
+        self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.name' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.age' in self.registry)
         
     def test_import_value_only(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.export.simple">
+        <value>Imported value</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
-    def test_import_interface(self):
-        pass
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(u"Simple record", self.registry.records['test.export.simple'].field.title)
+        self.assertEquals(u"Imported value", self.registry['test.export.simple'])
+        
+    def test_import_interface_and_value(self):
+        xml = """\
+<registry>
+    <record interface="plone.app.registry.tests.data.ITestSettingsDisallowed" field="age">
+        <value>2</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(u"Age", self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.age'].field.title)
+        self.assertEquals(2, self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.age'])
+
+    def test_import_interface_with_differnet_name(self):
+        xml = """\
+<registry>
+    <record name="plone.registry.oops" interface="plone.app.registry.tests.data.ITestSettingsDisallowed" field="age">
+        <value>2</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(u"Age", self.registry.records['plone.registry.oops'].field.title)
+        self.assertEquals(2, self.registry['plone.registry.oops'])
+
+    def test_import_interface_no_value(self):
+        xml = """\
+<registry>
+    <record interface="plone.app.registry.tests.data.ITestSettingsDisallowed" field="name" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(u"Name", self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.name'].field.title)
+        self.assertEquals(u"Mr. Registry", self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.name'])
         
     def test_import_field_only(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.TextLine">
+          <default>N/A</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.TextLine))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(u"N/A", self.registry['test.registry.field'])
     
     def test_import_field_and_interface(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.registry.field" interface="plone.app.registry.tests.data.ITestSettingsDisallowed" field="age">
+        <field type="plone.registry.field.ASCIILine">
+          <default>N/A</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.ASCIILine))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals("N/A", self.registry['test.registry.field'])
+        
+    def test_import_overwrite_field_with_field(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.ASCIILine">
+          <default>Nada</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.ASCIILine))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals("Nada", self.registry['test.registry.field'])
+
+    def test_import_overwrite_field_with_interface(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field"  interface="plone.app.registry.tests.data.ITestSettingsDisallowed" field="age" />
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Int))
+        self.assertEquals(u"Age", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(None, self.registry['test.registry.field'])
+
     def test_import_collection_field(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.FrozenSet">
+          <title>Simple record</title>
+          <default>
+            <element>1</element>
+            <element>3</element>
+          </default>
+          <value_type type="plone.registry.field.Int">
+            <title>Value</title>
+          </value_type>
+        </field>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.FrozenSet))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(frozenset([1,3]), self.registry['test.registry.field'])
+        
+    def test_import_collection_value(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value>
+            <element>4</element>
+            <element>6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
+                   value=set([1]))
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Set))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(frozenset([4,6]), self.registry['test.registry.field'])
+    
+    def test_import_collection_nopurge(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element>4</element>
+            <element>6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
+                   value=set([1]))
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Set))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(frozenset([1,4,6]), self.registry['test.registry.field'])
+    
     def test_import_dict_field(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.Dict">
+          <title>Simple record</title>
+          <default>
+            <element key="a">1</element>
+            <element key="b">3</element>
+          </default>
+          <key_type type="plone.registry.field.ASCIILine">
+            <title>Key</title>
+          </key_type>
+          <value_type type="plone.registry.field.Int">
+            <title>Value</title>
+          </value_type>
+        </field>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Dict))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals({'a':1, 'b': 3}, self.registry['test.registry.field'])
+
+    def test_import_dict_value(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value>
+            <element key="x">4</element>
+            <element key="y">6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Dict(title=u"Simple record",
+                              key_type=field.ASCIILine(title=u"Key"),
+                              value_type=field.Int(title=u"Val")),
+                   value={'a': 1})
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Dict))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals({'x': 4, 'y': 6}, self.registry['test.registry.field'])
+
+    def test_import_dict_nopurge(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element key="x">4</element>
+            <element key="y">6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Dict(title=u"Simple record",
+                              key_type=field.ASCIILine(title=u"Key"),
+                              value_type=field.Int(title=u"Val")),
+                   value={'a': 1})
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Dict))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals({'a': 1, 'x': 4, 'y': 6}, self.registry['test.registry.field'])     
+
     def test_import_choice_field(self):
-        pass
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.Choice">
+          <title>Simple record</title>
+          <values>
+            <element>One</element>
+            <element>Two</element>
+          </values>
+        </field>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
-    def test_import_list_value(self):
-        pass
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Choice))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals([u'One', u'Two'], [t.value for t in self.registry.records['test.registry.field'].field.vocabulary])
+        self.assertEquals(None, self.registry['test.registry.field'])
+    
+    def test_delete(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple" delete="true" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(0, len(self.registry.records))
+        
+    def test_delete_not_found(self):
+        xml = """\
+<registry>
+    <record name="test.export.bogus" delete="true" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(u"Simple record", self.registry.records['test.export.simple'].field.title)
+        self.assertEquals(u"Sample value", self.registry['test.export.simple'])
 
 class TestExport(ExportImportTest):
     
