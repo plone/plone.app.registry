@@ -73,12 +73,25 @@ class TestImport(ExportImportTest):
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
         
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        import_registry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+
+    def test_import_purge(self):
+        
+        xml = "<registry/>"
+        context = DummyImportContext(self.site, purge=True)
+        context._files = {'registry.xml': xml}
+        
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
         import_registry(context)
         
         self.assertEquals(0, len(self.registry.records))
-
-    def test_import_purge(self):
-        pass
         
     def test_import_records(self):
         pass
