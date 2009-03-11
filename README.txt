@@ -39,6 +39,20 @@ The `registry.xml` GenericSetup format looks like this::
         <value>Another value</value>
     </record>
     
+    <record name="plone.app.registry.tests.listelement">
+        <value>
+            <element>One</element>
+            <element>Two</element>
+        </value>
+    </record>
+
+    <record name="plone.app.registry.tests.dictelement">
+        <value purge="false">
+            <element key="1">One</element>
+            <element key="2">Two</element>
+        </value>
+    </record>    
+
     <record name="plone.app.registry.tests.dummy4" delete="true" />
     
   </registry>
@@ -57,6 +71,15 @@ In brief:
     options for that field. This is based on plone.supermodel.
   * A <record /> element may contain a <value /> element. This should contain
     a string representation of the value of the field, and will be validated.
+  * For list, tuple, set, or frozenset fields, the <value /> element should
+    contain a list of <element /> elements, one per element in the sequence.
+  * For dict fields, the <value /> element should contain a list of
+    <element /> elements with a `key` attribute. The value of the `key`
+    attribute will be the dictionary key. The contents of the element will
+    be the value.
+  * For sequence and dict fields, the <value /> element may contain an
+    attribute `purge="false"`. If this is given, the existing record's value
+    will be extended/updated rather than replaced.
   * A <record /> element may have a `delete` attribute. If this is set to 
     'true', the record will be deleted.
   * If a <records /> element is provided, it must have an `interface`
