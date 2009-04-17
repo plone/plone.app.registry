@@ -87,3 +87,4 @@ In brief:
     will be created for each field in this interface.
   * A <records /> element may contain zero or more <omit /> elements. These
     should list the names of fields that will be omitted.
+
