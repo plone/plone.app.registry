@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0a2 (2009-04-17)
+------------------
+
+* Add missing handlers.zcml include
+  [MatthewWilkes]
+
 1.0a1 (2009-04-17)
 ------------------
 
