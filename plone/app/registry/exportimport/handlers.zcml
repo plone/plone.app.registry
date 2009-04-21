@@ -44,7 +44,7 @@
         />
     <utility
         component=".fields.TupleHandler"
-        name="plone.registry.field.Tule"
+        name="plone.registry.field.Tuple"
         />
     <utility
         component=".fields.ListHandler"

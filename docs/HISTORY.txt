@@ -4,6 +4,9 @@ Changelog
 1.0a2 (2009-04-17)
 ------------------
 
+* Fixed typo in ZCML registration; tuple has a 'p' in it.  This fixes exportimport of tuple fields.
+  [MatthewWilkes]
+
 * Add missing handlers.zcml include
   [MatthewWilkes]
 
