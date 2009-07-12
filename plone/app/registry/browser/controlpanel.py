@@ -41,7 +41,7 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
     control_panel_view = "plone_control_panel"
 
     def getContent(self):
-        return getUtility(IRegistry).for_interface(self.schema)
+        return getUtility(IRegistry).forInterface(self.schema)
     
     def updateActions(self):
         super(RegistryEditForm, self).updateActions()

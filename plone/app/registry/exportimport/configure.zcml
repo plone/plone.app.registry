@@ -12,7 +12,7 @@
         name="plone.app.registry"
         title="Manage the configuration registry"
         description="Add or remove records, or change values"
-        handler=".handler.import_registry">
+        handler=".handler.importRegistry">
         <depends name="componentregistry"/>
         <depends name="toolset"/>
     </gs:importStep>
@@ -21,7 +21,7 @@
         name="plone.app.registry"
         title="Export the configuration registry schemata"
         description="Exports records and settings"
-        handler=".handler.export_registry"
+        handler=".handler.exportRegistry"
         />
         
 </configure>
