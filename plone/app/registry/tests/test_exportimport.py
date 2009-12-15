@@ -37,7 +37,7 @@ configuration = """\
 
 class ExportImportTest(unittest.TestCase):
     
-    def setUp(self):        
+    def setUp(self):
         self.site = ObjectManager('plone')
         self.registry = Registry('portal_registry')
         provideUtility(provides=IRegistry, component=self.registry)
