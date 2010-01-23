@@ -4,6 +4,9 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Improved the look and feel of the registry records control panel.
+  [optilude] 
+
 1.0b1 - 2009-08-02
 ------------------
 

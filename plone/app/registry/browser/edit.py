@@ -29,7 +29,7 @@ class RecordEditForm(form.EditForm):
         
     @property
     def label(self):
-        return _(u"Edit ${name}", mapping={'name': self.record.__name__})
+        return _(u"Edit record: ${name}", mapping={'name': self.record.__name__})
 
     @button.buttonAndHandler(_('Save'), name='save')
     def handleSave(self, action):

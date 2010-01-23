@@ -25,5 +25,55 @@
         template="edit_layout.pt"
         permission="cmf.ManagePortal"
         />
+    
+    <browser:resourceDirectory
+        name="plone.app.registry"
+        directory="resources"
+        />
+        
+    <!-- Make sure the edit form uses a textlines widget when feasible -->
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IList
+             zope.schema.interfaces.ITextLine
+             z3c.form.interfaces.IFormLayer"
+        />
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.ITuple
+             zope.schema.interfaces.ITextLine
+             z3c.form.interfaces.IFormLayer"
+        />
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IAbstractSet
+             zope.schema.interfaces.ITextLine
+             z3c.form.interfaces.IFormLayer"
+        />
+    
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IList
+             zope.schema.interfaces.IASCIILine
+             z3c.form.interfaces.IFormLayer"
+        />
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.ITuple
+             zope.schema.interfaces.IASCIILine
+             z3c.form.interfaces.IFormLayer"
+        />
+    <adapter
+        factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="zope.schema.interfaces.IAbstractSet
+             zope.schema.interfaces.IASCIILine
+             z3c.form.interfaces.IFormLayer"
+        />
 
 </configure>

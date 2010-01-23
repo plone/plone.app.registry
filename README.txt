@@ -1,8 +1,8 @@
 Introduction
 ============
 
-This package provides Plone UI integration for plone.registry. Specifically,
-it:
+This package provides Plone UI integration for `plone.registry`_.
+Specifically, it:
 
   * creates a version of the Registry class that will show up in the ZMI
   * installs this to the site root and registers it as a local utility
@@ -88,3 +88,4 @@ In brief:
   * A <records /> element may contain zero or more <omit /> elements. These
     should list the names of fields that will be omitted.
 
+.. _plone.registry: http://pypi.python.org/pypi/plone.registry

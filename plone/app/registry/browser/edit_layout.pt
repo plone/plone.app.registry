@@ -10,11 +10,13 @@
              tal:define="dummy python:request.set('disable_border',1)" />
 
 <body>
-<div metal:fill-slot="prefs_configlet_content">
+<div id="content" metal:fill-slot="prefs_configlet_content">
     
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
     
-    <p class="documentDescription" tal:content="view/record/field/description" />
+    <p class="documentDescription" i18n:translate="description_record_edit">
+        Use the form below to edit the value of this particular record.
+    </p>
     
     <div id="layout-contents">
         <span tal:replace="structure view/contents" />

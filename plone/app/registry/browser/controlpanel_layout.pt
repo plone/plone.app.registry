@@ -10,7 +10,7 @@
              tal:define="dummy python:request.set('disable_border',1)" />
 
 <body>
-<div metal:fill-slot="prefs_configlet_content">
+<div id="content" metal:fill-slot="prefs_configlet_content">
     
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
     
