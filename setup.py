@@ -32,6 +32,7 @@ setup(name='plone.app.registry',
           'Plone',
           'elementtree',
       ],
+      extras_require={'tests': ['collective.testcaselayer',]},
       entry_points="""
       # -*- Entry points: -*-
       """,

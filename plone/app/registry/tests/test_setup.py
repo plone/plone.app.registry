@@ -1,13 +1,16 @@
 from unittest import defaultTestLoader
+from Products.PloneTestCase.ptc import PloneTestCase
 
 from Acquisition import aq_base
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 
-from plone.app.registry.tests.base import RegistryTestCase
+from plone.app.registry.tests.layer import Layer
 
-class TestSetup(RegistryTestCase):
+class TestSetup(PloneTestCase):
+    
+    layer = Layer
     
     def test_tool_installed(self):
         self.failUnless('portal_registry' in self.portal.objectIds())

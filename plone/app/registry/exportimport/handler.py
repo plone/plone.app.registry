@@ -168,8 +168,10 @@ class RegistryImporter(object):
             if change_field or value != existing_value:
                 
                 if not value_purge and type(value) == type(existing_value):
-                    if isinstance(value, (list, tuple,)):
-                        value = existing_value + value
+                    if isinstance(value, list):
+                        value = existing_value + [v for v in value if v not in existing_value]
+                    elif isinstance(value, tuple):
+                        value = existing_value + tuple([v for v in value if v not in existing_value])
                     elif isinstance(value, (set, frozenset,)):
                         value = existing_value.union(value)
                     elif isinstance(value, dict):

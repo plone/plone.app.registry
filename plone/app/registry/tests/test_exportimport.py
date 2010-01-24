@@ -394,7 +394,103 @@ class TestImport(ExportImportTest):
         self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.Set))
         self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
         self.assertEquals(frozenset([1,4,6]), self.registry['test.registry.field'])
-    
+
+    def test_import_collection_list_append(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element>4</element>
+            <element>6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.List(title=u"Simple record", value_type=field.Int(title=u"Val")),
+                   value=[2, 4])
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals([2,4,6], self.registry['test.registry.field'])
+        
+    def test_import_collection_tuple_append(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element>b</element>
+            <element>c</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Tuple(title=u"Simple record", value_type=field.TextLine(title=u"Val")),
+                   value=(u"a", u"b",))
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals((u"a", u"b", u"c",), self.registry['test.registry.field'])
+
+    def test_import_collection_set_append(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element>4</element>
+            <element>6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
+                   value=set([2, 4]))
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(set([2,4,6]), self.registry['test.registry.field'])
+
+    def test_import_collection_frozenset_append(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <value purge="false">
+            <element>4</element>
+            <element>6</element>
+        </value>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.FrozenSet(title=u"Simple record", value_type=field.Int(title=u"Val")),
+                   value=frozenset([2, 4]))
+                   
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(frozenset([2,4,6]), self.registry['test.registry.field'])
+
     def test_import_dict_field(self):
         xml = """\
 <registry>
