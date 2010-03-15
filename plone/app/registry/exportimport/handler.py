@@ -193,6 +193,8 @@ class RegistryImporter(object):
         if interfaceName is None:
             raise KeyError(u"A <records /> node must have an 'interface' attribute.")
         
+        prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
+        
         # May raise ImportError
         interface = resolve(interfaceName)
 
@@ -203,7 +205,7 @@ class RegistryImporter(object):
                     omit.append(unicode(child.text))
         
         # May raise TypeError
-        self.context.registerInterface(interface, omit=tuple(omit))
+        self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
 
 class RegistryExporter(object):
     

@@ -218,6 +218,14 @@ dotted names to the fields, so in this case they would be
 ``my.package.interfaces.IZooSettings.entryPrice`` and
 ``my.package.interfaces.IZooSettings.messageOfTheDay``.
 
+If you just want to use the interface as a template you can supply a
+``prefix`` attribute:
+
+    <records interface="my.package.interfaces.IZooSettings" prefix="my.zoo" />
+
+which will generate fields named ``my.zoo.entryPrice`` and
+``my.zoo.messageOfTheDay``.
+
 (Note that there is no way to create multiple records from an interface and
 set their values at the same time, but you can use the ``default`` attribute
 of each field to achieve a similar effect.)

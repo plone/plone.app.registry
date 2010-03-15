@@ -152,6 +152,23 @@ class TestImport(ExportImportTest):
         
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.name' in self.registry)
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.age' in self.registry)
+
+    def test_import_records_with_prefix(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" prefix="plone.app.registry.tests.data.SomethingElse" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(2, len(self.registry.records))
+        
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
+
         
     def test_import_value_only(self):
         xml = """\

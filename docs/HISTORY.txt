@@ -7,6 +7,10 @@ Changelog
 * Improved the look and feel of the registry records control panel.
   [optilude] 
 
+* Add a prefix attribute to the <records /> importer to take advantage of the
+  interfaces-as-templates pattern from plone.registry
+  [MatthewWilkes]
+
 1.0b1 - 2009-08-02
 ------------------
 
