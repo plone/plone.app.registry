@@ -74,7 +74,11 @@ class RegistryImporter(object):
         fieldName = str(node.get('field', ''))
 
         if not name and (interfaceName and fieldName):
-            name = "%s.%s" % (interfaceName, fieldName,)
+            prefix = node.get('prefix', None)
+            if prefix is None:
+                prefix = interfaceName
+            
+            name = "%s.%s" % (prefix, fieldName,)
         
         if not name:
             raise NameError("No name given for <record /> node!")
@@ -163,7 +167,6 @@ class RegistryImporter(object):
         if existing_record is not None:
             if change_field:
                 existing_record.field = field
-            
             existing_value = existing_record.value
             if change_field or value != existing_value:
                 
@@ -199,13 +202,31 @@ class RegistryImporter(object):
         interface = resolve(interfaceName)
 
         omit = []
+        values = [] # Fields that should have their value set as they don't exist yet
+        
         for child in node:
             if child.tag.lower() == 'omit':
                 if child.text:
                     omit.append(unicode(child.text))
+            elif child.tag.lower() == 'value':
+                values.append(child)
         
         # May raise TypeError
         self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
+        
+        if not values:
+            # Skip out if there are no value records to handle
+            return
+        
+        # The prefix we ended up needs to be found
+        if prefix is None:
+            prefix = interface.__identifier__
+        
+        for value in values:
+            field = ElementTree.Element("record", interface=interface, field=value.attrib["key"], prefix=prefix)
+            field.append(value)
+            self.importRecord(field)
+        
 
 class RegistryExporter(object):
     

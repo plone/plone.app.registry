@@ -4,12 +4,16 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
-* Improved the look and feel of the registry records control panel.
-  [optilude] 
+* Allow <value> elements inside <records> if they contain a key attribute.
+  This uses the record importer to set the values after creation.
+  [MatthewWilkes]
 
 * Add a prefix attribute to the <records /> importer to take advantage of the
   interfaces-as-templates pattern from plone.registry
   [MatthewWilkes]
+
+* Improved the look and feel of the registry records control panel.
+  [optilude] 
 
 1.0b1 - 2009-08-02
 ------------------

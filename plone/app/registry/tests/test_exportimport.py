@@ -169,6 +169,27 @@ class TestImport(ExportImportTest):
         self.failUnless('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
         self.failUnless('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
 
+    def test_import_records_with_values(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" prefix="plone.app.registry.tests.data.SomethingElse">
+        <value key="name">Magic</value>
+        <value key="age">42</value>
+    </records>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+        
+        self.assertEquals(2, len(self.registry.records))
+        
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
+
+        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.name'], 'Magic')
+        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.age'], 42)
         
     def test_import_value_only(self):
         xml = """\

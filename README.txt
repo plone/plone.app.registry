@@ -226,9 +226,14 @@ If you just want to use the interface as a template you can supply a
 which will generate fields named ``my.zoo.entryPrice`` and
 ``my.zoo.messageOfTheDay``.
 
-(Note that there is no way to create multiple records from an interface and
-set their values at the same time, but you can use the ``default`` attribute
-of each field to achieve a similar effect.)
+In order to set the values of the fields created by a <records /> directive
+you must provide ``value`` entries with keys corresponding to the fields on
+the interface, as follows:
+
+    <records interface="my.package.interfaces.IZooSettings" prefix="my.zoo">
+        <value key="entryPrice">40</value>
+        <value key="messageOfTheDay">We've got lions and tigers!</value>
+    </records>
 
 Values can be set as above using the full record name. However, we can also
 explicitly state that we are setting a record bound to an interface, like so::
