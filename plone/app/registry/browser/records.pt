@@ -19,7 +19,7 @@
         
         jq('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
-            filter: '#portal-column-content>*',
+            filter: '#content>*',
             formselector: 'form:has(div[id^=formfield-form-widgets-value])',
             closeselector: '[name=form.buttons.cancel]',
             noform: 'close'

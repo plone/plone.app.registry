@@ -4,6 +4,9 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Modify JS overlay call to pull in the #content div.
+  [esteele]
+
 * Allow <value> elements inside <records> if they contain a key attribute.
   This uses the record importer to set the values after creation.
   [MatthewWilkes]
