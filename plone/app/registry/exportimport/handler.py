@@ -223,7 +223,7 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
         
         for value in values:
-            field = ElementTree.Element("record", interface=interface, field=value.attrib["key"], prefix=prefix)
+            field = ElementTree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
             field.append(value)
             self.importRecord(field)
         

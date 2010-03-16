@@ -4,6 +4,10 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Pass the name of the interface, not the interface itself to the <records /> 
+  importer.
+  [esteele]
+
 * Modify JS overlay call to pull in the #content div.
   [esteele]
 
