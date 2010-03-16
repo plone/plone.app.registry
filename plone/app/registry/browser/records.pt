@@ -16,15 +16,21 @@
 (function($) {
     
     $().ready(function() {
-        
         jq('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
-            filter: '#content>*',
+            filter: common_content_filter,
             formselector: 'form:has(div[id^=formfield-form-widgets-value])',
             closeselector: '[name=form.buttons.cancel]',
-            noform: 'close'
+            noform: function(el) {
+                var o = $(el);
+                var emsg = o.find('dl.portalMessage.error');
+                if (emsg.length) {
+                    o.children().replaceWith(emsg);
+                    return false;
+                } else {
+                    return 'reload';
+            }},
         });
-        
     });
     
 })(jQuery);
@@ -34,9 +40,7 @@
     
     <p class="documentDescription" i18n:translate="description_registry">
         The table below shows record currently managed by the configuration
-        registry. Click on a record to edit it. Please note that if you change
-        a value, you will need to reload this page to see that change
-        reflected in the "Value" column.
+        registry. Click on a record to edit it.
     </p>
     
     <table id="recordsTable" class="listing">

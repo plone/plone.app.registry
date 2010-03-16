@@ -4,6 +4,9 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Overlay now reloads the registry listing on successful submit.
+  [esteele]
+
 * Pass the name of the interface, not the interface itself to the <records /> 
   importer.
   [esteele]
