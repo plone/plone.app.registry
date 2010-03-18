@@ -4,6 +4,9 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Capitalize the control panel link to match the Plone standard.
+  [esteele]
+
 * Overlay now reloads the registry listing on successful submit.
   [esteele]
 
