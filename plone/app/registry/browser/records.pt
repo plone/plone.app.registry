@@ -16,7 +16,7 @@
 (function($) {
     
     $().ready(function() {
-        jq('a.recordsEditLink').prepOverlay({
+        $('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
             formselector: 'form:has(div[id^=formfield-form-widgets-value])',
@@ -29,7 +29,7 @@
                     return false;
                 } else {
                     return 'reload';
-            }},
+            }}
         });
     });
     
