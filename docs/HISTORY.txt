@@ -4,6 +4,10 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Ensure fields that are imported from XML only (no interface) have a name.
+  This fixes a problem with edit forms breaking.
+  [optilude]
+
 * Capitalize the control panel link to match the Plone standard.
   [esteele]
 

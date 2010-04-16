@@ -279,7 +279,9 @@ class TestImport(ExportImportTest):
         self.assertEquals(1, len(self.registry.records))
         self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.TextLine))
         self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(u"value", self.registry.records['test.registry.field'].field.__name__)
         self.assertEquals(u"N/A", self.registry['test.registry.field'])
+        
     
     def test_import_field_and_interface(self):
         xml = """\

@@ -139,6 +139,10 @@ class RegistryImporter(object):
                 field = field_type_handler.read(field_node)
                 if not IPersistentField.providedBy(field):
                     raise TypeError("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
+                
+                # Make sure the field has a name. This is not the same as the
+                # record name, but is needed for forms to work
+                field.__name__ = 'value'
         
         # Fall back to existing record if neither a field node nor the
         # interface yielded a field
