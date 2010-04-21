@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b2 - unreleased
+1.0b2 - 2010-04-21
 ------------------
 
 * Ensure fields that are imported from XML only (no interface) have a name.
@@ -44,7 +44,7 @@ Changelog
 * Catch up with changes in plone.supermodel's API.
   [optilude]
 
-1.0a2 (2009-04-17)
+1.0a2 - 2009-04-17
 ------------------
 
 * Fixed typo in ZCML registration; tuple has a 'p' in it.  This fixes exportimport of tuple fields.
@@ -53,7 +53,7 @@ Changelog
 * Add missing handlers.zcml include
   [MatthewWilkes]
 
-1.0a1 (2009-04-17)
+1.0a1 - 2009-04-17
 ------------------
 
 * Initial release

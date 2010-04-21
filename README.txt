@@ -228,7 +228,7 @@ which will generate fields named ``my.zoo.entryPrice`` and
 
 In order to set the values of the fields created by a <records /> directive
 you must provide ``value`` entries with keys corresponding to the fields on
-the interface, as follows:
+the interface, as follows::
 
     <records interface="my.package.interfaces.IZooSettings" prefix="my.zoo">
         <value key="entryPrice">40</value>
