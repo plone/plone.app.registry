@@ -269,7 +269,7 @@ using values from the registry in our code.
 Accessing the registry
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To get or set the value of a record, yoweu must first look up the registry
+To get or set the value of a record, we must first look up the registry
 itself. The registry is registered as a local utility, so we can look it up
 with::
 
