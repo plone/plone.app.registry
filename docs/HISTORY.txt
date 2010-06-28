@@ -31,6 +31,8 @@ Changelog
 
 * Improved the look and feel of the registry records control panel.
   [optilude] 
+  
+* Added explanation how to plug-in custom widgets for the registry [miohtama]
 
 1.0b1 - 2009-08-02
 ------------------

@@ -456,6 +456,40 @@ The ``icon_expr`` attribute should give a URL for the icon. Here, we have
 assumed that a resource directory called ``my.package`` is registered and
 contains the file ``icon.png``. You may omit the icon as well.
 
+Control panel widget settings
+=============================
+
+plone.app.registry provides ``RegistryEditForm``
+class which is a subclass of ``z3c.form.form.Form``.
+
+``RegistryEditFormRegistryEditForm`` 
+has two methods to override which and how widgets
+are going to be used in the control panel form.
+
+* ``updateFields()`` may set widget factories i.e. widget type to be used
+
+* ``updateWidgets()`` may play with widget properties and widget value
+  shown to the user 
+  
+Example (*collective.gtags* project controlpanel.py)::
+        
+        class TagSettingsEditForm(controlpanel.RegistryEditForm):
+            
+            schema = ITagSettings
+            label = _(u"Tagging settings") 
+            description = _(u"Please enter details of available tags")
+            
+            def updateFields(self):
+                super(TagSettingsEditForm, self).updateFields()
+                self.fields['tags'].widgetFactory = TextLinesFieldWidget
+                self.fields['unique_categories'].widgetFactory = TextLinesFieldWidget
+                self.fields['required_categories'].widgetFactory = TextLinesFieldWidget
+            
+            def updateWidgets(self):
+                super(TagSettingsEditForm, self).updateWidgets()
+                self.widgets['tags'].rows = 8
+                self.widgets['tags'].style = u'width: 30%;'
+
 .. _plone.registry: http://pypi.python.org/pypi/plone.registry
 .. _plone.supermodel: http://pypi.python.org/pypi/plone.supermodel
 .. _plone.autoform: http://pypi.python.org/pypi/plone.autoform
