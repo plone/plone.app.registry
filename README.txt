@@ -493,10 +493,33 @@ Example (*collective.gtags* project controlpanel.py)::
 Troubleshooting
 ---------------
 
+Required dependency add-ons installed
+======================================
+
 Both ``plone.app.z3cform`` (Plone z3c.form support) and ``plone.app.registry`` 
 (Configuration registry) 
 add-ons must be installed at Plone site before you can use any 
 control panel configlets using plone.app.registry framework.
+
+KeyError: a field for which there is no record
+===============================================
+
+Example traceback::
+
+        Module plone.app.registry.browser.controlpanel, line 44, in getContent
+          Module plone.registry.registry, line 56, in forInterface
+        KeyError: 'Interface `mfabrik.plonezohointegration.interfaces.ISettings` defines a field `username`, for which there is no record.'
+
+This means that 
+
+* Your registry.xml does not define default values for your configuration keys
+
+* You have changed your configuration schema, but haven't rerun add-on installer to initialize default values
+
+* You might need to use same prefix as you use interface naem for your settings::
+
+        <records prefix="mfabrik.plonezohointegration.interfaces.ISettings" interface="mfabrik.plonezohointegration.interfaces.ISettings">
+    
 
 .. _plone.registry: http://pypi.python.org/pypi/plone.registry
 .. _plone.supermodel: http://pypi.python.org/pypi/plone.supermodel
