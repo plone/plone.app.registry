@@ -490,6 +490,14 @@ Example (*collective.gtags* project controlpanel.py)::
                 self.widgets['tags'].rows = 8
                 self.widgets['tags'].style = u'width: 30%;'
 
+Troubleshooting
+---------------
+
+Both ``plone.app.z3cform`` (Plone z3c.form support) and ``plone.app.registry`` 
+(Configuration registry) 
+add-ons must be installed at Plone site before you can use any 
+control panel configlets using plone.app.registry framework.
+
 .. _plone.registry: http://pypi.python.org/pypi/plone.registry
 .. _plone.supermodel: http://pypi.python.org/pypi/plone.supermodel
 .. _plone.autoform: http://pypi.python.org/pypi/plone.autoform
