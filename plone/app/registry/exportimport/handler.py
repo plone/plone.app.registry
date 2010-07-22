@@ -67,11 +67,11 @@ class RegistryImporter(object):
 
     def importRecord(self, node):
         
-        name = str(node.get('name', ''))
+        name = node.get('name', '')
         delete = node.get('delete', 'false')
         
-        interfaceName = str(node.get('interface', ''))
-        fieldName = str(node.get('field', ''))
+        interfaceName = node.get('interface', None)
+        fieldName = node.get('field', None)
 
         if not name and (interfaceName and fieldName):
             prefix = node.get('prefix', None)
@@ -82,6 +82,9 @@ class RegistryImporter(object):
         
         if not name:
             raise NameError("No name given for <record /> node!")
+        
+        # Unicode is not supported
+        name = str(name)
         
         # Handle deletion and quit
         if delete.lower() == 'true':
@@ -139,11 +142,17 @@ class RegistryImporter(object):
                 field = field_type_handler.read(field_node)
                 if not IPersistentField.providedBy(field):
                     raise TypeError("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
-                
-                # Make sure the field has a name. This is not the same as the
-                # record name, but is needed for forms to work
-                field.__name__ = 'value'
         
+        if field is not None:
+            
+            # Make sure the field has a name. This is not the same as the
+            # record name, but is needed for forms to work
+            field.__name__ = 'value'
+            
+            # Set interface name and fieldName, if applicable
+            field.interfaceName = interfaceName
+            field.fieldName = fieldName
+                
         # Fall back to existing record if neither a field node nor the
         # interface yielded a field
         
@@ -187,9 +196,7 @@ class RegistryImporter(object):
                 
                 existing_record.value = value
         else:
-            self.context.records[name] = Record(field, value, 
-                                                interface=interface,
-                                                fieldName=fieldName)
+            self.context.records[name] = Record(field, value)
 
     def importRecords(self, node):
         

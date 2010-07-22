@@ -1,36 +1,48 @@
-import plone.supermodel.exportimport
+from plone.supermodel.exportimport import BaseHandler, DictHandler, ChoiceHandler
 from plone.registry import field
+
+class PersistentFieldHandler(BaseHandler):
+    filteredAttributes = BaseHandler.filteredAttributes.copy()
+    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+
+class PersistentDictHandler(DictHandler):
+    filteredAttributes = DictHandler.filteredAttributes.copy()
+    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+
+class PersistentChoiceHandler(ChoiceHandler):
+    filteredAttributes = ChoiceHandler.filteredAttributes.copy()
+    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
 
 # Field import/export handlers
 
-BytesHandler = plone.supermodel.exportimport.BaseHandler(field.Bytes)
-BytesLineHandler = plone.supermodel.exportimport.BaseHandler(field.BytesLine)
+BytesHandler = PersistentFieldHandler(field.Bytes)
+BytesLineHandler = PersistentFieldHandler(field.BytesLine)
 
-ASCIIHandler = plone.supermodel.exportimport.BaseHandler(field.ASCII)
-ASCIILineHandler = plone.supermodel.exportimport.BaseHandler(field.ASCIILine)
+ASCIIHandler = PersistentFieldHandler(field.ASCII)
+ASCIILineHandler = PersistentFieldHandler(field.ASCIILine)
 
-TextHandler = plone.supermodel.exportimport.BaseHandler(field.Text)
-TextLineHandler = plone.supermodel.exportimport.BaseHandler(field.TextLine)
+TextHandler = PersistentFieldHandler(field.Text)
+TextLineHandler = PersistentFieldHandler(field.TextLine)
 
-PasswordHandler = plone.supermodel.exportimport.BaseHandler(field.Password)
-SourceTextHandler = plone.supermodel.exportimport.BaseHandler(field.SourceText)
+PasswordHandler = PersistentFieldHandler(field.Password)
+SourceTextHandler = PersistentFieldHandler(field.SourceText)
 
-DottedNameHandler = plone.supermodel.exportimport.BaseHandler(field.DottedName)
-URIHandler = plone.supermodel.exportimport.BaseHandler(field.URI)
-IdHandler = plone.supermodel.exportimport.BaseHandler(field.Id)
+DottedNameHandler = PersistentFieldHandler(field.DottedName)
+URIHandler = PersistentFieldHandler(field.URI)
+IdHandler = PersistentFieldHandler(field.Id)
 
-BoolHandler = plone.supermodel.exportimport.BaseHandler(field.Bool)
-IntHandler = plone.supermodel.exportimport.BaseHandler(field.Int)
-FloatHandler = plone.supermodel.exportimport.BaseHandler(field.Float)
+BoolHandler = PersistentFieldHandler(field.Bool)
+IntHandler = PersistentFieldHandler(field.Int)
+FloatHandler = PersistentFieldHandler(field.Float)
 
-DatetimeHandler = plone.supermodel.exportimport.BaseHandler(field.Datetime)
-DateHandler = plone.supermodel.exportimport.BaseHandler(field.Date)
+DatetimeHandler = PersistentFieldHandler(field.Datetime)
+DateHandler = PersistentFieldHandler(field.Date)
 
-TupleHandler = plone.supermodel.exportimport.BaseHandler(field.Tuple)
-ListHandler = plone.supermodel.exportimport.BaseHandler(field.List)
-SetHandler = plone.supermodel.exportimport.BaseHandler(field.Set)
-FrozenSetHandler = plone.supermodel.exportimport.BaseHandler(field.FrozenSet)
+TupleHandler = PersistentFieldHandler(field.Tuple)
+ListHandler = PersistentFieldHandler(field.List)
+SetHandler = PersistentFieldHandler(field.Set)
+FrozenSetHandler = PersistentFieldHandler(field.FrozenSet)
 
-DictHandler = plone.supermodel.exportimport.DictHandler(field.Dict)
+DictHandler = PersistentDictHandler(field.Dict)
 
-ChoiceHandler = plone.supermodel.exportimport.ChoiceHandler(field.Choice)
+ChoiceHandler = PersistentChoiceHandler(field.Choice)

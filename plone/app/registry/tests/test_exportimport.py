@@ -818,6 +818,7 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_choice(self):
+        
         xml = """\
 <registry>
   <record name="test.export.choice">
@@ -839,6 +840,7 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_missing_schema_does_not_error(self):
+        
         xml = """\
 <registry>
   <record field="blah" interface="non.existant.ISchema" name="test.export.simple">
@@ -851,10 +853,11 @@ class TestExport(ExportImportTest):
 </registry>"""
         
         self.registry.records['test.export.simple'] = \
-            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
-                   value=u"Sample value")
-        self.registry.records['test.export.simple'].interfaceName = 'non.existant.ISchema'
-        self.registry.records['test.export.simple'].fieldName = 'blah'
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Sample value")
+        
+        # Note: These are nominally read-only!
+        self.registry.records['test.export.simple'].field.interfaceName = 'non.existant.ISchema'
+        self.registry.records['test.export.simple'].field.fieldName = 'blah'
         
         alsoProvides(self.registry.records['test.export.simple'], IInterfaceAwareRecord)
         
