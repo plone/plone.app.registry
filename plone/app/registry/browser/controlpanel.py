@@ -48,7 +48,7 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         self.actions['save'].addClass("context")
         self.actions['cancel'].addClass("standalone")
         
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(_(u"Save"), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
@@ -58,10 +58,9 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
 
-    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(_(u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"message_edit_item_cancelled",
-            default=u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
 
 class ControlPanelFormWrapper(layout.FormWrapper):

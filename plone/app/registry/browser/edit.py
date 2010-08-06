@@ -31,7 +31,7 @@ class RecordEditForm(form.EditForm):
     def label(self):
         return _(u"Edit record: ${name}", mapping={'name': self.record.__name__})
 
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(_(u"Save"), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
@@ -41,10 +41,9 @@ class RecordEditForm(form.EditForm):
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
-    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(_(u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"message_edit_item_cancelled",
-            default=u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
 class RecordEditView(layout.FormWrapper):
