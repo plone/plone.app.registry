@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0b3 - unreleased
+------------------
+
+* Use plone domain to translate the five messages.
+  [vincentfretin]
+
 1.0b2 - 2010-04-21
 ------------------
 
