@@ -7,7 +7,8 @@ from z3c.form import form, field, button
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('plone')
+_ = MessageFactory('plone.app.registry')
+PMF = MessageFactory('plone')
 
 class RecordEditForm(form.EditForm):
     """Edit a single record
@@ -31,19 +32,19 @@ class RecordEditForm(form.EditForm):
     def label(self):
         return _(u"Edit record: ${name}", mapping={'name': self.record.__name__})
 
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(PMF(u"label_save", default=u"Save"), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
         self.record.value = data['value']
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
+        IStatusMessage(self.request).addStatusMessage(PMF(u"Changes saved."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
-    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(PMF(u"label_cancel", default=u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(PMF(u"Edit cancelled."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
 class RecordEditView(layout.FormWrapper):

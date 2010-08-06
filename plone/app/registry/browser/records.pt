@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
-      i18n:domain="plone.app.registry">
+      i18n:domain="plone">
       
 <metal:block fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)" />
@@ -48,7 +48,7 @@
             <tr>
                 <th i18n:translate="heading_name">Name</th>
                 <th i18n:translate="heading_title">Title</th>
-                <th i18n:translate="heading_title">Description</th>
+                <th i18n:translate="heading_description">Description</th>
                 <th i18n:translate="heading_type">Type</th>
                 <th i18n:translate="heading_value">Value</th>
             </tr>
