@@ -11,8 +11,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('plone.app.registry')
-PMF = MessageFactory('plone')
+_ = MessageFactory('plone')
 
 class RegistryEditForm(AutoExtensibleForm, form.EditForm):
     """Edit a records proxy based on an interface.
@@ -49,19 +48,19 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         self.actions['save'].addClass("context")
         self.actions['cancel'].addClass("standalone")
         
-    @button.buttonAndHandler(PMF(u"label_save", default=u"Save"), name='save')
+    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
         changes = self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(PMF(u"Changes saved."), "info")
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
 
-    @button.buttonAndHandler(PMF(u"label_cancel", default=u"Cancel"), name='cancel')
+    @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(PMF(u"message_edit_item_cancelled",
+        IStatusMessage(self.request).addStatusMessage(_(u"message_edit_item_cancelled",
             default=u"Edit cancelled."), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
 
