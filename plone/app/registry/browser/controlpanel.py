@@ -61,7 +61,8 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
 
     @button.buttonAndHandler(PMF(u"label_cancel", default=u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(PMF(u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(PMF(u"message_edit_item_cancelled",
+            default=u"Edit cancelled."), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
 
 class ControlPanelFormWrapper(layout.FormWrapper):

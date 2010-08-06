@@ -44,7 +44,8 @@ class RecordEditForm(form.EditForm):
 
     @button.buttonAndHandler(PMF(u"label_cancel", default=u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(PMF(u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(PMF(u"message_edit_item_cancelled",
+            default=u"Edit cancelled."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
 class RecordEditView(layout.FormWrapper):
