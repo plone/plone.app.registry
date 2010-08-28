@@ -25,7 +25,7 @@ setup(name='plone.app.registry',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'plone.registry>=1.0b1',
+          'plone.registry>=1.0dev-r38862',
           'plone.supermodel>=1.0b2',
           'plone.app.z3cform',
           'plone.autoform>=1.0b2',

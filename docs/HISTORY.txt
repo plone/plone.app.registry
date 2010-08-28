@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0b3
+-----
+
+* Add support for the <field ref="..." /> syntax to import FieldRefs.
+  Requires plone.registry >= 1.0b4.
+  [optilude]
+
 1.0b2 - 2010-04-21
 ------------------
 

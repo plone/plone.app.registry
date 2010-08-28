@@ -152,6 +152,39 @@ pairs. They can be configured like so::
         </value>
     </record>
 
+Field references
+~~~~~~~~~~~~~~~~
+
+It is possible to define record to use another record's field. This is often
+useful if you want one record to act as an optional override for another.
+For example::
+
+    <registry>
+
+        <record name="my.package.timeout">
+            <field type="plone.registry.field.Int">
+                <title>Timeout</title>
+                <min>0</min>
+            </field>
+            <value>100</value>
+        </record>
+
+        <record name="my.package.timeout.slowconnection">
+            <field ref="my.package.timeout" />
+            <value>300</value>
+        </record>
+
+    </registry>
+
+In this example, we have defined the ``my.package.timeout`` record with an
+integer field. We then have a separate record, with a separate value,
+called ``my.package.timeout.slowconnection``, which uses the same field
+(with the same type, validation, title, description, etc). This avoids having
+to explicitly re-define a complete field.
+
+Note: The field in this case is actually a ``FieldRef`` object. See the
+`plone.registry`_ documentation for details.
+
 Setting values
 ~~~~~~~~~~~~~~
 
@@ -459,12 +492,11 @@ contains the file ``icon.png``. You may omit the icon as well.
 Control panel widget settings
 =============================
 
-plone.app.registry provides ``RegistryEditForm``
-class which is a subclass of ``z3c.form.form.Form``.
+plone.app.registry provides ``RegistryEditForm`` class which is a subclass of
+``z3c.form.form.Form``.
 
-``RegistryEditFormRegistryEditForm`` 
-has two methods to override which and how widgets
-are going to be used in the control panel form.
+``RegistryEditFormRegistryEditForm`` has two methods to override which and how
+widgets are going to be used in the control panel form.
 
 * ``updateFields()`` may set widget factories i.e. widget type to be used
 
@@ -472,37 +504,39 @@ are going to be used in the control panel form.
   shown to the user 
   
 Example (*collective.gtags* project controlpanel.py)::
-        
+
         class TagSettingsEditForm(controlpanel.RegistryEditForm):
-            
+
             schema = ITagSettings
-            label = _(u"Tagging settings") 
+            label = _(u"Tagging settings")
             description = _(u"Please enter details of available tags")
-            
+
             def updateFields(self):
                 super(TagSettingsEditForm, self).updateFields()
                 self.fields['tags'].widgetFactory = TextLinesFieldWidget
                 self.fields['unique_categories'].widgetFactory = TextLinesFieldWidget
                 self.fields['required_categories'].widgetFactory = TextLinesFieldWidget
-            
+
             def updateWidgets(self):
                 super(TagSettingsEditForm, self).updateWidgets()
                 self.widgets['tags'].rows = 8
                 self.widgets['tags'].style = u'width: 30%;'
 
 Troubleshooting
----------------
+===============
+
+The following sections describe some commonly encountered problems, with
+suggestions for how to resolve them.
 
 Required dependency add-ons installed
-======================================
+-------------------------------------
 
-Both ``plone.app.z3cform`` (Plone z3c.form support) and ``plone.app.registry`` 
-(Configuration registry) 
-add-ons must be installed at Plone site before you can use any 
-control panel configlets using plone.app.registry framework.
+Both ``plone.app.z3cform`` (Plone z3c.form support) and ``plone.app.registry``
+(Configuration registry) add-ons must be installed at Plone site before you
+can use any control panel configlets using plone.app.registry framework.
 
 KeyError: a field for which there is no record
-===============================================
+----------------------------------------------
 
 Example traceback::
 
@@ -513,13 +547,12 @@ Example traceback::
 This means that 
 
 * Your registry.xml does not define default values for your configuration keys
-
-* You have changed your configuration schema, but haven't rerun add-on installer to initialize default values
-
-* You might need to use same prefix as you use interface naem for your settings::
+* You have changed your configuration schema, but haven't rerun add-on
+  installer to initialize default values
+* You might need to use same prefix as you use interface naem for your
+  settings::
 
         <records prefix="mfabrik.plonezohointegration.interfaces.ISettings" interface="mfabrik.plonezohointegration.interfaces.ISettings">
-    
 
 .. _plone.registry: http://pypi.python.org/pypi/plone.registry
 .. _plone.supermodel: http://pypi.python.org/pypi/plone.supermodel
