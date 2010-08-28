@@ -1,11 +1,11 @@
-import unittest
+import unittest2 as unittest
+from plone.testing import zca
 
 from StringIO import StringIO
 from elementtree import ElementTree
 
 from zope.interface import alsoProvides
 from zope.component import provideUtility
-from zope.component.testing import tearDown
 
 from zope.configuration import xmlconfig
 
@@ -38,14 +38,13 @@ configuration = """\
 
 class ExportImportTest(unittest.TestCase):
     
+    layer = zca.UNIT_TESTING
+    
     def setUp(self):
         self.site = ObjectManager('plone')
         self.registry = Registry('portal_registry')
         provideUtility(provides=IRegistry, component=self.registry)
         xmlconfig.xmlconfig(StringIO(configuration))
-
-    def tearDown(self):
-        tearDown()
         
     def assertXmlEquals(self, expected, actual):
         
@@ -921,9 +920,3 @@ class TestExport(ExportImportTest):
         
         self.assertEquals('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestImport))
-    suite.addTest(unittest.makeSuite(TestExport))
-    return suite
