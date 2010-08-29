@@ -55,7 +55,7 @@
         </thead>
         <tbody>
             <tal:loop repeat="record context/records/values">
-                <tr tal:define="oddrow repeat/record/odd; field record/field/_field | record/field"
+                <tr tal:define="oddrow repeat/record/odd; field record/field/originalField | record/field"
                     tal:attributes="class python:oddrow and 'odd' or 'even'">
                     <td>
                         <a class="recordsEditLink"
