@@ -441,8 +441,8 @@ that makes it easy to create your own control panel.
 
 To use it, create a module like this::
 
-    from plone.app.registry.browser.form import RegistryEditForm
-    from plone.app.registry.browser.form import ControlPanelFormWrapper
+    from plone.app.registry.browser.controlpanel import RegistryEditForm
+    from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
     
     from my.package.interfaces import IZooSettings
     form plone.z3cform import layout
