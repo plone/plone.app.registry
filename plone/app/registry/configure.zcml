@@ -4,6 +4,7 @@
     xmlns:gs="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone.app.registry">
 
+    <include package="Products.CMFCore" />
     <include package="plone.registry" />
     
     <include package=".exportimport" />

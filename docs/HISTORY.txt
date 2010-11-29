@@ -4,6 +4,9 @@ Changelog
 1.0b3
 -----
 
+* Declare Products.CMFCore zcml dependency to fix zcml loading under Zope 2.13.
+  [elro]
+
 * Add support for the <field ref="..." /> syntax to import FieldRefs.
   Requires plone.registry >= 1.0b4.
   [optilude]
