@@ -4,6 +4,9 @@ Changelog
 1.0b3 - unreleased
 ------------------
 
+* Show status messages and a back link in the control panel view.
+  [timo]
+
 * Use plone domain to translate messages of this package.
   [vincentfretin]
 

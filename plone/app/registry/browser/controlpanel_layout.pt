@@ -11,7 +11,18 @@
 
 <body>
 <div id="content" metal:fill-slot="prefs_configlet_content">
+
+    <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+      Portal status message
+    </div>
     
+    <a href=""
+       id="setup-link"
+       tal:attributes="href string:$portal_url/plone_control_panel"
+       i18n:translate="">
+        Site Setup
+    </a> &rsaquo;
+                
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
     
     <div id="layout-contents">
