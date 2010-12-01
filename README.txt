@@ -408,8 +408,8 @@ that makes it easy to create your own control panel.
 
 To use it, create a module like this::
 
-    from plone.app.registry.browser.form import RegistryEditForm
-    from plone.app.registry.browser.form import ControlPanelFormWrapper
+    from plone.app.registry.browser.controlpanel import RegistryEditForm
+    from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
     
     from my.package.interfaces import IZooSettings
     form plone.z3cform import layout
@@ -462,7 +462,7 @@ Control panel widget settings
 plone.app.registry provides ``RegistryEditForm``
 class which is a subclass of ``z3c.form.form.Form``.
 
-``RegistryEditFormRegistryEditForm`` 
+``RegistryEditForm`` 
 has two methods to override which and how widgets
 are going to be used in the control panel form.
 
