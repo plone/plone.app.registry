@@ -10,6 +10,9 @@ Changelog
 * Use plone domain to translate messages of this package.
   [vincentfretin]
 
+* Add a prefix support to controlpanel.RegistryEditForm
+  [garbas]
+
 1.0b2 - 2010-04-21
 ------------------
 
