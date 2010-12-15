@@ -1,0 +1,16 @@
+*.pyc
+*.pyo
+*.swp
+*.swo
+
+/.installed.cfg
+/bin/
+/bootstrap.py
+/buildout.cfg
+/develop-eggs/
+/eggs/
+/include/
+/lib/
+/parts/
+/plone.app.registry.egg-info/
+        
