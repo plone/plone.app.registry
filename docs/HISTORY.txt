@@ -4,6 +4,9 @@ Changelog
 1.0b3 - unreleased
 ------------------
 
+* Depend on ``Products.CMFPlone`` instead of ``Plone``.
+  [elro]
+
 * Show status messages and a back link in the control panel view.
   [timo]
 
