@@ -418,6 +418,7 @@ To use it, create a module like this::
         schema = IZooSettings
     
     ZooControlPanelView = layout.wrap_form(ZooControlPanelForm, ControlPanelFormWrapper)
+    ZooControlPanelView.label = u"Zoo settings"
 
 Register the ``ZooControlPanelView`` as a view::
 
