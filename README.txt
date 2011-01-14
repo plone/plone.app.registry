@@ -412,7 +412,7 @@ To use it, create a module like this::
     from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
     
     from my.package.interfaces import IZooSettings
-    form plone.z3cform import layout
+    from plone.z3cform import layout
     
     class ZooControlPanelForm(RegistryEditForm):
         schema = IZooSettings
