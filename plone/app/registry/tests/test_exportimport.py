@@ -1,16 +1,17 @@
-import unittest
+import unittest2 as unittest
+from plone.testing import zca
 
 from StringIO import StringIO
 from elementtree import ElementTree
 
 from zope.interface import alsoProvides
 from zope.component import provideUtility
-from zope.component.testing import tearDown
 
 from zope.configuration import xmlconfig
 
 from plone.registry.interfaces import IRegistry, IInterfaceAwareRecord
-from plone.registry import Record, field
+from plone.registry.interfaces import IFieldRef
+from plone.registry import Record, FieldRef, field
 
 from plone.app.registry import Registry
 
@@ -37,14 +38,13 @@ configuration = """\
 
 class ExportImportTest(unittest.TestCase):
     
+    layer = zca.UNIT_TESTING
+    
     def setUp(self):
         self.site = ObjectManager('plone')
         self.registry = Registry('portal_registry')
         provideUtility(provides=IRegistry, component=self.registry)
         xmlconfig.xmlconfig(StringIO(configuration))
-
-    def tearDown(self):
-        tearDown()
         
     def assertXmlEquals(self, expected, actual):
         
@@ -281,7 +281,30 @@ class TestImport(ExportImportTest):
         self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
         self.assertEquals(u"value", self.registry.records['test.registry.field'].field.__name__)
         self.assertEquals(u"N/A", self.registry['test.registry.field'])
+
+    def test_import_field_ref(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field.override">
+        <field ref="test.registry.field" />
+        <value>Another value</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
         
+        self.registry.records['test.registry.field'] = Record(
+                field.TextLine(title=u"Simple record", default=u"N/A"),
+                value=u"Sample value")
+        
+        importRegistry(context)
+        
+        self.assertEquals(2, len(self.registry.records))
+        self.failUnless(IFieldRef.providedBy(self.registry.records['test.registry.field.override'].field))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field.override'].field.title)
+        self.assertEquals(u"value", self.registry.records['test.registry.field.override'].field.__name__)
+        self.assertEquals(u"Another value", self.registry['test.registry.field.override'])
     
     def test_import_field_and_interface(self):
         xml = """\
@@ -757,7 +780,38 @@ class TestExport(ExportImportTest):
         
         self.assertEquals('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
+
+    def test_export_field_ref(self):
         
+        xml = """\
+<registry>
+  <record name="test.export.simple">
+    <field type="plone.registry.field.TextLine">
+      <default>N/A</default>
+      <title>Simple record</title>
+    </field>
+    <value>Sample value</value>
+  </record>
+  <record name="test.export.simple.override">
+    <field ref="test.export.simple" />
+    <value>Another value</value>
+  </record>
+</registry>"""
+        
+        self.registry.records['test.export.simple'] = refRecord = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        
+        self.registry.records['test.export.simple.override'] = \
+            Record(FieldRef(refRecord.__name__, refRecord.field),
+                   value=u"Another value")
+        
+        context = DummyExportContext(self.site)
+        exportRegistry(context)
+        
+        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertXmlEquals(xml, context._wrote[0][1])
+    
     def test_export_with_collection(self):
         
         xml = """\
@@ -818,6 +872,7 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_choice(self):
+        
         xml = """\
 <registry>
   <record name="test.export.choice">
@@ -839,6 +894,7 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_missing_schema_does_not_error(self):
+        
         xml = """\
 <registry>
   <record field="blah" interface="non.existant.ISchema" name="test.export.simple">
@@ -851,10 +907,11 @@ class TestExport(ExportImportTest):
 </registry>"""
         
         self.registry.records['test.export.simple'] = \
-            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
-                   value=u"Sample value")
-        self.registry.records['test.export.simple'].interfaceName = 'non.existant.ISchema'
-        self.registry.records['test.export.simple'].fieldName = 'blah'
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Sample value")
+        
+        # Note: These are nominally read-only!
+        self.registry.records['test.export.simple'].field.interfaceName = 'non.existant.ISchema'
+        self.registry.records['test.export.simple'].field.fieldName = 'blah'
         
         alsoProvides(self.registry.records['test.export.simple'], IInterfaceAwareRecord)
         
@@ -863,9 +920,3 @@ class TestExport(ExportImportTest):
         
         self.assertEquals('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestImport))
-    suite.addTest(unittest.makeSuite(TestExport))
-    return suite

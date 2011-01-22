@@ -4,8 +4,13 @@ from elementtree import ElementTree
 
 from zope.dottedname.resolve import resolve
 
-from plone.registry.interfaces import IRegistry, IPersistentField, IInterfaceAwareRecord
+from plone.registry.interfaces import IRegistry
+from plone.registry.interfaces import IPersistentField
+from plone.registry.interfaces import IInterfaceAwareRecord
+from plone.registry.interfaces import IFieldRef
+
 from plone.registry import Record
+from plone.registry import FieldRef
 
 from plone.supermodel.interfaces import IFieldExportImportHandler
 from plone.supermodel.interfaces import IFieldNameExtractor
@@ -67,11 +72,11 @@ class RegistryImporter(object):
 
     def importRecord(self, node):
         
-        name = str(node.get('name', ''))
+        name = node.get('name', '')
         delete = node.get('delete', 'false')
         
-        interfaceName = str(node.get('interface', ''))
-        fieldName = str(node.get('field', ''))
+        interfaceName = node.get('interface', None)
+        fieldName = node.get('field', None)
 
         if not name and (interfaceName and fieldName):
             prefix = node.get('prefix', None)
@@ -82,6 +87,9 @@ class RegistryImporter(object):
         
         if not name:
             raise NameError("No name given for <record /> node!")
+        
+        # Unicode is not supported
+        name = str(name)
         
         # Handle deletion and quit
         if delete.lower() == 'true':
@@ -131,18 +139,29 @@ class RegistryImporter(object):
         
         # Let field not potentially override interface[fieldName]
         if field_node is not None:
-            field_type = field_node.attrib.get('type', None)
-            field_type_handler = queryUtility(IFieldExportImportHandler, name=field_type)
-            if field_type_handler is None:
-                raise TypeError("Field of type %s used for record %s is not supported." % (field_type, name))
+            field_ref = field_node.attrib.get('ref', None)
+            if field_ref is not None:
+                # We have a field reference
+                if field_ref not in self.context:
+                    raise KeyError(u"Record %s references field for record %s, which does not exist" % (name, field_ref,))
+                ref_record = self.context.records[field_ref]
+                field = FieldRef(field_ref, ref_record.field)
             else:
-                field = field_type_handler.read(field_node)
-                if not IPersistentField.providedBy(field):
-                    raise TypeError("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
-                
-                # Make sure the field has a name. This is not the same as the
-                # record name, but is needed for forms to work
-                field.__name__ = 'value'
+                # We have a standard field
+                field_type = field_node.attrib.get('type', None)
+                field_type_handler = queryUtility(IFieldExportImportHandler, name=field_type)
+                if field_type_handler is None:
+                    raise TypeError("Field of type %s used for record %s is not supported." % (field_type, name,))
+                else:
+                    field = field_type_handler.read(field_node)
+                    if not IPersistentField.providedBy(field):
+                        raise TypeError("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
+        
+        if field is not None and not IFieldRef.providedBy(field):
+            
+            # Set interface name and fieldName, if applicable
+            field.interfaceName = interfaceName
+            field.fieldName = fieldName
         
         # Fall back to existing record if neither a field node nor the
         # interface yielded a field
@@ -187,9 +206,7 @@ class RegistryImporter(object):
                 
                 existing_record.value = value
         else:
-            self.context.records[name] = Record(field, value, 
-                                                interface=interface,
-                                                fieldName=fieldName)
+            self.context.records[name] = Record(field, value)
 
     def importRecords(self, node):
         
@@ -261,13 +278,19 @@ class RegistryExporter(object):
 
         # write field
         
-        field_type = IFieldNameExtractor(record.field)()
-        handler = queryUtility(IFieldExportImportHandler, name=field_type)
-        if handler is None:
-            self.logger.warning("Field type %s specified for record %s cannot be exported" % (field_type, record.__name__,))
-        else:
-            field_element = handler.write(record.field, None, field_type, elementName='field')
+        field = record.field
+        if IFieldRef.providedBy(field):
+            field_element = ElementTree.Element('field')
+            field_element.attrib['ref'] = field.recordName
             node.append(field_element)
+        else:
+            field_type = IFieldNameExtractor(record.field)()
+            handler = queryUtility(IFieldExportImportHandler, name=field_type)
+            if handler is None:
+                self.logger.warning("Field type %s specified for record %s cannot be exported" % (field_type, record.__name__,))
+            else:
+                field_element = handler.write(record.field, None, field_type, elementName='field')
+                node.append(field_element)
             
         # write value
         
