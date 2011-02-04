@@ -1,7 +1,10 @@
 Changelog
 =========
 
-1.0b5 - Unreleased
+1.0b6 - Unreleased
+------------------
+
+1.0b5 - 2011-02-04
 ------------------
 
 * Declare Products.CMFCore zcml dependency to fix zcml loading under Zope
