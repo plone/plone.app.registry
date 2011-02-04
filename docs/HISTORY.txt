@@ -4,7 +4,8 @@ Changelog
 1.0b5 - Unreleased
 ------------------
 
-* Declare Products.CMFCore zcml dependency to fix zcml loading under Zope 2.13.
+* Declare Products.CMFCore zcml dependency to fix zcml loading under Zope
+  2.13.
   [elro]
 
 * Add support for the <field ref="..." /> syntax to import FieldRefs.
