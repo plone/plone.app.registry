@@ -55,7 +55,11 @@ class RecordEditView(layout.FormWrapper):
         self.request['disable_border'] = True
     
     def publishTraverse(self, request, name):
-        record = self.context.records[name]
+        path = self.request['TraversalRequestNameStack'] + [name]
+        path.reverse()
+        key = '/'.join(path)
+        del self.request['TraversalRequestNameStack'][:]
+        record = self.context.records[key]
         self.record = record
         self.form_instance.record = record
         return self

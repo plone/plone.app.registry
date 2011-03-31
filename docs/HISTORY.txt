@@ -4,6 +4,9 @@ Changelog
 1.0b6 - Unreleased
 ------------------
 
+* Add ``collectionOfInterface`` export/import support.
+  [elro]
+
 1.0b5 - 2011-02-04
 ------------------
 
