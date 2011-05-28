@@ -19,11 +19,12 @@ from plone.supermodel.utils import prettyXML, elementToValue, valueToElement
 
 _marker = object()
 
+
 def importRegistry(context):
-    
+
     logger = context.getLogger('plone.app.registry')
     registry = queryUtility(IRegistry)
-    
+
     if registry is None:
         logger.info("Cannot find registry")
         return
@@ -32,12 +33,13 @@ def importRegistry(context):
     if body is not None:
         importer = RegistryImporter(registry, context)
         importer.importDocument(body)
-        
+
+
 def exportRegistry(context):
 
     logger = context.getLogger('plone.app.registry')
     registry = queryUtility(IRegistry)
-    
+
     if registry is None:
         logger.info("Cannot find registry")
         return
@@ -46,6 +48,7 @@ def exportRegistry(context):
     body = exporter.exportDocument()
     if body is not None:
         context.writeDataFile('registry.xml', body, 'text/xml')
+
 
 class RegistryImporter(object):
     """Helper classt to import a registry file
@@ -60,7 +63,7 @@ class RegistryImporter(object):
 
     def importDocument(self, document):
         tree = ElementTree.fromstring(document)
-        
+
         if self.environ.shouldPurge():
             self.context.records.clear()
 
@@ -71,10 +74,10 @@ class RegistryImporter(object):
                 self.importRecords(node)
 
     def importRecord(self, node):
-        
+
         name = node.get('name', '')
         delete = node.get('delete', 'false')
-        
+
         interfaceName = node.get('interface', None)
         fieldName = node.get('field', None)
 
@@ -82,15 +85,15 @@ class RegistryImporter(object):
             prefix = node.get('prefix', None)
             if prefix is None:
                 prefix = interfaceName
-            
-            name = "%s.%s" % (prefix, fieldName,)
-        
+
+            name = "%s.%s" % (prefix, fieldName)
+
         if not name:
             raise NameError("No name given for <record /> node!")
-        
+
         # Unicode is not supported
         name = str(name)
-        
+
         # Handle deletion and quit
         if delete.lower() == 'true':
             if name in self.context.records:
@@ -99,51 +102,55 @@ class RegistryImporter(object):
             else:
                 self.logger.warning("Record %s was marked for deletion, but was not found." % name)
             return
-        
+
         # See if we have an existing record
         existing_record = self.context.records.get(name, None)
-        
+
         interface = None
         field = None
         value = _marker
         value_purge = True
-        
+
         # If we are given an interface and field name, try to resolve them
         if interfaceName and fieldName:
             try:
                 interface = resolve(interfaceName)
                 field = IPersistentField(interface[fieldName])
             except ImportError:
-                self.logger.warning("Failed to import interface %s for record %s" % (interfaceName, name))
+                self.logger.warning("Failed to import interface %s for \
+                    record %s" % (interfaceName, name))
                 interface = None
                 field = None
             except KeyError:
-                self.logger.warning("Interface %s specified for record %s has no field %s." % (interfaceName, name, fieldName,))
+                self.logger.warning("Interface %s specified for record %s has \
+                    no field %s." % (interfaceName, name, fieldName))
                 interface = None
                 field = None
             except TypeError:
-                self.logger.warning("Field %s in interface %s specified for record %s cannot be used as a persistent field." % (fieldName, interfaceName, name,))            
+                self.logger.warning("Field %s in interface %s specified for \
+                    record %s cannot be used as a persistent field." % (fieldName, interfaceName, name))
                 interface = None
                 field = None
-        
+
         # Find field and value nodes
-        
+
         field_node = None
         value_node = None
-         
+
         for child in node:
             if child.tag.lower() == 'field':
                 field_node = child
             elif child.tag.lower() == 'value':
                 value_node = child
-        
+
         # Let field not potentially override interface[fieldName]
         if field_node is not None:
             field_ref = field_node.attrib.get('ref', None)
             if field_ref is not None:
                 # We have a field reference
                 if field_ref not in self.context:
-                    raise KeyError(u"Record %s references field for record %s, which does not exist" % (name, field_ref,))
+                    raise KeyError(u"Record %s references field for record %s, \
+                        which does not exist" % (name, field_ref))
                 ref_record = self.context.records[field_ref]
                 field = FieldRef(field_ref, ref_record.field)
             else:
@@ -151,30 +158,32 @@ class RegistryImporter(object):
                 field_type = field_node.attrib.get('type', None)
                 field_type_handler = queryUtility(IFieldExportImportHandler, name=field_type)
                 if field_type_handler is None:
-                    raise TypeError("Field of type %s used for record %s is not supported." % (field_type, name,))
+                    raise TypeError("Field of type %s used for record %s is not supported." % (field_type, name))
                 else:
                     field = field_type_handler.read(field_node)
                     if not IPersistentField.providedBy(field):
-                        raise TypeError("Only persistent fields may be imported. %s used for record %s is invalid." % (field_type, name,))
-        
+                        raise TypeError("Only persistent fields may be imported. \
+                            %s used for record %s is invalid." % (field_type, name))
+
         if field is not None and not IFieldRef.providedBy(field):
-            
+
             # Set interface name and fieldName, if applicable
             field.interfaceName = interfaceName
             field.fieldName = fieldName
-        
+
         # Fall back to existing record if neither a field node nor the
         # interface yielded a field
-        
+
         change_field = True
-        
+
         if field is None and existing_record is not None:
             change_field = False
             field = existing_record.field
-        
+
         if field is None:
-            raise ValueError("Cannot find a field for the record %s. Add a <field /> element or reference an interface and field name." % name)
-        
+            raise ValueError("Cannot find a field for the record %s. Add a \
+                <field /> element or reference an interface and field name." % name)
+
         # Extract the value
 
         if value_node is not None:
@@ -182,85 +191,85 @@ class RegistryImporter(object):
             value = elementToValue(field, value_node, default=_marker)
 
         # Now either construct or update the record
-        
+
         if value is _marker:
             value = field.default
             value_purge = True
-        
+
         if existing_record is not None:
             if change_field:
                 existing_record.field = field
             existing_value = existing_record.value
             if change_field or value != existing_value:
-                
+
                 if not value_purge and type(value) == type(existing_value):
                     if isinstance(value, list):
                         value = existing_value + [v for v in value if v not in existing_value]
                     elif isinstance(value, tuple):
                         value = existing_value + tuple([v for v in value if v not in existing_value])
-                    elif isinstance(value, (set, frozenset,)):
+                    elif isinstance(value, (set, frozenset, )):
                         value = existing_value.union(value)
                     elif isinstance(value, dict):
                         existing_value.update(value)
                         value = existing_value
-                
+
                 existing_record.value = value
         else:
             self.context.records[name] = Record(field, value)
 
     def importRecords(self, node):
-        
+
         # May raise ImportError if interface can't be found or KeyError if
         # attribute is missing.
-        
+
         interfaceName = node.attrib.get('interface', None)
         if interfaceName is None:
             raise KeyError(u"A <records /> node must have an 'interface' attribute.")
-        
+
         prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
-        
+
         # May raise ImportError
         interface = resolve(interfaceName)
 
         omit = []
         values = [] # Fields that should have their value set as they don't exist yet
-        
+
         for child in node:
             if child.tag.lower() == 'omit':
                 if child.text:
                     omit.append(unicode(child.text))
             elif child.tag.lower() == 'value':
                 values.append(child)
-        
+
         # May raise TypeError
         self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
-        
+
         if not values:
             # Skip out if there are no value records to handle
             return
-        
+
         # The prefix we ended up needs to be found
         if prefix is None:
             prefix = interface.__identifier__
-        
+
         for value in values:
             field = ElementTree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
             field.append(value)
             self.importRecord(field)
-        
+
 
 class RegistryExporter(object):
-    
+
     LOGGER_ID = 'plone.app.registry'
 
     def __init__(self, context, environ):
         self.context = context
         self.environ = environ
         self.logger = environ.getLogger(self.LOGGER_ID)
-    
+
     def exportDocument(self):
         root = ElementTree.Element('registry')
-        
+
         for record in self.context.records.values():
             node = self.exportRecord(record)
             root.append(node)
@@ -268,16 +277,16 @@ class RegistryExporter(object):
         return prettyXML(root)
 
     def exportRecord(self, record):
-        
+
         node = ElementTree.Element('record')
         node.attrib['name'] = record.__name__
-        
+
         if IInterfaceAwareRecord.providedBy(record):
             node.attrib['interface'] = record.interfaceName
             node.attrib['field'] = record.fieldName
 
         # write field
-        
+
         field = record.field
         if IFieldRef.providedBy(field):
             field_element = ElementTree.Element('field')
@@ -287,13 +296,14 @@ class RegistryExporter(object):
             field_type = IFieldNameExtractor(record.field)()
             handler = queryUtility(IFieldExportImportHandler, name=field_type)
             if handler is None:
-                self.logger.warning("Field type %s specified for record %s cannot be exported" % (field_type, record.__name__,))
+                self.logger.warning("Field type %s specified for record %s \
+                    cannot be exported" % (field_type, record.__name__))
             else:
                 field_element = handler.write(record.field, None, field_type, elementName='field')
                 node.append(field_element)
-            
+
         # write value
-        
+
         value_element = valueToElement(record.field, record.value, name='value', force=True)
         node.append(value_element)
 

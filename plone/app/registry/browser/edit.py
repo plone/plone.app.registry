@@ -9,24 +9,25 @@ from Products.statusmessages.interfaces import IStatusMessage
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plone')
 
+
 class RecordEditForm(form.EditForm):
     """Edit a single record
     """
-    
+
     record = None
-    
+
     def getContent(self):
         return {'value': self.record.value}
-        
+
     def update(self):
-        self.fields = field.Fields(self.record.field,)
+        self.fields = field.Fields(self.record.field, )
         super(RecordEditForm, self).update()
 
     def updateActions(self):
         super(RecordEditForm, self).updateActions()
         self.actions['save'].addClass("context")
         self.actions['cancel'].addClass("standalone")
-        
+
     @property
     def label(self):
         return _(u"Edit record: ${name}", mapping={'name': self.record.__name__})
@@ -46,14 +47,15 @@ class RecordEditForm(form.EditForm):
         IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
         self.request.response.redirect(self.context.absolute_url())
 
+
 class RecordEditView(layout.FormWrapper):
     implements(IPublishTraverse)
     form = RecordEditForm
-    
+
     def __init__(self, context, request):
         super(RecordEditView, self).__init__(context, request)
         self.request['disable_border'] = True
-    
+
     def publishTraverse(self, request, name):
         path = self.request['TraversalRequestNameStack'] + [name]
         path.reverse()

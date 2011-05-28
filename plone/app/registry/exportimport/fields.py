@@ -1,13 +1,16 @@
 from plone.supermodel.exportimport import BaseHandler, DictHandler, ChoiceHandler
 from plone.registry import field
 
+
 class PersistentFieldHandler(BaseHandler):
     filteredAttributes = BaseHandler.filteredAttributes.copy()
     filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
 
+
 class PersistentDictHandler(DictHandler):
     filteredAttributes = DictHandler.filteredAttributes.copy()
     filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+
 
 class PersistentChoiceHandler(ChoiceHandler):
     filteredAttributes = ChoiceHandler.filteredAttributes.copy()
