@@ -4,6 +4,11 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+- On the portal_registry configlet, enable the left-menu, to be more consistent
+  with all other configlets.
+  Fixes https://dev.plone.org/plone/ticket/11737
+  [WouterVH]
+
 - On the portal_registry configlet, add link to "Site Setup".
   Fixes https://dev.plone.org/plone/ticket/11855
   [WouterVH]
