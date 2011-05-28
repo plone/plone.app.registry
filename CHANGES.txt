@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0.1 - unreleased
+------------------
+
+- On the portal_registry configlet, add link to "Site Setup".
+  Fixes https://dev.plone.org/plone/ticket/11855
+  [WouterVH]
+
 
 1.0 - 2011-05-13
 ----------------
