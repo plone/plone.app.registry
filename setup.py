@@ -26,7 +26,7 @@ setup(name='plone.app.registry',
       install_requires=[
           'setuptools',
           'plone.registry>=1.0b1',
-          'plone.supermodel>=1.0b2',
+          'plone.supermodel>=1.1dev',
           'plone.app.z3cform',
           'plone.autoform>=1.0b2',
           'Products.CMFPlone',

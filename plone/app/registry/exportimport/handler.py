@@ -14,8 +14,10 @@ from plone.registry import FieldRef
 
 from plone.supermodel.interfaces import IFieldExportImportHandler
 from plone.supermodel.interfaces import IFieldNameExtractor
+from plone.supermodel.interfaces import I18N_NAMESPACE
+from plone.supermodel.debug import parseinfo
 
-from plone.supermodel.utils import prettyXML, elementToValue, valueToElement
+from plone.supermodel.utils import prettyXML, elementToValue, valueToElement, ns
 
 _marker = object()
 
@@ -67,11 +69,17 @@ class RegistryImporter(object):
         if self.environ.shouldPurge():
             self.context.records.clear()
 
+        i18n_domain = tree.attrib.get(ns('domain', I18N_NAMESPACE))
+        if i18n_domain:
+            parseinfo.i18n_domain = i18n_domain
+
         for node in tree:
             if node.tag.lower() == 'record':
                 self.importRecord(node)
             elif node.tag.lower() == 'records':
                 self.importRecords(node)
+
+        parseinfo.i18n_domain = None
 
     def importRecord(self, node):
 
