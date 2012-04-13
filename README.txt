@@ -341,7 +341,7 @@ You can do that like so::
     from plone.registry.record import Record
     from plone.registry import field
     
-    registry['my.record'] = Record(field.TextLine(title=u"A record"), u"Test")
+    registry.records['my.record'] = Record(field.TextLine(title=u"A record"), u"Test")
 
 The constructor takes a persistent field and the initial value as parameters.
 
