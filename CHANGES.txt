@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2012-04-15)
 ----------------
 
 - Add support for internationalization of strings imported into the
