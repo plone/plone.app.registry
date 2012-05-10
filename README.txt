@@ -446,8 +446,10 @@ To use it, create a module like this::
     
     from my.package.interfaces import IZooSettings
     from plone.z3cform import layout
+    from z3c.form import form
     
     class ZooControlPanelForm(RegistryEditForm):
+        form.extends(RegistryEditForm)
         schema = IZooSettings
     
     ZooControlPanelView = layout.wrap_form(ZooControlPanelForm, ControlPanelFormWrapper)
