@@ -4,7 +4,8 @@ Changelog
 1.1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Remove unused zope.app.component import.
+  [hannosch]
 
 
 1.1 (2012-04-15)

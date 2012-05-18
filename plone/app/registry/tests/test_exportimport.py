@@ -29,7 +29,6 @@ from plone.app.registry.tests import data
 configuration = """\
 <configure xmlns="http://namespaces.zope.org/zope">
     <include package="zope.component" file="meta.zcml" />
-    <include package="zope.app.component" file="meta.zcml" />
     <include package="plone.registry" />
     <include package="plone.app.registry.exportimport" file="handlers.zcml" />
 </configure>
