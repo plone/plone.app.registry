@@ -2,7 +2,7 @@ import unittest2 as unittest
 from plone.testing import zca
 
 from StringIO import StringIO
-from elementtree import ElementTree
+from lxml import etree
 
 from zope.interface import alsoProvides
 from zope.component import provideUtility
@@ -47,10 +47,10 @@ class ExportImportTest(unittest.TestCase):
 
     def assertXmlEquals(self, expected, actual):
 
-        expected_tree = ElementTree.XML(expected)
-        actual_tree = ElementTree.XML(actual)
+        expected_tree = etree.XML(expected)
+        actual_tree = etree.XML(actual)
 
-        if ElementTree.tostring(expected_tree) != ElementTree.tostring(actual_tree):
+        if etree.tostring(expected_tree) != etree.tostring(actual_tree):
             print
             print "Expected:"
             print prettyXML(expected_tree)
@@ -746,14 +746,14 @@ class TestExport(ExportImportTest):
     def test_export_with_interface(self):
         xml = """\
 <registry>
-  <record field="age" interface="plone.app.registry.tests.data.ITestSettings" name="plone.app.registry.tests.data.ITestSettings.age">
+  <record name="plone.app.registry.tests.data.ITestSettings.age" interface="plone.app.registry.tests.data.ITestSettings" field="age">
     <field type="plone.registry.field.Int">
       <min>0</min>
       <title>Age</title>
     </field>
     <value />
   </record>
-  <record field="name" interface="plone.app.registry.tests.data.ITestSettings" name="plone.app.registry.tests.data.ITestSettings.name">
+  <record name="plone.app.registry.tests.data.ITestSettings.name" interface="plone.app.registry.tests.data.ITestSettings" field="name">
     <field type="plone.registry.field.TextLine">
       <default>Mr. Registry</default>
       <title>Name</title>
@@ -897,7 +897,7 @@ class TestExport(ExportImportTest):
 
         xml = """\
 <registry>
-  <record field="blah" interface="non.existant.ISchema" name="test.export.simple">
+  <record name="test.export.simple" interface="non.existant.ISchema" field="blah">
     <field type="plone.registry.field.TextLine">
       <default>N/A</default>
       <title>Simple record</title>

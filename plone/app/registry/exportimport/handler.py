@@ -1,6 +1,6 @@
 from zope.component import queryUtility
 
-from elementtree import ElementTree
+from lxml import etree
 
 from zope.dottedname.resolve import resolve
 
@@ -64,7 +64,7 @@ class RegistryImporter(object):
         self.logger = environ.getLogger(self.LOGGER_ID)
 
     def importDocument(self, document):
-        tree = ElementTree.fromstring(document)
+        tree = etree.fromstring(document)
 
         if self.environ.shouldPurge():
             self.context.records.clear()
@@ -74,6 +74,8 @@ class RegistryImporter(object):
             parseinfo.i18n_domain = i18n_domain
 
         for node in tree:
+            if not isinstance(node.tag, str):
+                continue
             if node.tag.lower() == 'record':
                 self.importRecord(node)
             elif node.tag.lower() == 'records':
@@ -261,7 +263,7 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
 
         for value in values:
-            field = ElementTree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
+            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
             field.append(value)
             self.importRecord(field)
 
@@ -276,7 +278,7 @@ class RegistryExporter(object):
         self.logger = environ.getLogger(self.LOGGER_ID)
 
     def exportDocument(self):
-        root = ElementTree.Element('registry')
+        root = etree.Element('registry')
 
         for record in self.context.records.values():
             node = self.exportRecord(record)
@@ -286,7 +288,7 @@ class RegistryExporter(object):
 
     def exportRecord(self, record):
 
-        node = ElementTree.Element('record')
+        node = etree.Element('record')
         node.attrib['name'] = record.__name__
 
         if IInterfaceAwareRecord.providedBy(record):
@@ -297,7 +299,7 @@ class RegistryExporter(object):
 
         field = record.field
         if IFieldRef.providedBy(field):
-            field_element = ElementTree.Element('field')
+            field_element = etree.Element('field')
             field_element.attrib['ref'] = field.recordName
             node.append(field_element)
         else:

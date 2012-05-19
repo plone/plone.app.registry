@@ -1,8 +1,11 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.2 (unreleased)
 ----------------
+
+- Use lxml instead of elementtree.
+  [davisagli]
 
 - Remove unused zope.app.component import.
   [hannosch]
