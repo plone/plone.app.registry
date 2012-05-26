@@ -172,8 +172,12 @@ class TestImport(ExportImportTest):
 
         self.assertEqual(2, len(self.registry.records))
 
-        self.assertTrue('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
-        self.assertTrue('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
+        self.assertTrue(
+            'plone.app.registry.tests.data.SomethingElse.name' \
+            in self.registry)
+        self.assertTrue(
+            'plone.app.registry.tests.data.SomethingElse.age' \
+            in self.registry)
 
     def test_import_records_with_values(self):
         xml = """\
@@ -191,11 +195,19 @@ class TestImport(ExportImportTest):
 
         self.assertEqual(2, len(self.registry.records))
 
-        self.assertTrue('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
-        self.assertTrue('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
+        self.assertTrue(
+            'plone.app.registry.tests.data.SomethingElse.name' \
+            in self.registry)
+        self.assertTrue(
+            'plone.app.registry.tests.data.SomethingElse.age' \
+            in self.registry)
 
-        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.name'], 'Magic')
-        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.age'], 42)
+        self.assertEqual(
+            self.registry['plone.app.registry.tests.data.SomethingElse.name'],
+            'Magic')
+        self.assertEqual(
+            self.registry['plone.app.registry.tests.data.SomethingElse.age'],
+            42)
 
     def test_import_value_only(self):
         xml = """\
@@ -214,8 +226,10 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertEqual(u"Simple record", self.registry.records['test.export.simple'].field.title)
-        self.assertEqual(u"Imported value", self.registry['test.export.simple'])
+        self.assertEqual(u"Simple record",
+            self.registry.records['test.export.simple'].field.title)
+        self.assertEqual(u"Imported value",
+            self.registry['test.export.simple'])
 
     def test_import_interface_and_value(self):
         xml = """\
@@ -231,8 +245,13 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertEqual(u"Age", self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.age'].field.title)
-        self.assertEqual(2, self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.age'])
+        self.assertEqual(u"Age",
+            self.registry.records[\
+                'plone.app.registry.tests.data.ITestSettingsDisallowed.age']\
+            .field.title)
+        self.assertEqual(2,
+            self.registry[\
+                'plone.app.registry.tests.data.ITestSettingsDisallowed.age'])
 
     def test_import_interface_with_differnet_name(self):
         xml = """\
@@ -248,7 +267,8 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertEqual(u"Age", self.registry.records['plone.registry.oops'].field.title)
+        self.assertEqual(u"Age",
+            self.registry.records['plone.registry.oops'].field.title)
         self.assertEqual(2, self.registry['plone.registry.oops'])
 
     def test_import_interface_no_value(self):
@@ -263,8 +283,13 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertEqual(u"Name", self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.name'].field.title)
-        self.assertEqual(u"Mr. Registry", self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.name'])
+        self.assertEqual(u"Name",
+            self.registry.records[\
+                'plone.app.registry.tests.data.ITestSettingsDisallowed.name']\
+                .field.title)
+        self.assertEqual(u"Mr. Registry",
+            self.registry[\
+            'plone.app.registry.tests.data.ITestSettingsDisallowed.name'])
 
     def test_import_field_only(self):
         xml = """\
@@ -283,10 +308,15 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertTrue(isinstance(self.registry.records['test.registry.field'].field, field.TextLine))
-        self.assertEqual(u"Simple record", self.registry.records['test.registry.field'].field.title)
-        self.assertEqual(u"value", self.registry.records['test.registry.field'].field.__name__)
-        self.assertEqual(u"N/A", self.registry['test.registry.field'])
+        self.assertTrue(isinstance(
+            self.registry.records['test.registry.field'].field,
+            field.TextLine))
+        self.assertEqual(u"Simple record",
+            self.registry.records['test.registry.field'].field.title)
+        self.assertEqual(u"value",
+            self.registry.records['test.registry.field'].field.__name__)
+        self.assertEqual(u"N/A",
+            self.registry['test.registry.field'])
 
     def test_import_field_ref(self):
         xml = """\
@@ -307,10 +337,16 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(2, len(self.registry.records))
-        self.assertTrue(IFieldRef.providedBy(self.registry.records['test.registry.field.override'].field))
-        self.assertEqual(u"Simple record", self.registry.records['test.registry.field.override'].field.title)
-        self.assertEqual(u"value", self.registry.records['test.registry.field.override'].field.__name__)
-        self.assertEqual(u"Another value", self.registry['test.registry.field.override'])
+        self.assertTrue(
+            IFieldRef.providedBy(
+                self.registry.records['test.registry.field.override'].field))
+        self.assertEqual(u"Simple record",
+            self.registry.records['test.registry.field.override'].field.title)
+        self.assertEqual(u"value",
+            self.registry.records['test.registry.field.override']\
+            .field.__name__)
+        self.assertEqual(u"Another value",
+            self.registry['test.registry.field.override'])
 
     def test_import_field_and_interface(self):
         xml = """\
