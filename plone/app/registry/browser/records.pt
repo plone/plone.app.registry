@@ -5,17 +5,24 @@
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
-      
-<!--<metal:block fill-slot="top_slot"
-             tal:define="dummy python:request.set('disable_border',1)" />-->
+
+<metal:block fill-slot="top_slot">
+<tal:defines tal:define="dummy python:request.set('disable_border',1);
+                                     disable_column_one python:request.set('disable_plone.leftcolumn',0);
+                                     disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+        <link rel="stylesheet" href="++resource++plone.app.registry/style.css" type="text/css"
+    tal:attributes="href string:${context/portal_url}/++resource++plone.app.registry/style.css" />
+
+</metal:block>
 
 <body>
-<div id="content" metal:fill-slot="prefs_configlet_content">
+<div id="content" metal:fill-slot="prefs_configlet_content"
+  tal:define="records view/records">
     
 <script type="text/javascript">
 (function($) {
     
-    $().ready(function() {
+    function prepOverlay(){
         $('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
@@ -31,6 +38,53 @@
                     return 'reload';
             }}
         });
+    }
+
+    $().ready(function() {
+
+        /* expand the size of search as needed */
+        $('#recordsContainer').delegate('#searchrow input[name="q"]', 'keypress', function(){
+            var self = $(this);
+            var count = self.val().length + 5;
+            if(count > parseInt(self.attr('size'))){
+                self.attr('size', count);
+            }
+        });
+
+        /* ajax retrieval of paging */
+        $('#recordsContainer').delegate('div.listingBar a', 'click', function(){
+            var self = $(this);
+            $('#kss-spinner').show();
+            $('#recordsContainer').load(self.attr('href') + ' #recordsTable', function(){
+                $('#kss-spinner').hide();
+                prepOverlay();
+            });
+            return false;
+        });
+
+        /* ajax form submission */
+        $('#recordsContainer').delegate('#searchrow form', 'submit', function(e){
+            var self = $(this);
+            $('#kss-spinner').show();
+            $('#recordsContainer').load(
+                $('base').attr('href') + '?' + self.serialize() + ' #recordsTable',
+                function(){
+                    $('#kss-spinner').hide();
+                    $('#searchrow input[name="q"]').trigger('keypress');
+                    prepOverlay();
+                });
+            e.preventDefault();
+            return false;
+        });
+
+        /* force submit on select change */
+        $('#recordsContainer').delegate('#searchrow select', 'change', function(){
+            $('#searchrow form').trigger('submit');
+        });
+
+        /* some init */
+        prepOverlay();
+        $('#searchrow input[name="q"]').trigger('keypress');
     });
     
 })(jQuery);
@@ -51,36 +105,71 @@
         registry. Click on a record to edit it.
     </p>
     
-    <table id="recordsTable" class="listing">
-        <thead>
-            <tr>
-                <th i18n:translate="heading_name">Name</th>
-                <th i18n:translate="heading_title">Title</th>
-                <th i18n:translate="heading_description">Description</th>
-                <th i18n:translate="heading_type">Type</th>
-                <th i18n:translate="heading_value">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tal:loop repeat="record context/records/values">
-                <tr tal:define="oddrow repeat/record/odd; field record/field/originalField | record/field"
-                    tal:attributes="class python:oddrow and 'odd' or 'even'">
-                    <td>
-                        <a class="recordsEditLink"
-                           tal:content="python:record.__name__.replace('.', ' ')"
-                           tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
-                           />
-                    </td>
-                    <td tal:content="field/title" />
-                    <td tal:content="field/description" />
-                    <td tal:content="field/__class__/__name__" />
-                    <td tal:content="python: unicode(record.value)"
-                        tal:on-error="string:?" />
+    <div id="recordsContainer">
+        <table id="recordsTable" class="listing">
+            <thead>
+                <tr id="searchrow">
+                    <th colspan="5" class="nosort">
+                        <form tal:define="qp request/qp|nothing;
+                                          q request/q|nothing;">
+                            <input name="q" id="q" placeholder="filter by..." size="30"
+                                i18n:attributes="placeholder"
+                                tal:attributes="value python: qp or q" />
+                            <input type="submit" value="Filter" i18n:attributes="value" />
+                            <tal:trans i18n:translate="or">or</tal:trans>
+                            <select name="qp">
+                                <option value="" i18n:translate="select_prefix">Select Prefix</option>
+                                <tal:prefixes tal:repeat="prefix python: view.prefixes.keys()">
+                                  <option
+                                    tal:define="value python: 'prefix:' + view.prefixes[prefix]"
+                                    tal:attributes="value value;"
+                                    tal:content="prefix"/>
+                                </tal:prefixes>
+                            </select>
+                            <button>
+                                <a tal:attributes="href string:${context/portal_url}/portal_registry"
+                                    i18n:translate="clear_filter">
+                                  Clear filter
+                                </a>
+                            </button>
+                        </form>
+                    </th>
                 </tr>
-            </tal:loop>
-        </tbody>
-    </table>
-        
+                <tr>
+                    <th i18n:translate="heading_name">Name</th>
+                    <th i18n:translate="heading_title">Title</th>
+                    <th i18n:translate="heading_description">Description</th>
+                    <th i18n:translate="heading_type">Type</th>
+                    <th i18n:translate="heading_value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tal:loop repeat="record records">
+                    <tr tal:define="oddrow repeat/record/odd; field record/field/originalField | record/field"
+                        tal:attributes="class python:oddrow and 'odd' or 'even'">
+                        <td>
+                            <a class="recordsEditLink"
+                               tal:content="python:record.__name__.replace('.', ' ')"
+                               tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
+                               />
+                        </td>
+                        <td tal:content="field/title" />
+                        <td tal:content="field/description" />
+                        <td tal:content="field/__class__/__name__" />
+                        <td tal:content="python: unicode(record.value)"
+                            tal:on-error="string:?" />
+                    </tr>
+                </tal:loop>
+            </tbody>
+            <tfoot tal:condition="python: records.numpages > 1">
+                <tr>
+                    <th colspan="5" tal:define="batch records">
+                        <div metal:use-macro="here/batch_macros/macros/navigation" />
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>        
 </div>
 </body>
 </html>

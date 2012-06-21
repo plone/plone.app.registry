@@ -15,6 +15,7 @@
         name="view"
         for="plone.registry.interfaces.IRegistry"
         template="records.pt"
+        class=".records.RecordsControlPanel"
         permission="cmf.ManagePortal"
         />
         
