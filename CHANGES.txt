@@ -10,6 +10,9 @@ Changelog
 - Remove unused zope.app.component import.
   [hannosch]
 
+- Better control panel view.
+  [vangheem]
+
 
 1.1 (2012-04-15)
 ----------------

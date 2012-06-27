@@ -1,0 +1,30 @@
+#searchrow th{
+    padding:0;
+    margin:0;
+}
+
+#searchrow form{
+    padding: 5px;
+}
+
+#searchrow input{
+    font-size: 16px;
+    line-height: 20px;
+    height: 20px;
+    padding: 3px;
+}
+
+#searchrow select{
+    margin-top: 7px;
+}
+
+#searchrow button{
+    float:right;
+    margin: 4px;
+    cursor: pointer;
+}
+
+#searchrow button a{
+    margin: 5px;
+    color: black;
+}
