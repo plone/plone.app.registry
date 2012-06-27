@@ -152,7 +152,7 @@ class TestImport(ExportImportTest):
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.name' in self.registry)
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.age' in self.registry)
 
-    def test_import_records_delete(self):
+    def test_import_records_remove(self):
         xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" />
@@ -176,7 +176,31 @@ class TestImport(ExportImportTest):
 
         self.assertEquals(0, len(self.registry.records))
 
-    def test_import_records_delete_with_omit(self):
+    def test_import_records_delete_deprecated(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(2, len(self.registry.records))
+        delete_xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true"/>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': delete_xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(0, len(self.registry.records))
+
+    def test_import_records_remove_with_omit(self):
         xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" />
@@ -205,7 +229,7 @@ class TestImport(ExportImportTest):
         self.failUnless('plone.app.registry.tests.data.ITestSettings.name' in self.registry)
         self.failIf('plone.app.registry.tests.data.ITestSettings.age' in self.registry)
 
-    def test_import_records_delete_with_value(self):
+    def test_import_records_remove_with_value(self):
         xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" />
@@ -753,10 +777,26 @@ class TestImport(ExportImportTest):
         self.assertEquals([u'One', u'Two'], [t.value for t in self.registry.records['test.registry.field'].field.vocabulary])
         self.assertEquals(None, self.registry['test.registry.field'])
 
-    def test_delete(self):
+    def test_remove(self):
         xml = """\
 <registry>
     <record name="test.export.simple" remove="true" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        importRegistry(context)
+
+        self.assertEquals(0, len(self.registry.records))
+
+    def test_delete_deprecated(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple" delete="true" />
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
