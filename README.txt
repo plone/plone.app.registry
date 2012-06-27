@@ -210,9 +210,9 @@ happen if the ``purge`` attribute was set to ``true`` or omitted.
 Deleting records
 ~~~~~~~~~~~~~~~~
 
-To delete a record, use the ``delete`` attribute::
+To delete a record, use the ``remove`` attribute::
 
-    <record name="my.package.animalFood" delete="true" />
+    <record name="my.package.animalFood" remove="true" />
 
 If the record does not exist, a warning will be logged, but processing will
 continue.
@@ -296,10 +296,10 @@ The ``<omit />`` tag can be repeated to exclude multiple fields.
 Deleting records based on an interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete a set of records, based on an interface use the ``delete``
+To delete a set of records, based on an interface use the ``remove``
 attribute::
 
-    <records interface="my.package.interfaces.IZooSettings" delete="true" />
+    <records interface="my.package.interfaces.IZooSettings" remove="true" />
 
 If the record does not exist for any of the interface fields, a warning will
 be logged, but processing will continue.
@@ -307,7 +307,7 @@ be logged, but processing will continue.
 If you do not wish to delete, or wish to exclude certain fields, they may be
 omitted::
 
-    <records interface="my.package.interfaces.IZooSettings" delete="true">
+    <records interface="my.package.interfaces.IZooSettings" remove="true">
         <omit>someField</omit>
     </records>
 

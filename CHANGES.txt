@@ -10,7 +10,11 @@ Changelog
 - Remove unused zope.app.component import.
   [hannosch]
 
-- Allow deletion of records by interface.
+- Allow deletion of records by interface in GenericSetup.
+  [mitchellrj]
+
+- Deprecated the 'delete' attribute of <record /> and <records /> nodes
+  in GenericSetup, in favor of 'remove'.
   [mitchellrj]
 
 
