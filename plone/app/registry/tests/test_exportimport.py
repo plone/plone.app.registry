@@ -202,8 +202,8 @@ class TestImport(ExportImportTest):
 
         self.assertEquals(1, len(self.registry.records))
 
-        self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.name' in self.registry)
-        self.failIf('plone.app.registry.tests.data.ITestSettingsDisallowed.age' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.ITestSettings.name' in self.registry)
+        self.failIf('plone.app.registry.tests.data.ITestSettings.age' in self.registry)
 
     def test_import_records_delete_with_value(self):
         xml = """\
