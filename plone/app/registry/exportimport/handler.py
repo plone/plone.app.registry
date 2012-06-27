@@ -88,9 +88,9 @@ class RegistryImporter(object):
 
         name = node.get('name', '')
         if node.get('delete') is not None:
-            self.logger.warn(u"The 'delete' attribute of <record /> nodes is "
-                             u"deprecated, it should be replaced with"
-                             u"'remove'.")
+            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
+                                u"is deprecated, it should be replaced with "
+                                u"'remove'.")
         remove = node.get('remove', node.get('delete', 'false'))
 
         interfaceName = node.get('interface', None)
@@ -244,9 +244,9 @@ class RegistryImporter(object):
         prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
         
         if node.attrib.get('delete') is not None:
-            self.logger.warn(u"The 'delete' attribute of <record /> nodes is "
-                             u"deprecated, it should be replaced with"
-                             u"'remove'.")
+            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
+                                u"is deprecated, it should be replaced with "
+                                u"'remove'.")
         remove = node.attrib.get('remove', node.attrib.get('delete', 'false')).lower() == 'true'
 
         # May raise ImportError
