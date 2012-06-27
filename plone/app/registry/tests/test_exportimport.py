@@ -166,7 +166,7 @@ class TestImport(ExportImportTest):
         self.assertEquals(2, len(self.registry.records))
         delete_xml = """\
 <registry>
-    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true"/>
+    <records interface="plone.app.registry.tests.data.ITestSettings" remove="true"/>
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
@@ -190,7 +190,7 @@ class TestImport(ExportImportTest):
         self.assertEquals(2, len(self.registry.records))
         delete_xml = """\
 <registry>
-    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true">
+    <records interface="plone.app.registry.tests.data.ITestSettings" remove="true">
       <omit>name</omit>
     </records>
 </registry>
@@ -219,7 +219,7 @@ class TestImport(ExportImportTest):
         self.assertEquals(2, len(self.registry.records))
         delete_xml = """\
 <registry>
-    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true">
+    <records interface="plone.app.registry.tests.data.ITestSettings" remove="true">
       <value key="name">Spam</value>
     </records>
 </registry>
@@ -756,7 +756,7 @@ class TestImport(ExportImportTest):
     def test_delete(self):
         xml = """\
 <registry>
-    <record name="test.export.simple" delete="true" />
+    <record name="test.export.simple" remove="true" />
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
@@ -772,7 +772,7 @@ class TestImport(ExportImportTest):
     def test_delete_not_found(self):
         xml = """\
 <registry>
-    <record name="test.export.bogus" delete="true" />
+    <record name="test.export.bogus" remove="true" />
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
