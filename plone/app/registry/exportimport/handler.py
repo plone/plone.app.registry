@@ -1,4 +1,5 @@
 from zope.component import queryUtility
+from zope.schema import getFieldNames
 
 from lxml import etree
 
@@ -237,6 +238,7 @@ class RegistryImporter(object):
             raise KeyError(u"A <records /> node must have an 'interface' attribute.")
 
         prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
+        delete = node.attrib.get('delete', 'false').lower() == 'true'
 
         # May raise ImportError
         interface = resolve(interfaceName)
@@ -251,10 +253,21 @@ class RegistryImporter(object):
             elif child.tag.lower() == 'value':
                 values.append(child)
 
+        if delete and values:
+            raise ValueError("A <records /> node with 'delete=\"true\"' must not contain "
+                             "<value /> nodes.")
+        elif delete:
+            for f in getFieldNames(interface):
+                if f in omit:
+                    continue
+
+                child = etree.Element('value', key=f, purge='True')
+                values.append(child)
+
         # May raise TypeError
         self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
 
-        if not values:
+        if not values and not delete:
             # Skip out if there are no value records to handle
             return
 
@@ -263,7 +276,7 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
 
         for value in values:
-            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
+            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix, delete=`delete`.lower())
             field.append(value)
             self.importRecord(field)
 
