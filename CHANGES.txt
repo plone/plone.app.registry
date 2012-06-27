@@ -10,6 +10,9 @@ Changelog
 - Remove unused zope.app.component import.
   [hannosch]
 
+- Allow deletion of records by interface.
+  [mitchellrj]
+
 
 1.1 (2012-04-15)
 ----------------
