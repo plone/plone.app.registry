@@ -152,6 +152,85 @@ class TestImport(ExportImportTest):
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.name' in self.registry)
         self.failUnless('plone.app.registry.tests.data.ITestSettingsDisallowed.age' in self.registry)
 
+    def test_import_records_delete(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(2, len(self.registry.records))
+        delete_xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true"/>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': delete_xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(0, len(self.registry.records))
+
+    def test_import_records_delete_with_omit(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(2, len(self.registry.records))
+        delete_xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true">
+      <omit>name</omit>
+    </records>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': delete_xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+
+        self.failUnless('plone.app.registry.tests.data.ITestSettings.name' in self.registry)
+        self.failIf('plone.app.registry.tests.data.ITestSettings.age' in self.registry)
+
+    def test_import_records_delete_with_value(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(2, len(self.registry.records))
+        delete_xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" delete="true">
+      <value key="name">Spam</value>
+    </records>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': delete_xml}
+        
+        self.assertRaises(ValueError, importRegistry, context)
+
+        self.assertEquals(2, len(self.registry.records))
+
     def test_import_records_with_prefix(self):
         xml = """\
 <registry>
