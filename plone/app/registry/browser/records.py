@@ -1,18 +1,14 @@
 from Products.Five import BrowserView
 from Products.CMFPlone.PloneBatch import Batch
 
-
 def _true(s, v):
     return True
-
 
 def _is_in(s, v):
     return s in v
 
-
 def _starts_with(s, v):
     return v.startswith(s)
-
 
 class RecordsControlPanel(BrowserView):
 
@@ -32,7 +28,10 @@ class RecordsControlPanel(BrowserView):
         self.prefixes = {}
         self.records = []
         for record in self.context.records.values():
-            ifaceNamePart = record.interfaceName.split('.')[-1]
+            ifaceName = record.interfaceName
+            ifaceNamePart = ''
+            if not ifaceName is None:
+                ifaceNamePart = ifaceName.split('.')[-1]
             if ifaceNamePart not in self.prefixes:
                 self.prefixes[ifaceNamePart] = record.interfaceName
             if compare(search, record.__name__):

@@ -18,10 +18,10 @@
 <body>
 <div id="content" metal:fill-slot="prefs_configlet_content"
   tal:define="records view/records">
-    
+
 <script type="text/javascript">
 (function($) {
-    
+
     function prepOverlay(){
         $('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
@@ -86,7 +86,7 @@
         prepOverlay();
         $('#searchrow input[name="q"]').trigger('keypress');
     });
-    
+
 })(jQuery);
 </script>
 
@@ -99,12 +99,12 @@
     </a> &rsaquo;
 
     <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration registry</h1>
-    
+
     <p class="documentDescription" i18n:translate="description_registry">
         The table below shows record currently managed by the configuration
         registry. Click on a record to edit it.
     </p>
-    
+
     <div id="recordsContainer">
         <table id="recordsTable" class="listing">
             <thead>
@@ -121,7 +121,7 @@
                                 <option value="" i18n:translate="select_prefix">Select Prefix</option>
                                 <tal:prefixes tal:repeat="prefix python: view.prefixes.keys()">
                                   <option
-                                    tal:define="value python: 'prefix:' + view.prefixes[prefix]"
+                                    tal:define="value python: 'prefix:' + (view.prefixes[prefix] or '')"
                                     tal:attributes="value value;"
                                     tal:content="prefix"/>
                                 </tal:prefixes>
@@ -169,7 +169,7 @@
                 </tr>
             </tfoot>
         </table>
-    </div>        
+    </div>
 </div>
 </body>
 </html>
