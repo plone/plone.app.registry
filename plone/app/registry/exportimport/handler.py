@@ -285,7 +285,7 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
 
         for value in values:
-            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix, remove=`remove`.lower())
+            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix, remove=repr(remove).lower())
             field.append(value)
             self.importRecord(field)
 
