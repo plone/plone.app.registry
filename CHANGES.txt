@@ -8,6 +8,12 @@ Changelog
   "AttributeError: 'NoneType' object has no attribute 'split'".
   [kleist]
 
+- Allow deletion of records by interface in GenericSetup.
+  [mitchellrj]
+
+- Deprecated the 'delete' attribute of <record /> and <records /> nodes
+  in GenericSetup, in favor of 'remove'.
+  [mitchellrj]
 
 1.2a1 (2012-06-29)
 ------------------
@@ -20,7 +26,6 @@ Changelog
 
 - Better control panel view.
   [vangheem]
-
 
 1.1 (2012-04-15)
 ----------------

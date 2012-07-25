@@ -1,4 +1,5 @@
 from zope.component import queryUtility
+from zope.schema import getFieldNames
 
 from lxml import etree
 
@@ -86,7 +87,11 @@ class RegistryImporter(object):
     def importRecord(self, node):
 
         name = node.get('name', '')
-        delete = node.get('delete', 'false')
+        if node.get('delete') is not None:
+            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
+                                u"is deprecated, it should be replaced with "
+                                u"'remove'.")
+        remove = node.get('remove', node.get('delete', 'false'))
 
         interfaceName = node.get('interface', None)
         fieldName = node.get('field', None)
@@ -105,10 +110,10 @@ class RegistryImporter(object):
         name = str(name)
 
         # Handle deletion and quit
-        if delete.lower() == 'true':
+        if remove.lower() == 'true':
             if name in self.context.records:
                 del self.context.records[name]
-                self.logger.info("Deleted record %s." % name)
+                self.logger.info("Removed record %s." % name)
             else:
                 self.logger.warning("Record %s was marked for deletion, but was not found." % name)
             return
@@ -237,6 +242,12 @@ class RegistryImporter(object):
             raise KeyError(u"A <records /> node must have an 'interface' attribute.")
 
         prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
+        
+        if node.attrib.get('delete') is not None:
+            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
+                                u"is deprecated, it should be replaced with "
+                                u"'remove'.")
+        remove = node.attrib.get('remove', node.attrib.get('delete', 'false')).lower() == 'true'
 
         # May raise ImportError
         interface = resolve(interfaceName)
@@ -251,10 +262,21 @@ class RegistryImporter(object):
             elif child.tag.lower() == 'value':
                 values.append(child)
 
+        if remove and values:
+            raise ValueError("A <records /> node with 'remove=\"true\"' must not contain "
+                             "<value /> nodes.")
+        elif remove:
+            for f in getFieldNames(interface):
+                if f in omit:
+                    continue
+
+                child = etree.Element('value', key=f, purge='True')
+                values.append(child)
+
         # May raise TypeError
         self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
 
-        if not values:
+        if not values and not remove:
             # Skip out if there are no value records to handle
             return
 
@@ -263,7 +285,7 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
 
         for value in values:
-            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix)
+            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix, remove=repr(remove).lower())
             field.append(value)
             self.importRecord(field)
 
