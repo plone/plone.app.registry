@@ -62,9 +62,7 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         IStatusMessage(self.request).addStatusMessage(
             _(u"Changes saved."),
             "info")
-        self.request.response.redirect("%s/%s" % (
-            self.context.absolute_url(),
-            self.control_panel_view))
+        self.request.response.redirect(self.request.getURL())
 
     @button.buttonAndHandler(_(u"Cancel"), name='cancel')
     def handleCancel(self, action):
