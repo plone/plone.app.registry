@@ -43,7 +43,9 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
     schema_prefix = None
 
     def getContent(self):
-        return getUtility(IRegistry).forInterface(self.schema, prefix=self.schema_prefix)
+        return getUtility(IRegistry).forInterface(
+            self.schema,
+            prefix=self.schema_prefix)
 
     def updateActions(self):
         super(RegistryEditForm, self).updateActions()
@@ -56,14 +58,22 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         if errors:
             self.status = self.formErrorsMessage
             return
-        changes = self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
-        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
+        self.applyChanges(data)
+        IStatusMessage(self.request).addStatusMessage(
+            _(u"Changes saved."),
+            "info")
+        self.request.response.redirect("%s/%s" % (
+            self.context.absolute_url(),
+            self.control_panel_view))
 
     @button.buttonAndHandler(_(u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
-        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), self.control_panel_view))
+        IStatusMessage(self.request).addStatusMessage(
+            _(u"Changes canceled."),
+            "info")
+        self.request.response.redirect("%s/%s" % (
+            self.context.absolute_url(),
+            self.control_panel_view))
 
 
 class ControlPanelFormWrapper(layout.FormWrapper):

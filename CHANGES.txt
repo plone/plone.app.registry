@@ -15,6 +15,11 @@ Changelog
   in GenericSetup, in favor of 'remove'.
   [mitchellrj]
 
+- Show 'Changes canceled.' message after control panel edit form is canceled
+  to comply with plone.app.controlpanel behavior.
+  [timo]
+
+
 1.2a1 (2012-06-29)
 ------------------
 
