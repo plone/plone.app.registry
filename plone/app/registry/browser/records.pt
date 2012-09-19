@@ -26,8 +26,8 @@
         $('a.recordsEditLink').prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
-            formselector: 'form:has(div[id^=formfield-form-widgets-value])',
-            closeselector: '[name=form.buttons.cancel]',
+            formselector: 'form:has(div[id^="formfield-form-widgets-value"])',
+            closeselector: '[name="form.buttons.cancel"]',
             noform: function(el) {
                 var o = $(el);
                 var emsg = o.find('dl.portalMessage.error');
