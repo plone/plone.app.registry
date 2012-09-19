@@ -7,6 +7,9 @@ Changelog
 - Fix jquery selectors
   [vangheem]
 
+- handle control panel prefixes for fields that do not
+  have interfaces better.
+  [vangheem]
 
 1.2 (2012-08-29)
 ----------------
