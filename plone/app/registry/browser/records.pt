@@ -104,72 +104,74 @@
         The table below shows record currently managed by the configuration
         registry. Click on a record to edit it.
     </p>
-
-    <div id="recordsContainer">
-        <table id="recordsTable" class="listing">
-            <thead>
-                <tr id="searchrow">
-                    <th colspan="5" class="nosort">
-                        <form tal:define="qp request/qp|nothing;
-                                          q request/q|nothing;">
-                            <input name="q" id="q" placeholder="filter by..." size="30"
-                                i18n:attributes="placeholder"
-                                tal:attributes="value python: qp or q" />
-                            <input type="submit" value="Filter" i18n:attributes="value" />
-                            <tal:trans i18n:translate="or">or</tal:trans>
-                            <select name="qp" tal:define="prefixes python: view.prefixes.keys();
-                                                          dummy python: prefixes.sort();">
-                                <option value="" i18n:translate="select_prefix">Select Prefix</option>
-                                <tal:prefixes tal:repeat="prefix prefixes">
-                                  <option
-                                    tal:define="value python: 'prefix:' + (view.prefixes[prefix] or '')"
-                                    tal:attributes="value value;"
-                                    tal:content="prefix"/>
-                                </tal:prefixes>
-                            </select>
-                            <button>
-                                <a tal:attributes="href string:${context/portal_url}/portal_registry"
-                                    i18n:translate="clear_filter">
-                                  Clear filter
-                                </a>
-                            </button>
-                        </form>
-                    </th>
-                </tr>
-                <tr>
-                    <th i18n:translate="heading_name">Name</th>
-                    <th i18n:translate="heading_title">Title</th>
-                    <th i18n:translate="heading_description">Description</th>
-                    <th i18n:translate="heading_type">Type</th>
-                    <th i18n:translate="heading_value">Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tal:loop repeat="record records">
-                    <tr tal:define="oddrow repeat/record/odd; field record/field/originalField | record/field"
-                        tal:attributes="class python:oddrow and 'odd' or 'even'">
-                        <td>
-                            <a class="recordsEditLink"
-                               tal:content="python:record.__name__.replace('.', ' ')"
-                               tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
-                               />
-                        </td>
-                        <td tal:content="field/title" />
-                        <td tal:content="field/description" />
-                        <td tal:content="field/__class__/__name__" />
-                        <td tal:content="python: unicode(record.value)"
-                            tal:on-error="string:?" />
+    
+    <div id="content-core">
+        <div id="recordsContainer">
+            <table id="recordsTable" class="listing">
+                <thead>
+                    <tr id="searchrow">
+                        <th colspan="5" class="nosort">
+                            <form tal:define="qp request/qp|nothing;
+                                              q request/q|nothing;">
+                                <input name="q" id="q" placeholder="filter by..." size="30"
+                                    i18n:attributes="placeholder"
+                                    tal:attributes="value python: qp or q" />
+                                <input type="submit" value="Filter" i18n:attributes="value" />
+                                <tal:trans i18n:translate="or">or</tal:trans>
+                                <select name="qp" tal:define="prefixes python: view.prefixes.keys();
+                                                              dummy python: prefixes.sort();">
+                                    <option value="" i18n:translate="select_prefix">Select Prefix</option>
+                                    <tal:prefixes tal:repeat="prefix prefixes">
+                                      <option
+                                        tal:define="value python: 'prefix:' + (view.prefixes[prefix] or '')"
+                                        tal:attributes="value value;"
+                                        tal:content="prefix"/>
+                                    </tal:prefixes>
+                                </select>
+                                <button>
+                                    <a tal:attributes="href string:${context/portal_url}/portal_registry"
+                                        i18n:translate="clear_filter">
+                                      Clear filter
+                                    </a>
+                                </button>
+                            </form>
+                        </th>
                     </tr>
-                </tal:loop>
-            </tbody>
-            <tfoot tal:condition="python: records.numpages > 1">
-                <tr>
-                    <th colspan="5" tal:define="batch records">
-                        <div metal:use-macro="here/batch_macros/macros/navigation" />
-                    </th>
-                </tr>
-            </tfoot>
-        </table>
+                    <tr>
+                        <th i18n:translate="heading_name">Name</th>
+                        <th i18n:translate="heading_title">Title</th>
+                        <th i18n:translate="heading_description">Description</th>
+                        <th i18n:translate="heading_type">Type</th>
+                        <th i18n:translate="heading_value">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tal:loop repeat="record records">
+                        <tr tal:define="oddrow repeat/record/odd; field record/field/originalField | record/field"
+                            tal:attributes="class python:oddrow and 'odd' or 'even'">
+                            <td>
+                                <a class="recordsEditLink"
+                                   tal:content="python:record.__name__.replace('.', ' ')"
+                                   tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
+                                   />
+                            </td>
+                            <td tal:content="field/title" />
+                            <td tal:content="field/description" />
+                            <td tal:content="field/__class__/__name__" />
+                            <td tal:content="python: unicode(record.value)"
+                                tal:on-error="string:?" />
+                        </tr>
+                    </tal:loop>
+                </tbody>
+                <tfoot tal:condition="python: records.numpages > 1">
+                    <tr>
+                        <th colspan="5" tal:define="batch records">
+                            <div metal:use-macro="here/batch_macros/macros/navigation" />
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 </body>
