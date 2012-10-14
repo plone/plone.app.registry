@@ -8,11 +8,11 @@
 
     <browser:defaultView
         for="plone.registry.interfaces.IRegistry"
-        name="view"
+        name="configuration_registry"
         />
 
     <browser:page
-        name="view"
+        name="configuration_registry"
         for="plone.registry.interfaces.IRegistry"
         template="records.pt"
         class=".records.RecordsControlPanel"
