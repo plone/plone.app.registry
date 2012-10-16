@@ -4,6 +4,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- Unified the control panel html structure.
+  [TH-code]
+
 - Fix jquery selectors
   [vangheem]
 
