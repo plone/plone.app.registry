@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+1.2.1 (2012-10-16)
 ------------------
 
 - Unified the control panel html structure.
