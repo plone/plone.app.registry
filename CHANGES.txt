@@ -4,7 +4,9 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Acquisition-wrap value dictionary such that widgets get a useful
+  context.
+  [malthe]
 
 
 1.2.1 (2012-10-16)

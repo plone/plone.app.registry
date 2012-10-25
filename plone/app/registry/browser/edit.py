@@ -5,6 +5,7 @@ from plone.z3cform import layout
 from z3c.form import form, field, button
 
 from Products.statusmessages.interfaces import IStatusMessage
+from Acquisition import ImplicitAcquisitionWrapper
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plone')
@@ -17,7 +18,10 @@ class RecordEditForm(form.EditForm):
     record = None
 
     def getContent(self):
-        return {'value': self.record.value}
+        return ImplicitAcquisitionWrapper(
+            {'value': self.record.value},
+            self.context
+        )
 
     def update(self):
         self.fields = field.Fields(self.record.field, )
