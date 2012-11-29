@@ -153,7 +153,9 @@ class RegistryImporter(object):
         value_node = None
 
         for child in node:
-            if child.tag.lower() == 'field':
+            if not isinstance(child.tag, str):
+                continue
+            elif child.tag.lower() == 'field':
                 field_node = child
             elif child.tag.lower() == 'value':
                 value_node = child
@@ -256,7 +258,9 @@ class RegistryImporter(object):
         values = [] # Fields that should have their value set as they don't exist yet
 
         for child in node:
-            if child.tag.lower() == 'omit':
+            if not isinstance(child.tag, str):
+                continue
+            elif child.tag.lower() == 'omit':
                 if child.text:
                     omit.append(unicode(child.text))
             elif child.tag.lower() == 'value':
