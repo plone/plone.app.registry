@@ -8,6 +8,9 @@ Changelog
   context.
   [malthe]
 
+- Allow XML comments in registry.xml
+  [gweis]
+
 
 1.2.1 (2012-10-16)
 ------------------
