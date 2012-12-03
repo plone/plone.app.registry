@@ -777,6 +777,42 @@ class TestImport(ExportImportTest):
         self.assertEquals([u'One', u'Two'], [t.value for t in self.registry.records['test.registry.field'].field.vocabulary])
         self.assertEquals(None, self.registry['test.registry.field'])
 
+    def test_import_with_comments(self):
+        xml = """\
+<registry>
+    <records interface="plone.app.registry.tests.data.ITestSettings" prefix="plone.app.registry.tests.data.SomethingElse">
+        <!-- set values in this interface -->
+        <value key="name">Magic</value>
+        <value key="age">42</value>
+    </records>
+    <record name="test.registry.field">
+        <!-- comment on this field or value -->
+        <field type="plone.registry.field.TextLine">
+          <default>N/A</default>
+          <!-- comment here too -->
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        
+        importRegistry(context)
+
+        self.assertEquals(3, len(self.registry.records))
+
+        self.failUnless(isinstance(self.registry.records['test.registry.field'].field, field.TextLine))
+        self.assertEquals(u"Simple record", self.registry.records['test.registry.field'].field.title)
+        self.assertEquals(u"value", self.registry.records['test.registry.field'].field.__name__)
+        self.assertEquals(u"N/A", self.registry['test.registry.field'])
+
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.name' in self.registry)
+        self.failUnless('plone.app.registry.tests.data.SomethingElse.age' in self.registry)
+        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.name'], 'Magic')
+        self.assertEqual(self.registry['plone.app.registry.tests.data.SomethingElse.age'], 42)
+
+
     def test_remove(self):
         xml = """\
 <registry>
