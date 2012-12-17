@@ -23,6 +23,17 @@ from plone.supermodel.utils import prettyXML, elementToValue, valueToElement, ns
 _marker = object()
 
 
+def shouldPurgeList(value_node, key):
+    for child in value_node:
+        attrib = child.attrib
+        if attrib.get('key') == key:
+            if attrib.get('purge', 'true').lower() == 'false':
+                return False
+            else:
+                return True
+    return True
+
+
 def importRegistry(context):
 
     logger = context.getLogger('plone.app.registry')
@@ -85,7 +96,6 @@ class RegistryImporter(object):
         parseinfo.i18n_domain = None
 
     def importRecord(self, node):
-
         name = node.get('name', '')
         if node.get('delete') is not None:
             self.logger.warning(u"The 'delete' attribute of <record /> nodes "
@@ -227,7 +237,23 @@ class RegistryImporter(object):
                     elif isinstance(value, (set, frozenset, )):
                         value = existing_value.union(value)
                     elif isinstance(value, dict):
-                        existing_value.update(value)
+                        for key, value in value.items():
+                            # check if value is list, if so, let's add
+                            # instead of overridding
+                            if type(value) == list:
+                                if key in existing_value and \
+                                        not shouldPurgeList(value_node, key):
+                                    existing = existing_value[key]
+                                    for item in existing:
+                                        # here, we'll remove existing items
+                                        # point is that we don't want duplicates
+                                        # and don't want to reorder
+                                        if item in value:
+                                            value.remove(item)
+                                    existing.extend(value)
+                                    value = existing
+                            existing_value[key] = value
+
                         value = existing_value
 
                 existing_record.value = value

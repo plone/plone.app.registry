@@ -11,6 +11,10 @@ Changelog
 - Allow XML comments in registry.xml
   [gweis]
 
+- allow using purge=false in dict.value_type == list registry
+  imports.
+  [vangheem]
+
 
 1.2.1 (2012-10-16)
 ------------------
