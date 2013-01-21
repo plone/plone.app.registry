@@ -375,6 +375,13 @@ omitted field names.
 See ``plone.registry`` for more details about how to introspect and manipulate
 the registry records programmatically.
 
+Accessing the registry in page templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also access the registry from page templates. Example TALES expression::
+
+     python:context.portal_registry['plone.app.theming.interfaces.IThemeSettings.enabled'] 
+
 Using the records proxy
 ~~~~~~~~~~~~~~~~~~~~~~~
 
