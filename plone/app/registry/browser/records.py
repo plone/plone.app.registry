@@ -43,6 +43,7 @@ class RecordsControlPanel(BrowserView):
                 recordPrefix = ifaceName.split('.')[-1]
                 prefixValue = record.interfaceName
             else:
+                prefixValue = record.__name__
                 for prefix in _okay_prefixes:
                     name = record.__name__
                     if name.startswith(prefix):
