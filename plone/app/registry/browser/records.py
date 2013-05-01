@@ -27,7 +27,7 @@ class RecordsControlPanel(BrowserView):
         search = form.get('q')
         searchp = form.get('qp')
         compare = _is_in
-        if searchp:
+        if searchp is not None:
             search = searchp
         if search is not None and search.startswith('prefix:'):
             search = search[len('prefix:'):]
@@ -52,7 +52,7 @@ class RecordsControlPanel(BrowserView):
                         break
             if recordPrefix not in self.prefixes:
                 self.prefixes[recordPrefix] = prefixValue
-            if compare(search, record.__name__):
+            if compare(search, prefixValue):
                 self.records.append(record)
         self.records = Batch(self.records, 10,
             int(form.get('b_start', '0')), orphan=1)
