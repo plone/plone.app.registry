@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 - Fix control panel filtering (https://dev.plone.org/ticket/13557)
-  [danjacka]
+  [vangheem, danjacka]
 
 
 1.2.2 (2013-01-13)
