@@ -79,7 +79,7 @@
 
         /* force submit on select change */
         $('#recordsContainer').delegate('#searchrow select', 'change', function(){
-            $('#searchrow form').trigger('submit');
+            $('#searchrow form#registry-filter').trigger('submit');
         });
 
         /* some init */
@@ -112,7 +112,7 @@
                     <tr id="searchrow">
                         <th colspan="5" class="nosort">
                             <form tal:define="qp request/qp|nothing;
-                                              q request/q|nothing;">
+                                              q request/q|nothing;" id="registry-filter">
                                 <input name="q" id="q" placeholder="filter by..." size="30"
                                     i18n:attributes="placeholder"
                                     tal:attributes="value python: qp or q" />
@@ -128,11 +128,10 @@
                                         tal:content="prefix"/>
                                     </tal:prefixes>
                                 </select>
-                                <button>
-                                    <a tal:attributes="href string:${context/portal_url}/portal_registry"
-                                        i18n:translate="clear_filter">
-                                      Clear filter
-                                    </a>
+                            </form>
+                            <form id="clear-filter">
+                                <button type="submit" i18n:translate="clear_filter">
+                                    Clear filter
                                 </button>
                             </form>
                         </th>

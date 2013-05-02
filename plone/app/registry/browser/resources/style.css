@@ -17,7 +17,6 @@
 }
 
 #searchrow button{
-    float:right;
     margin: 4px;
     cursor: pointer;
 }
@@ -25,4 +24,12 @@
 #searchrow button a{
     margin: 5px;
     color: black;
+}
+
+#registry-filter{
+    float: left;
+}
+
+#clear-filter{
+    float: right;
 }
