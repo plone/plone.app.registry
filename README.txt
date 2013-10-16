@@ -525,8 +525,8 @@ Control panel widget settings
 plone.app.registry provides ``RegistryEditForm`` class which is a subclass of
 ``z3c.form.form.Form``.
 
-``RegistryEditFormRegistryEditForm`` has two methods to override which and how
-widgets are going to be used in the control panel form.
+``RegistryEditForm`` has two methods to override which and how widgets are going
+to be used in the control panel form.
 
 * ``updateFields()`` may set widget factories i.e. widget type to be used
 
