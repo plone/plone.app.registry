@@ -277,7 +277,7 @@ explicitly state that we are setting a record bound to an interface, like so::
 
 This is equivalent to::
 
-    <record interface="my.package.interfaces.IZooSettings.entryPrice">
+    <record name="my.package.interfaces.IZooSettings.entryPrice">
         <value>10.0</value>
     </record>
 
