@@ -25,7 +25,7 @@ reg['mr.package.IMyPackage.field2'] = "Initial value"
 
 #2 - change proposed
 
-XML: 
+XML:
 <records
    name="my-package"
    interface="my.package.IMyPackage" />

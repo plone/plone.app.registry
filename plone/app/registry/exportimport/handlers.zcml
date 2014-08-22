@@ -5,7 +5,7 @@
     <include package="plone.supermodel" />
 
     <!-- plone.supermodel field handlers -->
-    
+
     <utility
         component=".fields.BytesHandler"
         name="plone.registry.field.Bytes"
@@ -94,5 +94,5 @@
         component=".fields.ChoiceHandler"
         name="plone.registry.field.Choice"
         />
-        
+
 </configure>

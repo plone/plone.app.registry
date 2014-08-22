@@ -2,7 +2,7 @@
 <componentregistry>
     <adapters/>
     <utilities>
-        <utility 
+        <utility
             interface="plone.registry.interfaces.IRegistry"
             object="portal_registry"
             />

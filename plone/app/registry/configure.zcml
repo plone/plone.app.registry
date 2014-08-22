@@ -7,7 +7,7 @@
     <include package="Products.CMFCore" file="permissions.zcml" />
 
     <include package="plone.registry" />
-    
+
     <include package=".exportimport" />
     <include package=".browser" />
 
@@ -23,7 +23,7 @@
             interface="plone.registry.interfaces.IRegistry"
             />
     </class>
-    
+
     <gs:registerProfile
         name="default"
         directory="profiles/default"

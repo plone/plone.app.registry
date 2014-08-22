@@ -104,7 +104,7 @@
         The table below shows record currently managed by the configuration
         registry. Click on a record to edit it.
     </p>
-    
+
     <div id="content-core">
         <div id="recordsContainer">
             <table id="recordsTable" class="listing">

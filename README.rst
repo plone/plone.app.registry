@@ -29,7 +29,7 @@ The registry is made up of *records*. A record consists of a *field*,
 describing the record, and a *value*.  Fields are based on the venerable
 ``zope.schema``, although the standard allowable field types are defined in
 the module ``plone.registry.field``. (This is partly because the field
-definitions are actually persisted with the record, and partly because 
+definitions are actually persisted with the record, and partly because
 ``plone.registry`` performs some additional validation to ensure the integrity
 of the registry).
 
@@ -230,9 +230,9 @@ For example, we could have an interface like this::
 
     from zope.interface import Interface
     from zope import schema
-    
+
     class IZooSettings(Interface):
-        
+
         entryPrice = schema.Decimal(title=u"Admission charge")
         messageOfTheDay = schema.TextLine(title=u"A banner message", default=u"Welcome!")
 
@@ -328,7 +328,7 @@ with::
 
     from zope.component import getUtility
     from plone.registry.interfaces import IRegistry
-    
+
     registry = getUtility(IRegistry)
 
 Values can now get read or set using simple dictionary syntax::
@@ -357,10 +357,10 @@ the field in the interface from which this record was created.
 
 In unit tests, it may be useful to create a new record programmatically.
 You can do that like so::
-    
+
     from plone.registry.record import Record
     from plone.registry import field
-    
+
     registry.records['my.record'] = Record(field.TextLine(title=u"A record"), u"Test")
 
 The constructor takes a persistent field and the initial value as parameters.
@@ -380,7 +380,7 @@ Accessing the registry in page templates
 
 You can also access the registry from page templates. Example TALES expression::
 
-     python:context.portal_registry['plone.app.theming.interfaces.IThemeSettings.enabled'] 
+     python:context.portal_registry['plone.app.theming.interfaces.IThemeSettings.enabled']
 
 Using the records proxy
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -410,7 +410,7 @@ the field for the corresponding record.
 When fetching the records proxy, ``plone.registry`` will by default verify
 that records exists for each field in the interface, and will raise an error
 if this is not the case. To disable this check, you can do::
-    
+
     zooSettings = registry.forInterface(IZooSettings, check=False)
 
 This is sometimes useful in cases where it is not certain that the registry
@@ -435,10 +435,10 @@ pertaining to records associated with specific interfaces. For example::
 
     from zope.component import adapter
     from plone.registry.interfaces import IRecordModifiedEvent
-    
+
     from logging import getLogger
     log = getLogger('my.package)
-    
+
     @adapter(IZooSettings, IRecordModifiedEvent)
     def detectPriceChange(settings, event):
         if record.fieldName == 'entryPrice':
@@ -470,15 +470,15 @@ To use it, create a module like this::
 
     from plone.app.registry.browser.controlpanel import RegistryEditForm
     from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
-    
+
     from my.package.interfaces import IZooSettings
     from plone.z3cform import layout
     from z3c.form import form
-    
+
     class ZooControlPanelForm(RegistryEditForm):
         form.extends(RegistryEditForm)
         schema = IZooSettings
-    
+
     ZooControlPanelView = layout.wrap_form(ZooControlPanelForm, ControlPanelFormWrapper)
     ZooControlPanelView.label = u"Zoo settings"
 
@@ -499,7 +499,7 @@ import step in your GenericSetup profile::
         name="portal_controlpanel"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="my.package">
-        
+
         <configlet
             title="Zoo settings"
             action_id="my.package.zoosettings"
@@ -512,7 +512,7 @@ import step in your GenericSetup profile::
             i18n:attributes="title">
                 <permission>Manage portal</permission>
         </configlet>
-    
+
     </object>
 
 The ``icon_expr`` attribute should give a URL for the icon. Here, we have
@@ -531,8 +531,8 @@ to be used in the control panel form.
 * ``updateFields()`` may set widget factories i.e. widget type to be used
 
 * ``updateWidgets()`` may play with widget properties and widget value
-  shown to the user 
-  
+  shown to the user
+
 Example (*collective.gtags* project controlpanel.py)::
 
         class TagSettingsEditForm(controlpanel.RegistryEditForm):
@@ -574,7 +574,7 @@ Example traceback::
           Module plone.registry.registry, line 56, in forInterface
         KeyError: 'Interface `mfabrik.plonezohointegration.interfaces.ISettings` defines a field `username`, for which there is no record.'
 
-This means that 
+This means that
 
 * Your registry.xml does not define default values for your configuration keys
 * You have changed your configuration schema, but haven't rerun add-on

@@ -16,12 +16,12 @@
         <depends name="componentregistry"/>
         <depends name="toolset"/>
     </gs:importStep>
-    
+
     <gs:exportStep
         name="plone.app.registry"
         title="Export the configuration registry schemata"
         description="Exports records and settings"
         handler=".handler.exportRegistry"
         />
-        
+
 </configure>

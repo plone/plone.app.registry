@@ -103,7 +103,7 @@ Changelog
 
 - 1.0 Final release.
   [esteele]
-  
+
 - Add MANIFEST.in.
   [WouterVH]
 
@@ -179,7 +179,7 @@ Changelog
   [MatthewWilkes]
 
 - Improved the look and feel of the registry records control panel.
-  [optilude] 
+  [optilude]
 
 - Added explanation how to plug-in custom widgets for the registry [miohtama]
 

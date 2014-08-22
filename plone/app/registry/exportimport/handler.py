@@ -270,7 +270,7 @@ class RegistryImporter(object):
             raise KeyError(u"A <records /> node must have an 'interface' attribute.")
 
         prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
-        
+
         if node.attrib.get('delete') is not None:
             self.logger.warning(u"The 'delete' attribute of <record /> nodes "
                                 u"is deprecated, it should be replaced with "

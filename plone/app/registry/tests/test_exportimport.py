@@ -160,7 +160,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(2, len(self.registry.records))
@@ -171,7 +171,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': delete_xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(0, len(self.registry.records))
@@ -184,7 +184,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(2, len(self.registry.records))
@@ -195,7 +195,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': delete_xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(0, len(self.registry.records))
@@ -208,7 +208,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(2, len(self.registry.records))
@@ -221,7 +221,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': delete_xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(1, len(self.registry.records))
@@ -237,7 +237,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(2, len(self.registry.records))
@@ -250,7 +250,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': delete_xml}
-        
+
         self.assertRaises(ValueError, importRegistry, context)
 
         self.assertEquals(2, len(self.registry.records))
@@ -797,7 +797,7 @@ class TestImport(ExportImportTest):
 """
         context = DummyImportContext(self.site, purge=False)
         context._files = {'registry.xml': xml}
-        
+
         importRegistry(context)
 
         self.assertEquals(3, len(self.registry.records))
