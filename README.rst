@@ -42,6 +42,11 @@ Each record has a unique name, which must be a *dotted name* prefixed by the
 package owning the record. For example, a record owned by the package
 ``my.package`` could have a name like ``my.package.myrecord``.
 
+Notes about versions
+====================
+
+1.3.x versions are for Plone 5. 1.2.x versions are for Plone 4.
+
 Usage
 =====
 
