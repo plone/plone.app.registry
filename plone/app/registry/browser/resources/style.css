@@ -14,6 +14,8 @@
 
 #searchrow select{
     margin-top: 7px;
+    display: inline-block;
+    width: 200px;
 }
 
 #searchrow button{

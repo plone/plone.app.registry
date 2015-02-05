@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.2.4 (unreleased)
+1.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix control panel filtering to work with plone 5 and patterns
+  [vangheem]
 
 
 1.2.3 (2013-05-23)
