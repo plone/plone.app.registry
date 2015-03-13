@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.0 (unreleased)
+1.3.0 (2015-03-13)
 ------------------
 
 - fix control panel filtering to work with plone 5 and patterns
