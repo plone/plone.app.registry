@@ -257,7 +257,7 @@ dotted names to the fields, so in this case they would be
 ``my.package.interfaces.IZooSettings.messageOfTheDay``.
 
 If you just want to use the interface as a template you can supply a
-``prefix`` attribute:
+``prefix`` attribute::
 
     <records interface="my.package.interfaces.IZooSettings" prefix="my.zoo" />
 
