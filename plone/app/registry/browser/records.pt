@@ -8,8 +8,8 @@
 
 <metal:block fill-slot="top_slot">
 <tal:defines tal:define="dummy python:request.set('disable_border',1);
-                                     disable_column_one python:request.set('disable_plone.leftcolumn',0);
-                                     disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+                                     disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                                     disable_column_two python:request.set('disable_plone.rightcolumn',0);"/>
     <link rel="stylesheet" type="text/css"
           tal:attributes="href string:${context/portal_url}/++resource++plone.app.registry/style.css" />
 </metal:block>
@@ -25,7 +25,7 @@
        Site Setup
     </a>
 
-    <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration registry</h1>
+    <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration Registry</h1>
 
     <p class="documentDescription" i18n:translate="description_registry">
         The table below shows record currently managed by the configuration

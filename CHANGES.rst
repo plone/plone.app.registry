@@ -6,6 +6,9 @@ Changelog
 
 - Change the category of the configlet to 'plone-advanced' [sneridagh]
 
+- Make configlets titles consistent across the site, first letter capitalized
+  [sneridagh]
+
 
 1.3.0 (2015-03-13)
 ------------------
