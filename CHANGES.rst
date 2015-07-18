@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.1 (unreleased)
+1.3.1 (2015-07-18)
 ------------------
 
 - Change the category of the configlet to 'plone-advanced'.
