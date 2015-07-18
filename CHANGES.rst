@@ -4,9 +4,10 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
-- Change the category of the configlet to 'plone-advanced' [sneridagh]
+- Change the category of the configlet to 'plone-advanced'.
+  [sneridagh]
 
-- Make configlets titles consistent across the site, first letter capitalized
+- Make configlets titles consistent across the site, first letter capitalized.
   [sneridagh]
 
 
