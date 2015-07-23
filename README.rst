@@ -360,6 +360,11 @@ attributes: ``interfaceName``, the string name of the interface;
 ``interface``, the interface instance itself, and ``fieldName``, the name of
 the field in the interface from which this record was created.
 
+You can delete the whole record programmatically with the Python ``del``
+statement::
+
+    del registry.records['my.package.timeout']
+
 In unit tests, it may be useful to create a new record programmatically.
 You can do that like so::
 
