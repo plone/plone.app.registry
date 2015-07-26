@@ -82,7 +82,7 @@
                                    />
                             </td>
                             <td tal:content="field/title" />
-                            <td tal:content="field/description" />
+                            <td tal:content="structure field/description" />
                             <td tal:content="field/__class__/__name__" />
                             <td tal:content="python: unicode(record.value)"
                                 tal:on-error="string:?" />

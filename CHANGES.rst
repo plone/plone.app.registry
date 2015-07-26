@@ -4,7 +4,9 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added the `structure` keyword to the TALES expression that returns the description for registry entries.
+  This ensures that descriptions are properly escaped and HTML entities don't show up in descriptions.
+  [pigeonflight]
 
 
 1.3.1 (2015-07-18)
