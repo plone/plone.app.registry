@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+1.3.2 (2015-08-20)
 ------------------
 
 - Added the `structure` keyword to the TALES expression that returns the description for registry entries.
