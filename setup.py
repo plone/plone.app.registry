@@ -5,14 +5,17 @@ version = '1.3.2.dev0'
 setup(name='plone.app.registry',
       version=version,
       description="Zope 2 and Plone  integration for plone.registry",
-      long_description=open("README.rst").read() + "\n" +
-                       open("CHANGES.rst").read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      long_description=(open("README.rst").read() + "\n" +
+                        open("CHANGES.rst").read()),
+      # Get more strings from
+      # https://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+          "Framework :: Plone",
+          "Framework :: Plone :: 5.0",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.7",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+          ],
       keywords='plone registry settings configuration',
       author='Martin Aspeli',
       author_email='optilude@gmail.com',
@@ -39,7 +42,7 @@ setup(name='plone.app.registry',
           'zope.i18nmessageid',
           'zope.dottedname',
       ],
-      extras_require={'test': ['plone.app.testing',]},
+      extras_require={'test': ['plone.app.testing', ]},
       entry_points="""
       # -*- Entry points: -*-
       """,
