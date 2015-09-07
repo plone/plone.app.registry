@@ -4,7 +4,8 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix modal in control panel
+  [vangheem]
 
 
 1.3.2 (2015-08-20)
