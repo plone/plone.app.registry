@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.3 (unreleased)
+1.3.3 (2015-09-08)
 ------------------
 
 - Fix modal in control panel
