@@ -38,15 +38,28 @@
                 <thead>
                     <tr id="searchrow">
                         <th colspan="5" class="nosort">
+                            <form id="clear-filter">
+                                <button type="submit" i18n:translate="clear_filter">
+                                    Clear filter
+                                </button>
+                            </form>
                             <form tal:define="qp request/qp|nothing;
                                               q request/q|nothing;" id="registry-filter">
-                                <input name="q" id="q" placeholder="filter by..." size="30"
-                                    i18n:attributes="placeholder"
-                                    tal:attributes="value python: qp or q" />
-                                <input type="submit" value="Filter" i18n:attributes="value" />
-                                <tal:trans i18n:translate="or">or</tal:trans>
-                                <select name="qp" tal:define="prefixes python: view.prefixes.keys();
-                                                              dummy python: prefixes.sort();">
+                              <div class="row">
+                                <div class="col-sm-10">
+                                  <input name="q" id="q" placeholder="filter by..." size="30"
+                                      i18n:attributes="placeholder"
+                                      tal:attributes="value python: qp or q" />
+                                </div>
+                                <div class="col-sm-2">
+                                  <input type="submit" value="Filter" i18n:attributes="value" />
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-sm-6">
+                                  <span i18n:translate="or">or</span>
+                                  <select name="qp" tal:define="prefixes python: view.prefixes.keys();
+                                                                dummy python: prefixes.sort();">
                                     <option value="" i18n:translate="select_prefix">Select Prefix</option>
                                     <tal:prefixes tal:repeat="prefix prefixes">
                                       <option
@@ -54,13 +67,11 @@
                                         tal:attributes="value value;"
                                         tal:content="prefix"/>
                                     </tal:prefixes>
-                                </select>
+                                  </select>
+                                </div>
+                              </div>
                             </form>
-                            <form id="clear-filter">
-                                <button type="submit" i18n:translate="clear_filter">
-                                    Clear filter
-                                </button>
-                            </form>
+                            
                         </th>
                     </tr>
                     <tr>

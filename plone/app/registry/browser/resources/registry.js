@@ -36,17 +36,8 @@ require([
 
   $().ready(function() {
 
-    /* expand the size of search as needed */
-    $('#recordsContainer').delegate('#searchrow input[name="q"]', 'keypress', function(){
-      var self = $(this);
-      var count = self.val().length + 5;
-      if(count > parseInt(self.attr('size'))){
-        self.attr('size', count);
-      }
-    });
-
     /* ajax retrieval of paging */
-    $('#recordsContainer').delegate('div.listingBar a', 'click', function(){
+    $('#recordsContainer').on('click', 'div.listingBar a', function(){
       var self = $(this);
       $('#spinner').show();
       $('#recordsContainer').load(self.attr('href') + ' #recordsTable', function(){
@@ -57,7 +48,7 @@ require([
     });
 
     /* ajax form submission */
-    $('#recordsContainer').delegate('#searchrow form', 'submit', function(e){
+    $('#recordsContainer').on('submit', '#searchrow form', function(e){
       var self = $(this);
       $('#spinner').show();
       $('#recordsContainer').load(
@@ -73,7 +64,7 @@ require([
     });
 
     /* force submit on select change */
-    $('#recordsContainer').delegate('#searchrow select', 'change', function(){
+    $('#recordsContainer').on('change', '#searchrow select', function(){
         $('#searchrow form#registry-filter').trigger('submit');
     });
 

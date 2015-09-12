@@ -55,6 +55,6 @@ class RecordsControlPanel(BrowserView):
                 self.prefixes[recordPrefix] = prefixValue
             if compare(search, prefixValue) or compare(search, record.__name__):
                 self.records.append(record)
-        self.records = Batch(self.records, 10,
+        self.records = Batch(self.records, 15,
             int(form.get('b_start', '0')), orphan=1)
         return self.index()

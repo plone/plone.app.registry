@@ -1,6 +1,7 @@
 #searchrow th{
     padding:0;
     margin:0;
+    position: relative;
 }
 
 #searchrow form{
@@ -10,12 +11,13 @@
 #searchrow input{
     font-size: 16px;
     padding: 3px;
+    width: 100%;
 }
 
 #searchrow select{
     margin-top: 7px;
     display: inline-block;
-    width: 200px;
+    width: inherit;
 }
 
 #searchrow button{
@@ -29,11 +31,9 @@
     color: black;
 }
 
-#registry-filter{
-    float: left;
-}
-
 #clear-filter{
-    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
