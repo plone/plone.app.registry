@@ -4,7 +4,9 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- registry javascript fix to not auto-expand search field as it was
+  not working well
+  [vangheem]
 
 
 1.3.3 (2015-09-08)
