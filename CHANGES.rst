@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.4 (unreleased)
+1.3.4 (2015-09-14)
 ------------------
 
 - registry javascript fix to not auto-expand search field as it was
