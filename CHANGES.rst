@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.3.5 (unreleased)
+1.3.5 (2015-09-20)
 ------------------
 
-- Nothing changed yet.
-
+- Fix styling alignment issues with the buttons.
+  [sneridagh]
 
 1.3.4 (2015-09-14)
 ------------------
