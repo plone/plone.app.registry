@@ -15,6 +15,7 @@
         handler=".handler.importRegistry">
         <depends name="componentregistry"/>
         <depends name="toolset"/>
+        <depends name="typeinfo"/>
     </gs:importStep>
 
     <gs:exportStep
