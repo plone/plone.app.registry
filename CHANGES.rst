@@ -4,8 +4,8 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- show loading icon in control panel when searching
+  [vangheem]
 
 1.3.5 (2015-09-20)
 ------------------

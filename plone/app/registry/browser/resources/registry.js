@@ -24,14 +24,20 @@ if(require === undefined){
           }
         });
       }
+    }, {
+      loading: {
+        show: function(){ window.jQuery$('#spinner').show(); },
+        hide: function(){ window.jQuery$('#spinner').hide(); },
+      }
     });
   };
 }
 
 require([
   'jquery',
-  'pat-registry'
-], function($, Registry) {
+  'pat-registry',
+  'mockup-utils'
+], function($, Registry, utils) {
   'use strict';
 
   $().ready(function() {
@@ -39,10 +45,11 @@ require([
     /* ajax retrieval of paging */
     $('#recordsContainer').on('click', 'div.listingBar a', function(){
       var self = $(this);
-      $('#spinner').show();
+      utils.loading.show();
       $('#recordsContainer').load(self.attr('href') + ' #recordsTable', function(){
         /* scan registry */
         Registry.scan($('#recordsTable'));
+        utils.loading.hide();
       });
       return false;
     });
@@ -50,13 +57,14 @@ require([
     /* ajax form submission */
     $('#recordsContainer').on('submit', '#searchrow form', function(e){
       var self = $(this);
-      $('#spinner').show();
+      utils.loading.show();
       $('#recordsContainer').load(
         $('body').attr('data-base-url') + '?' + self.serialize() + ' #recordsTable',
         function(){
           $('#spinner').hide();
           $('#searchrow input[name="q"]').trigger('keypress');
           Registry.scan($('#recordsTable'));
+          utils.loading.hide();
         }
       );
       e.preventDefault();
@@ -65,7 +73,7 @@ require([
 
     /* force submit on select change */
     $('#recordsContainer').on('change', '#searchrow select', function(){
-        $('#searchrow form#registry-filter').trigger('submit');
+      $('#searchrow form#registry-filter').trigger('submit');
     });
 
     /* some init */
