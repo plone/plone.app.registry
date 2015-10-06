@@ -4,6 +4,13 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
+- Let our ``plone.app.registry`` import step depend on ``typeinfo``.
+  The portal types may be needed for vocabularies.  For example, you
+  could get an error when adding a not yet installed type to
+  ``types_not_searched``.
+  Fixes https://github.com/plone/Products.CMFPlone/issues/1118
+  [maurits]
+
 - show loading icon in control panel when searching
   [vangheem]
 
