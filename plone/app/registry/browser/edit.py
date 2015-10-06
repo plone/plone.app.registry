@@ -1,13 +1,12 @@
-from zope.interface import implements
+# -*- coding: utf-8 -*-
+from Acquisition import ImplicitAcquisitionWrapper
+from plone.z3cform import layout
+from Products.statusmessages.interfaces import IStatusMessage
+from z3c.form import form, field, button
+from zope.i18nmessageid import MessageFactory
+from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-from plone.z3cform import layout
-from z3c.form import form, field, button
-
-from Products.statusmessages.interfaces import IStatusMessage
-from Acquisition import ImplicitAcquisitionWrapper
-
-from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plone')
 
 
@@ -34,7 +33,10 @@ class RecordEditForm(form.EditForm):
 
     @property
     def label(self):
-        return _(u"Edit record: ${name}", mapping={'name': self.record.__name__})
+        return _(
+            u"Edit record: ${name}",
+            mapping={'name': self.record.__name__}
+        )
 
     @button.buttonAndHandler(_(u"Save"), name='save')
     def handleSave(self, action):
@@ -43,17 +45,23 @@ class RecordEditForm(form.EditForm):
             self.status = self.formErrorsMessage
             return
         self.record.value = data['value']
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
+        IStatusMessage(self.request).addStatusMessage(
+            _(u"Changes saved."),
+            "info"
+        )
         self.request.response.redirect(self.context.absolute_url())
 
     @button.buttonAndHandler(_(u"Cancel"), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled."), "info")
+        IStatusMessage(self.request).addStatusMessage(
+            _(u"Edit cancelled."),
+            "info"
+        )
         self.request.response.redirect(self.context.absolute_url())
 
 
+@implementer(IPublishTraverse)
 class RecordEditView(layout.FormWrapper):
-    implements(IPublishTraverse)
     form = RecordEditForm
 
     def __init__(self, context, request):

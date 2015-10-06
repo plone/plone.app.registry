@@ -4,6 +4,9 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
+- cleanup: pep8, utf8 headers, readability, etc.
+  [jensens]
+
 - Let our ``plone.app.registry`` import step depend on ``typeinfo``.
   The portal types may be needed for vocabularies.  For example, you
   could get an error when adding a not yet installed type to

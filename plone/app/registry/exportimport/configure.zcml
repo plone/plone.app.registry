@@ -1,28 +1,27 @@
 <configure
+    i18n_domain="plone"
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:gs="http://namespaces.zope.org/genericsetup"
-    i18n_domain="plone">
+    xmlns:gs="http://namespaces.zope.org/genericsetup">
 
-    <include package="plone.supermodel" />
-    <include file="handlers.zcml" />
+  <include package="plone.supermodel" />
+  <include file="handlers.zcml" />
 
-    <!-- export/import steps -->
+  <!-- export/import steps -->
+  <gs:importStep
+      description="Add or remove records, or change values"
+      handler=".handler.importRegistry"
+      name="plone.app.registry"
+      title="Manage the configuration registry">
+    <depends name="componentregistry" />
+    <depends name="toolset" />
+    <depends name="typeinfo"/>
+  </gs:importStep>
 
-    <gs:importStep
-        name="plone.app.registry"
-        title="Manage the configuration registry"
-        description="Add or remove records, or change values"
-        handler=".handler.importRegistry">
-        <depends name="componentregistry"/>
-        <depends name="toolset"/>
-        <depends name="typeinfo"/>
-    </gs:importStep>
-
-    <gs:exportStep
-        name="plone.app.registry"
-        title="Export the configuration registry schemata"
-        description="Exports records and settings"
-        handler=".handler.exportRegistry"
-        />
+  <gs:exportStep
+      description="Exports records and settings"
+      handler=".handler.exportRegistry"
+      name="plone.app.registry"
+      title="Export the configuration registry schemata"
+  />
 
 </configure>
