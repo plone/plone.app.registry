@@ -1,24 +1,22 @@
-from zope.component import queryUtility
-from zope.schema import getFieldNames
-
+# -*- coding: utf-8 -*-
 from lxml import etree
-
-from zope.dottedname.resolve import resolve
-
-from plone.registry.interfaces import IRegistry
-from plone.registry.interfaces import IPersistentField
-from plone.registry.interfaces import IInterfaceAwareRecord
-from plone.registry.interfaces import IFieldRef
-
-from plone.registry import Record
 from plone.registry import FieldRef
-
+from plone.registry import Record
+from plone.registry.interfaces import IFieldRef
+from plone.registry.interfaces import IInterfaceAwareRecord
+from plone.registry.interfaces import IPersistentField
+from plone.registry.interfaces import IRegistry
+from plone.supermodel.debug import parseinfo
+from plone.supermodel.interfaces import I18N_NAMESPACE
 from plone.supermodel.interfaces import IFieldExportImportHandler
 from plone.supermodel.interfaces import IFieldNameExtractor
-from plone.supermodel.interfaces import I18N_NAMESPACE
-from plone.supermodel.debug import parseinfo
-
-from plone.supermodel.utils import prettyXML, elementToValue, valueToElement, ns
+from plone.supermodel.utils import elementToValue
+from plone.supermodel.utils import ns
+from plone.supermodel.utils import prettyXML
+from plone.supermodel.utils import valueToElement
+from zope.component import queryUtility
+from zope.dottedname.resolve import resolve
+from zope.schema import getFieldNames
 
 _marker = object()
 
@@ -98,9 +96,10 @@ class RegistryImporter(object):
     def importRecord(self, node):
         name = node.get('name', '')
         if node.get('delete') is not None:
-            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
-                                u"is deprecated, it should be replaced with "
-                                u"'remove'.")
+            self.logger.warning(
+                u"The 'delete' attribute of <record /> nodes is deprecated, "
+                u"it should be replaced with 'remove'."
+            )
         remove = node.get('remove', node.get('delete', 'false'))
 
         interfaceName = node.get('interface', None)
@@ -125,7 +124,10 @@ class RegistryImporter(object):
                 del self.context.records[name]
                 self.logger.info("Removed record %s." % name)
             else:
-                self.logger.warning("Record %s was marked for deletion, but was not found." % name)
+                self.logger.warning(
+                    "Record {0} was marked for deletion, but was not "
+                    "found.".format(name)
+                )
             return
 
         # See if we have an existing record
@@ -152,8 +154,14 @@ class RegistryImporter(object):
                 interface = None
                 field = None
             except TypeError:
-                self.logger.warning("Field %s in interface %s specified for \
-                    record %s cannot be used as a persistent field." % (fieldName, interfaceName, name))
+                self.logger.warning(
+                    "Field {0} in interface {1} specified for record {2} "
+                    "cannot be used as a persistent field.".format(
+                        fieldName,
+                        interfaceName,
+                        name
+                    )
+                )
                 interface = None
                 field = None
 
@@ -183,17 +191,27 @@ class RegistryImporter(object):
             else:
                 # We have a standard field
                 field_type = field_node.attrib.get('type', None)
-                field_type_handler = queryUtility(IFieldExportImportHandler, name=field_type)
+                field_type_handler = queryUtility(
+                    IFieldExportImportHandler,
+                    name=field_type
+                )
                 if field_type_handler is None:
-                    raise TypeError("Field of type %s used for record %s is not supported." % (field_type, name))
+                    raise TypeError(
+                        "Field of type {0} used for record {1} is not "
+                        "supported.".format(field_type, name)
+                    )
                 else:
                     field = field_type_handler.read(field_node)
                     if not IPersistentField.providedBy(field):
-                        raise TypeError("Only persistent fields may be imported. \
-                            %s used for record %s is invalid." % (field_type, name))
+                        raise TypeError(
+                            "Only persistent fields may be imported. {0} used "
+                            "for record {1} is invalid.".format(
+                                field_type,
+                                name
+                            )
+                        )
 
         if field is not None and not IFieldRef.providedBy(field):
-
             # Set interface name and fieldName, if applicable
             field.interfaceName = interfaceName
             field.fieldName = fieldName
@@ -208,8 +226,12 @@ class RegistryImporter(object):
             field = existing_record.field
 
         if field is None:
-            raise ValueError("Cannot find a field for the record %s. Add a \
-                <field /> element or reference an interface and field name." % name)
+            raise ValueError(
+                "Cannot find a field for the record {0}. Add a <field /> "
+                "element or reference an interface and field name.".format(
+                    name
+                )
+            )
 
         # Extract the value
 
@@ -231,29 +253,38 @@ class RegistryImporter(object):
 
                 if not value_purge and type(value) == type(existing_value):
                     if isinstance(value, list):
-                        value = existing_value + [v for v in value if v not in existing_value]
+                        value = (
+                            existing_value +
+                            [v for v in value if v not in existing_value]
+                        )
                     elif isinstance(value, tuple):
-                        value = existing_value + tuple([v for v in value if v not in existing_value])
+                        value = (
+                            existing_value +
+                            tuple(
+                                [v for v in value if v not in existing_value]
+                            )
+                        )
                     elif isinstance(value, (set, frozenset, )):
                         value = existing_value.union(value)
                     elif isinstance(value, dict):
                         for key, value in value.items():
                             # check if value is list, if so, let's add
                             # instead of overridding
-                            if type(value) == list:
-                                if key in existing_value and \
-                                        not shouldPurgeList(value_node, key):
-                                    existing = existing_value[key]
-                                    for item in existing:
-                                        # here, we'll remove existing items
-                                        # point is that we don't want duplicates
-                                        # and don't want to reorder
-                                        if item in value:
-                                            value.remove(item)
-                                    existing.extend(value)
-                                    value = existing
+                            if (
+                                type(value) == list
+                                and key in existing_value
+                                and not shouldPurgeList(value_node, key)
+                            ):
+                                existing = existing_value[key]
+                                for item in existing:
+                                    # here, we'll remove existing items
+                                    # point is that we don't want
+                                    # duplicates and don't want to reorder
+                                    if item in value:
+                                        value.remove(item)
+                                existing.extend(value)
+                                value = existing
                             existing_value[key] = value
-
                         value = existing_value
 
                 existing_record.value = value
@@ -267,21 +298,29 @@ class RegistryImporter(object):
 
         interfaceName = node.attrib.get('interface', None)
         if interfaceName is None:
-            raise KeyError(u"A <records /> node must have an 'interface' attribute.")
+            raise KeyError(
+                u"A <records /> node must have an 'interface' attribute."
+            )
 
-        prefix = node.attrib.get('prefix', None) # None means use interface.__identifier__
+        prefix = node.attrib.get(
+            'prefix',
+            None  # None means use interface.__identifier__
+        )
 
         if node.attrib.get('delete') is not None:
-            self.logger.warning(u"The 'delete' attribute of <record /> nodes "
-                                u"is deprecated, it should be replaced with "
-                                u"'remove'.")
-        remove = node.attrib.get('remove', node.attrib.get('delete', 'false')).lower() == 'true'
+            self.logger.warning(
+                u"The 'delete' attribute of <record /> nodes is deprecated, "
+                u"it should be replaced with 'remove'."
+            )
+        remove = node.attrib.get('remove', node.attrib.get('delete', 'false'))
+        remove = remove.lower() == 'true'
 
         # May raise ImportError
         interface = resolve(interfaceName)
 
         omit = []
-        values = [] # Fields that should have their value set as they don't exist yet
+        values = []
+        # Fields that should have their value set as they don't exist yet
 
         for child in node:
             if not isinstance(child.tag, str):
@@ -293,8 +332,10 @@ class RegistryImporter(object):
                 values.append(child)
 
         if remove and values:
-            raise ValueError("A <records /> node with 'remove=\"true\"' must not contain "
-                             "<value /> nodes.")
+            raise ValueError(
+                "A <records /> node with 'remove=\"true\"' must not contain "
+                "<value /> nodes."
+            )
         elif remove:
             for f in getFieldNames(interface):
                 if f in omit:
@@ -304,7 +345,11 @@ class RegistryImporter(object):
                 values.append(child)
 
         # May raise TypeError
-        self.context.registerInterface(interface, omit=tuple(omit), prefix=prefix)
+        self.context.registerInterface(
+            interface,
+            omit=tuple(omit),
+            prefix=prefix
+        )
 
         if not values and not remove:
             # Skip out if there are no value records to handle
@@ -315,7 +360,13 @@ class RegistryImporter(object):
             prefix = interface.__identifier__
 
         for value in values:
-            field = etree.Element("record", interface=interface.__identifier__, field=value.attrib["key"], prefix=prefix, remove=repr(remove).lower())
+            field = etree.Element(
+                "record",
+                interface=interface.__identifier__,
+                field=value.attrib["key"],
+                prefix=prefix,
+                remove=repr(remove).lower()
+            )
             field.append(value)
             self.importRecord(field)
 
@@ -361,12 +412,21 @@ class RegistryExporter(object):
                 self.logger.warning("Field type %s specified for record %s \
                     cannot be exported" % (field_type, record.__name__))
             else:
-                field_element = handler.write(record.field, None, field_type, elementName='field')
+                field_element = handler.write(
+                    record.field,
+                    None,
+                    field_type,
+                    elementName='field'
+                )
                 node.append(field_element)
 
         # write value
-
-        value_element = valueToElement(record.field, record.value, name='value', force=True)
+        value_element = valueToElement(
+            record.field,
+            record.value,
+            name='value',
+            force=True
+        )
         node.append(value_element)
 
         return node

@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
-
 from plone.registry import registry
 
 

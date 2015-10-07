@@ -1,5 +1,8 @@
-from plone.supermodel.exportimport import BaseHandler, DictHandler, ChoiceHandler
+# -*- coding: utf-8 -*-
 from plone.registry import field
+from plone.supermodel.exportimport import BaseHandler
+from plone.supermodel.exportimport import ChoiceHandler
+from plone.supermodel.exportimport import DictHandler
 
 
 class PersistentFieldHandler(BaseHandler):
