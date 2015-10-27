@@ -4,7 +4,14 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
-- cleanup: pep8, utf8 headers, readability, etc.
+New:
+
+- Show loading icon in control panel when searching.
+  [vangheem]
+
+Fixes:
+
+- Cleanup: pep8, utf8 headers, readability, etc.
   [jensens]
 
 - Let our ``plone.app.registry`` import step depend on ``typeinfo``.
@@ -14,8 +21,6 @@ Changelog
   Fixes https://github.com/plone/Products.CMFPlone/issues/1118
   [maurits]
 
-- show loading icon in control panel when searching
-  [vangheem]
 
 1.3.5 (2015-09-20)
 ------------------
