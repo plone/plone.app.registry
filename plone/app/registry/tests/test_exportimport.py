@@ -19,6 +19,7 @@ from StringIO import StringIO
 from zope.component import provideUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
+from zope.schema.interfaces import WrongContainedType
 import unittest2 as unittest
 
 configuration = """\
@@ -985,6 +986,138 @@ class TestImport(ExportImportTest):
         )
         self.assertEquals(
             None, self.registry['test.registry.field']
+        )
+
+    def test_import_list_choice_field_vocabulary_usage(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.List">
+            <title>Simple list of choices</title>
+            <value_type type="plone.registry.field.Choice">
+                <values>
+                  <element>Zero</element>
+                  <element>One</element>
+                </values>
+            </value_type>
+        </field>
+    </record>
+</registry>
+"""
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(
+            isinstance(
+                self.registry.records['test.registry.field'].field,
+                field.List
+            )
+        )
+        self.assertEquals(
+            u"Simple list of choices",
+            self.registry.records['test.registry.field'].
+            field.title
+        )
+        self.assertEquals(
+            None, self.registry['test.registry.field']
+        )
+
+        self.registry['test.registry.field'] = [u'One']
+        self.assertEquals(
+            [u'One'], self.registry['test.registry.field']
+        )
+
+        with self.assertRaises(WrongContainedType):
+            self.registry['test.registry.field'] = [u'One', u'Three']
+
+        with self.assertRaises(WrongContainedType):
+            self.registry['test.registry.field'] = [u'One', object()]
+
+        self.assertEquals(
+            [u'One'], self.registry['test.registry.field']
+        )
+
+    def test_import_list_choice_field_vocabulary_usage_named(self):
+        xml = """\
+<registry>
+    <record name="test.registry.field">
+        <field type="plone.registry.field.List">
+            <title>Simple list of choices</title>
+            <value_type type="plone.registry.field.Choice">
+                <vocabulary>dummy.vocab</vocabulary>
+            </value_type>
+        </field>
+    </record>
+</registry>
+"""
+
+        from zope.schema.vocabulary import SimpleVocabulary
+
+        def dummy_vocab(context):
+            return SimpleVocabulary.fromValues([u'Zero', u'One'])
+
+        # This is how registration is done normally:
+        # from zope.schema.interfaces import IVocabularyFactory
+        #
+        # provideUtility(
+        #     provides=IVocabularyFactory,
+        #     component=dummy_vocab,
+        #     name='dummy.vocab',
+        # )
+
+        # However, within the standard test harness it needs to be
+        # registered into the default vocab registry.
+        from zope.schema.vocabulary import getVocabularyRegistry
+
+        vr = getVocabularyRegistry()
+        vr.register(u'dummy.vocab', dummy_vocab)
+
+        self.registry.records['test.registry.field'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Old value")
+
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+        self.failUnless(
+            isinstance(
+                self.registry.records['test.registry.field'].field,
+                field.List
+            )
+        )
+        self.assertEquals(
+            u"Simple list of choices",
+            self.registry.records['test.registry.field'].
+            field.title
+        )
+        self.assertEquals(
+            None, self.registry['test.registry.field']
+        )
+
+        self.registry['test.registry.field'] = [u'One']
+        self.assertEquals(
+            [u'One'], self.registry['test.registry.field']
+        )
+
+        with self.assertRaises(WrongContainedType):
+            self.registry['test.registry.field'] = [u'One', u'Three']
+
+        with self.assertRaises(WrongContainedType):
+            self.registry['test.registry.field'] = [u'One', object()]
+
+        self.assertEquals(
+            [u'One'], self.registry['test.registry.field']
         )
 
     def test_import_with_comments(self):
