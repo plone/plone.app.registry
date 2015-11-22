@@ -39,7 +39,7 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
     Then register MyFormView as a browser view.
     """
 
-    control_panel_view = "plone_control_panel"
+    control_panel_view = "@@overview-controlpanel"
     schema_prefix = None
 
     def getContent(self):
