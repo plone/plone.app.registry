@@ -7,9 +7,9 @@
       i18n:domain="plone">
 
 <metal:block fill-slot="top_slot">
-<tal:defines tal:define="dummy python:request.set('disable_border',1);
-                                     disable_column_one python:request.set('disable_plone.leftcolumn',1);
-                                     disable_column_two python:request.set('disable_plone.rightcolumn',0);"/>
+<tal:defines tal:define="dummy python:request.set('disable_border', 1);
+                         disable_column_one python:request.set('disable_plone.leftcolumn', 1);
+                         disable_column_two python:request.set('disable_plone.rightcolumn', 0);"/>
     <link rel="stylesheet" type="text/css"
           tal:attributes="href string:${context/portal_url}/++resource++plone.app.registry/style.css" />
 </metal:block>
@@ -18,9 +18,8 @@
 <div id="content" metal:fill-slot="prefs_configlet_content"
   tal:define="records view/records">
 
-    <a href=""
-       id="setup-link"
-       tal:attributes="href string:$portal_url/plone_control_panel"
+    <a id="setup-link" class="link-parent"
+       tal:attributes="href string:$portal_url/@@overview-controlpanel"
        i18n:translate="">
        Site Setup
     </a>
@@ -71,7 +70,7 @@
                                 </div>
                               </div>
                             </form>
-                            
+
                         </th>
                     </tr>
                     <tr>
