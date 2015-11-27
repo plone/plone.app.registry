@@ -4,13 +4,10 @@ Changelog
 1.3.7 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
-- Update Site Setup link in all control panels (fixes https://github.com/plone/Products.CMFPlone/issues/1255)
+- Updated Site Setup link in all control panels.
+  Fixes https://github.com/plone/Products.CMFPlone/issues/1255
   [davilima6]
 
 
