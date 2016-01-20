@@ -6,7 +6,7 @@ Changelog
 
 New:
 
-- Switches deprecated ``listingBar`` CSS class to ``pagination``.
+- Update to work with new plone.batching ``pagination`` selector as well asl with old one.
   [davilima6]
 
 Fixes:

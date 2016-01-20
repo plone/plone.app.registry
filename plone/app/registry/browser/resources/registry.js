@@ -43,7 +43,7 @@ require([
   $().ready(function() {
 
     /* ajax retrieval of paging */
-    $('#recordsContainer').on('click', 'nav.pagination a', function(){
+    $('#recordsContainer').on('click', 'nav.pagination a, div.listingBar a', function(){
       var self = $(this);
       utils.loading.show();
       $('#recordsContainer').load(self.attr('href') + ' #recordsTable', function(){
