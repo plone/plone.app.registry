@@ -447,7 +447,7 @@ pertaining to records associated with specific interfaces. For example::
     from plone.registry.interfaces import IRecordModifiedEvent
 
     from logging import getLogger
-    log = getLogger('my.package)
+    log = getLogger('my.package')
 
     @adapter(IZooSettings, IRecordModifiedEvent)
     def detectPriceChange(settings, event):
@@ -589,8 +589,8 @@ This means that
 * Your registry.xml does not define default values for your configuration keys
 * You have changed your configuration schema, but haven't rerun add-on
   installer to initialize default values
-* You might need to use same prefix as you use interface naem for your
-  settings::
+* You might need to use the same prefix as you use for the interface name in 
+your settings::
 
         <records prefix="mfabrik.plonezohointegration.interfaces.ISettings" interface="mfabrik.plonezohointegration.interfaces.ISettings">
 
