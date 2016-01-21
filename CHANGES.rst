@@ -6,7 +6,8 @@ Changelog
 
 New:
 
-- *add item here*
+- Update to work with new plone.batching ``pagination`` selector as well asl with old one.
+  [davilima6]
 
 Fixes:
 
@@ -49,6 +50,7 @@ Fixes:
 
 - Fix styling alignment issues with the buttons.
   [sneridagh]
+
 
 1.3.4 (2015-09-14)
 ------------------
@@ -125,6 +127,7 @@ Fixes:
   have interfaces better.
   [vangheem]
 
+
 1.2 (2012-08-29)
 ----------------
 
@@ -159,6 +162,7 @@ Fixes:
 
 - Better control panel view.
   [vangheem]
+
 
 1.1 (2012-04-15)
 ----------------
