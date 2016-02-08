@@ -6,12 +6,8 @@ Changelog
 
 New:
 
-- Update to work with new plone.batching ``pagination`` selector as well asl with old one.
-  [davilima6]
-
-Fixes:
-
-- *add item here*
+- Updated to work with new plone.batching ``pagination`` selector as
+  well as with old one.  [davilima6]
 
 
 1.3.7 (2015-11-28)
