@@ -22,7 +22,7 @@ setup(
     keywords='plone registry settings configuration',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='http://pypi.python.org/pypi/plone.app.registry',
+    url='https://pypi.python.org/pypi/plone.app.registry',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.app'],
