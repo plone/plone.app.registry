@@ -427,6 +427,13 @@ This is sometimes useful in cases where it is not certain that the registry
 has been initialised. You can also omit checking for individual fields, by
 passing an ``omit`` parameter giving a tuple of field names.
 
+Delete records
+~~~~~~~~~~~~~~
+
+To delete a record is as simple as::
+
+    del registry.records['plone.app.theming.interfaces.IThemeSettings.enabled']
+
 Registry events
 ~~~~~~~~~~~~~~~
 
