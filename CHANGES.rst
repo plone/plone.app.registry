@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Document how to remove a registry record with Python.
+  [gforcada]
 
 
 1.3.8 (2016-02-08)
