@@ -4,10 +4,6 @@ Changelog
 1.3.9 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Document how to remove a registry record with Python.
