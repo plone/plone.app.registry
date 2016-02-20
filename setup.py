@@ -2,7 +2,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.3.9'
+version = '1.3.10.dev0'
 
 setup(
     name='plone.app.registry',
