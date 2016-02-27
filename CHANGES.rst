@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Saving registry value in modal no longer reloads whole page
+  [vangheem]
 
 
 1.3.9 (2016-02-20)
