@@ -4,10 +4,6 @@ Changelog
 1.3.10 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Saving registry value in modal no longer reloads whole page
