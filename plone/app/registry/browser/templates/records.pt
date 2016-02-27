@@ -1,0 +1,163 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot">
+<tal:defines tal:define="dummy python:request.set('disable_border', 1);
+                         disable_column_one python:request.set('disable_plone.leftcolumn', 1);
+                         disable_column_two python:request.set('disable_plone.rightcolumn', 0);"/>
+    <link rel="stylesheet" type="text/css"
+          tal:attributes="href string:${context/portal_url}/++resource++plone.app.registry/style.css" />
+</metal:block>
+
+<body>
+<div id="content" metal:fill-slot="prefs_configlet_content"
+  tal:define="records view/records">
+
+    <a id="setup-link" class="link-parent"
+       tal:attributes="href string:$portal_url/@@overview-controlpanel"
+       i18n:translate="">
+       Site Setup
+    </a>
+
+    <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration Registry</h1>
+
+    <p class="documentDescription" i18n:translate="description_registry">
+        The table below shows record currently managed by the configuration
+        registry. Click on a record to edit it.
+    </p>
+
+    <div id="content-core">
+      <div class="pat-autotoc autotabs"
+           data-pat-autotoc="section:.tab;levels:h2;">
+        <div id="recordsContainer" class="tab">
+          <h2>Records</h2>
+          <table id="recordsTable" class="listing">
+              <thead>
+                  <tr id="searchrow">
+                      <th colspan="5" class="nosort">
+                          <form id="clear-filter">
+                              <button type="submit" i18n:translate="clear_filter">
+                                  Clear filter
+                              </button>
+                          </form>
+                          <form tal:define="qp request/qp|nothing;
+                                            q request/q|nothing;" id="registry-filter">
+                            <div class="row">
+                              <div class="col-sm-10">
+                                <input name="q" id="q" placeholder="filter by..." size="30"
+                                    i18n:attributes="placeholder"
+                                    tal:attributes="value python: qp or q" />
+                              </div>
+                              <div class="col-sm-2">
+                                <input type="submit" value="Filter" i18n:attributes="value" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <span i18n:translate="or">or</span>
+                                <select name="qp" tal:define="prefixes python: view.prefixes.keys();
+                                                              dummy python: prefixes.sort();">
+                                  <option value="" i18n:translate="select_prefix">Select Prefix</option>
+                                  <tal:prefixes tal:repeat="prefix prefixes">
+                                    <option
+                                      tal:define="value python: 'prefix:' + (view.prefixes[prefix] or '')"
+                                      tal:attributes="value value;"
+                                      tal:content="prefix"/>
+                                  </tal:prefixes>
+                                </select>
+                              </div>
+                            </div>
+                          </form>
+
+                      </th>
+                  </tr>
+                  <tr>
+                      <th i18n:translate="heading_name">Name</th>
+                      <th i18n:translate="heading_title">Title</th>
+                      <th i18n:translate="heading_description">Description</th>
+                      <th i18n:translate="heading_type">Type</th>
+                      <th i18n:translate="heading_value">Value</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tal:loop repeat="record records">
+                      <tr tal:define="oddrow repeat/record/odd;
+                                      field record/field/originalField | record/field"
+                          tal:attributes="class python:oddrow and 'odd' or 'even'">
+                          <td data-label="Name">
+                              <a class="recordsEditLink"
+                                 tal:content="python:record.__name__.replace('.', ' ')"
+                                 tal:attributes="href string:${context/absolute_url}/edit/${record/__name__}"
+                                 />
+                          </td>
+                          <td tal:content="field/title" data-label="Title" />
+                          <td tal:content="structure field/description" data-label="Description" />
+                          <td tal:content="field/__class__/__name__" data-label="Type" />
+                          <td data-label="Value">
+                            <span tal:content="python: unicode(record.value)"
+                                  tal:on-error="string:?"
+                                  class="value"/>
+                            <tal:non-iface tal:condition="not: record/interfaceName|nothing">
+                              <br />
+                              (
+                              <a href="${context/absolute_url}/@@delete-record?name=${record/__name__}"
+                                 class="recordsDeleteLink">
+                                 Delete record
+                              </a>
+                              )
+                            </tal:non-iface>
+                          </td>
+                      </tr>
+                  </tal:loop>
+              </tbody>
+              <tfoot tal:condition="python: records.numpages > 1">
+                  <tr>
+                      <th colspan="5" tal:define="batch records">
+                          <div metal:use-macro="here/batch_macros/macros/navigation" />
+                      </th>
+                  </tr>
+              </tfoot>
+          </table>
+        </div>
+        <div class="tab">
+          <h2 i18n:translate="export">Export</h2>
+          <p i18n:translate="registry_export_text">Will export the entire registry into a single XML file.</p>
+          <form method="POST">
+            <input type="hidden" name="button.exportregistry" value="true"/>
+            <div class="formControls">
+              <button type="submit" i18n:translate="export_button">Export Now</button>
+            </div>
+          </form>
+        </div>
+        <div class="tab">
+          <h2 i18n:translate="import">Import</h2>
+          <p i18n:translate="export_registry_text"></p>
+          <form method="POST" enctype='multipart/form-data'>
+            <div class="form-group field">
+              <label for="exportFile">Registry XML File</label>
+              <input type="file" name="file" id="exportFile" class="form-control" />
+            </div>
+            <input type="hidden" name="button.importregistry" value="true"/>
+            <div class="formControls">
+              <button type="submit" i18n:translate="import_button">Import File</button>
+            </div>
+          </form>
+        </div>
+        <div class="tab">
+          <h2 i18n:translate="registry_add_record_label">Add new record</h2>
+          <p i18n:translate="registry_add_record_text"></p>
+          <metal:block use-macro="context/@@ploneform-macros/titlelessform">
+          </metal:block>
+        </div>
+      </div>
+      <script type="text/javascript" src="${context/portal_url}/++resource++plone.app.registry/registry.js">
+      </script>
+    </div>
+</div>
+</body>
+</html>
