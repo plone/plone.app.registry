@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.PloneBatch import Batch
 from Products.Five import BrowserView
+from zope.component.hooks import getSite
 
 
 def _true(s, v):
@@ -22,6 +23,12 @@ _okay_prefixes = [
 
 
 class RecordsControlPanel(BrowserView):
+
+    @property
+    def control_panel_url(self):
+        return u"{0}/@@overview-controlpanel".format(
+            getSite().absolute_url()
+        )
 
     def __call__(self):
         form = self.request.form
