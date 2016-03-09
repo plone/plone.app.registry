@@ -69,14 +69,20 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         IStatusMessage(self.request).addStatusMessage(
             _(u"Changes canceled."),
             "info")
-        self.request.response.redirect("%s/%s" % (
+        self.request.response.redirect(u"{0}/{1}".format(
             self.context.absolute_url(),
-            self.control_panel_view))
+            self.control_panel_view
+        ))
 
 
 class ControlPanelFormWrapper(layout.FormWrapper):
     """Use this form as the plone.z3cform layout wrapper to get the control
     panel layout.
     """
-
     index = ViewPageTemplateFile('controlpanel_layout.pt')
+
+    @property
+    def control_panel_url(self):
+        return u"{0}/@@overview-controlpanel".format(
+            self.context.absolute_url()
+        )

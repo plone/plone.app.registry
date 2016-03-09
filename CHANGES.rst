@@ -10,7 +10,9 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- Let the ``RegistryEditForm`` construct the base url to the ``@@overview-controlpanel`` from the context URL instead the portal URL.
+  This gives more flexibility when calling controlpanels on contexts with local registries while in standard Plone installations the controlpanel is still bound to the portal url.
+  [thet]
 
 Fixes:
 
