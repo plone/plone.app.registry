@@ -26,9 +26,7 @@ class RecordsControlPanel(BrowserView):
 
     @property
     def control_panel_url(self):
-        return u"{0}/@@overview-controlpanel".format(
-            getSite().absolute_url()
-        )
+        return u"{0}/@@overview-controlpanel".format(getSite().absolute_url())
 
     def __call__(self):
         form = self.request.form

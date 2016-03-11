@@ -15,16 +15,10 @@ class TestRegistryBaseControlpanel(unittest.TestCase):
         """Test, if control_panel_url property of the base controlpanel returns
         the correct url.
         """
-        # Mock context
-        context = type('Dummy', (object,), {})
-        context.absolute_url = types.MethodType(
-            lambda self: 'http://nohost/noportal/nocontext',
-            context
-        )
-        view = ControlPanelFormWrapper(context, None)
+        view = ControlPanelFormWrapper(None, None)
         self.assertEqual(
             view.control_panel_url,
-            u'http://nohost/noportal/nocontext/@@overview-controlpanel'
+            u'http://nohost/plone/@@overview-controlpanel'
         )
 
 
