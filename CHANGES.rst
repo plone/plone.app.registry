@@ -10,7 +10,9 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- For ``ControlPanelFormWrapper`` and ``@@configuration_registry``, construct the base url to the ``@@overview-controlpanel`` from the nearest site.
+  This gives more flexibility when calling controlpanels on sub sites with local registries while in standard Plone installations the controlpanel is still bound to the portal url.
+  [thet]
 
 Fixes:
 

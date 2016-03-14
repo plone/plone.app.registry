@@ -10,7 +10,9 @@ from plone.autoform.form import AutoExtensibleForm
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
+from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
+
 _ = MessageFactory('plone')
 
 
@@ -69,14 +71,18 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         IStatusMessage(self.request).addStatusMessage(
             _(u"Changes canceled."),
             "info")
-        self.request.response.redirect("%s/%s" % (
-            self.context.absolute_url(),
-            self.control_panel_view))
+        self.request.response.redirect(u"{0}/{1}".format(
+            getSite().absolute_url(),
+            self.control_panel_view
+        ))
 
 
 class ControlPanelFormWrapper(layout.FormWrapper):
     """Use this form as the plone.z3cform layout wrapper to get the control
     panel layout.
     """
-
     index = ViewPageTemplateFile('controlpanel_layout.pt')
+
+    @property
+    def control_panel_url(self):
+        return u"{0}/@@overview-controlpanel".format(getSite().absolute_url())

@@ -19,9 +19,9 @@
   tal:define="records view/records">
 
     <a id="setup-link" class="link-parent"
-       tal:attributes="href string:$portal_url/@@overview-controlpanel"
+       tal:attributes="href view/control_panel_url"
        i18n:translate="">
-       Site Setup
+        Site Setup
     </a>
 
     <h1 class="documentFirstHeading" i18n:translate="heading_registry">Configuration Registry</h1>
