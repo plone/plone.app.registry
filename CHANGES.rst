@@ -1,22 +1,14 @@
 Changelog
 =========
 
-1.3.11 (unreleased)
+1.3.11 (2016-03-31)
 -------------------
-
-Incompatibilities:
-
-- *add item here*
 
 New:
 
 - For ``ControlPanelFormWrapper`` and ``@@configuration_registry``, construct the base url to the ``@@overview-controlpanel`` from the nearest site.
   This gives more flexibility when calling controlpanels on sub sites with local registries while in standard Plone installations the controlpanel is still bound to the portal url.
   [thet]
-
-Fixes:
-
-- *add item here*
 
 
 1.3.10 (2016-02-27)
