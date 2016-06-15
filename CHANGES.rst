@@ -10,7 +10,8 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- Add traceback info with record name to importer in order to ease debugging.
+  [jensens]
 
 Fixes:
 
