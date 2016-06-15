@@ -101,7 +101,6 @@ class RegistryImporter(object):
                 u"it should be replaced with 'remove'."
             )
         remove = node.get('remove', node.get('delete', 'false'))
-
         interfaceName = node.get('interface', None)
         fieldName = node.get('field', None)
 
@@ -117,6 +116,7 @@ class RegistryImporter(object):
 
         # Unicode is not supported
         name = str(name)
+        __traceback_info__ = 'record name: {0}'.format(name)
 
         # Handle deletion and quit
         if remove.lower() == 'true':
@@ -144,13 +144,17 @@ class RegistryImporter(object):
                 interface = resolve(interfaceName)
                 field = IPersistentField(interface[fieldName])
             except ImportError:
-                self.logger.warning("Failed to import interface %s for \
-                    record %s" % (interfaceName, name))
+                self.logger.warning(
+                    'Failed to import interface {0} for '
+                    'record {1}'.format(interfaceName, name)
+                )
                 interface = None
                 field = None
             except KeyError:
-                self.logger.warning("Interface %s specified for record %s has \
-                    no field %s." % (interfaceName, name, fieldName))
+                self.logger.warning(
+                    'Interface {0} specified for record %s has '
+                    'no field {1}.'.format(interfaceName, name, fieldName)
+                )
                 interface = None
                 field = None
             except TypeError:
@@ -184,8 +188,10 @@ class RegistryImporter(object):
             if field_ref is not None:
                 # We have a field reference
                 if field_ref not in self.context:
-                    raise KeyError(u"Record %s references field for record %s, \
-                        which does not exist" % (name, field_ref))
+                    raise KeyError(
+                        u'Record {0} references field for record {1}, '
+                        u'which does not exist'.format(name, field_ref)
+                    )
                 ref_record = self.context.records[field_ref]
                 field = FieldRef(field_ref, ref_record.field)
             else:
@@ -271,9 +277,9 @@ class RegistryImporter(object):
                             # check if value is list, if so, let's add
                             # instead of overridding
                             if (
-                                type(value) == list
-                                and key in existing_value
-                                and not shouldPurgeList(value_node, key)
+                                type(value) == list and
+                                key in existing_value and
+                                not shouldPurgeList(value_node, key)
                             ):
                                 existing = existing_value[key]
                                 for item in existing:
@@ -409,8 +415,10 @@ class RegistryExporter(object):
             field_type = IFieldNameExtractor(record.field)()
             handler = queryUtility(IFieldExportImportHandler, name=field_type)
             if handler is None:
-                self.logger.warning("Field type %s specified for record %s \
-                    cannot be exported" % (field_type, record.__name__))
+                self.logger.warning(
+                    'Field type {0} specified for record {1} '
+                    'cannot be exported'.format(field_type, record.__name__)
+                )
             else:
                 field_element = handler.write(
                     record.field,
