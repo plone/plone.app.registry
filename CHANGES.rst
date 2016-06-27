@@ -4,18 +4,10 @@ Changelog
 1.3.12 (unreleased)
 -------------------
 
-Incompatibilities:
-
-- *add item here*
-
 New:
 
 - Add traceback info with record name to importer in order to ease debugging.
   [jensens]
-
-Fixes:
-
-- *add item here*
 
 
 1.3.11 (2016-03-31)
