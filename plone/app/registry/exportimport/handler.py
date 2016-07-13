@@ -308,6 +308,8 @@ class RegistryImporter(object):
                 u"A <records /> node must have an 'interface' attribute."
             )
 
+        __traceback_info__ = "records name: " + interfaceName
+
         prefix = node.attrib.get(
             'prefix',
             None  # None means use interface.__identifier__
