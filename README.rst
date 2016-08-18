@@ -157,6 +157,32 @@ pairs. They can be configured like so::
         </value>
     </record>
 
+
+Conditional records
+~~~~~~~~~~~~~~~~~~~
+
+Importable records in ``registry.xml`` can be marked conditional with
+``condition`` attribute, which supports the following condition values:
+
+* ``installed my.package``, which causes record to be imported only when
+  python module ``my.package`` is available to be imported.
+
+* ``not-installed my.package``, which causes record to be imported only when
+  python module ``my.package`` is *not* available to be imported:
+
+For example, the following ``registry.xml`` step at the GenericSetup profile of
+your policy product, would only import records when module ``my.package`` is
+available::
+
+    <registry>
+      <records interface="my.package.interfaces.IZooSettings"
+               condition="installed my.package">
+        <value key="entryPrice">40</value>
+        <value key="messageOfTheDay">We've got lions and tigers!</value>
+      </records>
+    </registry>
+
+
 Field references
 ~~~~~~~~~~~~~~~~
 

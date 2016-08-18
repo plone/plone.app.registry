@@ -21,6 +21,36 @@ from zope.schema import getFieldNames
 _marker = object()
 
 
+def evaluateCondition(expression):
+    """Evaluate import condition.
+
+    ``expression`` is a string of the form "verb arguments".
+
+    Currently the supported verbs are ``installed`` and ``not-installed``.
+    """
+    arguments = expression.split(None)
+    verb = arguments.pop(0)
+
+    if verb in ('installed', 'not-installed'):
+        if not arguments:
+            raise ValueError("Package name missing: %r" % expression)
+        if len(arguments) > 1:
+            raise ValueError("Only one package allowed: %r" % expression)
+
+        try:
+            __import__(arguments[0])
+            installed = True
+        except ImportError:
+            installed = False
+
+        if verb == 'installed':
+            return installed
+        elif verb == 'not-installed':
+            return not installed
+    else:
+        raise ValueError("Invalid import condition: %r" % expression)
+
+
 def shouldPurgeList(value_node, key):
     for child in value_node:
         attrib = child.attrib
@@ -85,6 +115,9 @@ class RegistryImporter(object):
 
         for node in tree:
             if not isinstance(node.tag, str):
+                continue
+            condition = node.attrib.get('condition', None)
+            if condition and not evaluateCondition(condition):
                 continue
             if node.tag.lower() == 'record':
                 self.importRecord(node)

@@ -316,6 +316,40 @@ class TestImport(ExportImportTest):
             42
         )
 
+    def test_import_records_nonexistant_interface(self):
+        xml = """\
+<registry>
+    <records interface="non.existant.ISchema" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.assertRaises(ImportError, importRegistry, context)
+
+    def test_import_records_nonexistant_interface_condition(self):
+        xml = """\
+<registry>
+    <records interface="non.existant.ISchema"
+             condition="not-installed non" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.assertRaises(ImportError, importRegistry, context)
+
+    def test_import_records_nonexistant_interface_condition_skip(self):
+        xml = """\
+<registry>
+    <records interface="non.existant.ISchema"
+             condition="installed non" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+        importRegistry(context)
+
     def test_import_value_only(self):
         xml = """\
 <registry>
