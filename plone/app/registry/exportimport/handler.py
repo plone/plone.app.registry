@@ -33,24 +33,24 @@ def evaluateCondition(expression):
     arguments = expression.split(None)
     verb = arguments.pop(0)
 
-    if verb in ('installed', 'not-installed'):
-        if not arguments:
-            raise ValueError("Package name missing: %r" % expression)
-        if len(arguments) > 1:
-            raise ValueError("Only one package allowed: %r" % expression)
-
-        try:
-            __import__(arguments[0])
-            installed = True
-        except ImportError:
-            installed = False
-
-        if verb == 'installed':
-            return installed
-        elif verb == 'not-installed':
-            return not installed
-    else:
+    if verb not in ('installed', 'not-installed'):
         raise ValueError("Invalid import condition: %r" % expression)
+
+    if not arguments:
+        raise ValueError("Package name missing: %r" % expression)
+    if len(arguments) > 1:
+        raise ValueError("Only one package allowed: %r" % expression)
+
+    try:
+        __import__(arguments[0])
+        installed = True
+    except ImportError:
+        installed = False
+
+    if verb == 'installed':
+        return installed
+    elif verb == 'not-installed':
+        return not installed
 
 
 def shouldPurgeList(value_node, key):
