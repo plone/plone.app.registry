@@ -316,6 +316,29 @@ class TestImport(ExportImportTest):
             42
         )
 
+    def test_import_records_nonexistant_interface(self):
+        xml = """\
+<registry>
+    <records interface="non.existant.ISchema" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.assertRaises(ImportError, importRegistry, context)
+
+    def test_import_records_nonexistant_interface_condition(self):
+        xml = """\
+<registry>
+    <records interface="non.existant.ISchema"
+             condition="not-installed non" />
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.assertRaises(ImportError, importRegistry, context)
+
     def test_import_value_only(self):
         xml = """\
 <registry>
@@ -339,6 +362,33 @@ class TestImport(ExportImportTest):
         )
         self.assertEquals(
             u"Imported value",
+            self.registry['test.export.simple']
+        )
+
+    def test_import_value_only_condition_skip(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple"
+            condition="installed non">
+        <value>Imported value</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(
+            u"Simple record",
+            self.registry.records['test.export.simple'].field.title
+        )
+        self.assertEquals(
+            u"Sample value",
             self.registry['test.export.simple']
         )
 
