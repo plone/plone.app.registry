@@ -172,6 +172,12 @@ Importable records in ``registry.xml`` can be marked conditional with
 * ``not-installed my.package``, which causes record to be imported only when
   python module ``my.package`` is *not* available to be imported:
 
+* ``have my-feature``, which causes record to be imported only when
+  ZCML feature flag ``my-feature`` has been registered (Zope2 only)
+
+* ``not-have my-feature``, which causes record to be imported only when
+  ZCML feature flag ``my-feature`` has *not* been registered (Zope2 only)
+
 For example, the following ``registry.xml`` step at the GenericSetup profile of
 your policy product, would only import records when module ``my.package`` is
 available::

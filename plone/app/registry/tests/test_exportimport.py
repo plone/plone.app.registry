@@ -27,7 +27,9 @@ from OFS.ObjectManager import ObjectManager
 from plone.app.registry.tests import data
 
 configuration = """\
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta">
+    <meta:provides feature="plone" />
     <include package="zope.component" file="meta.zcml" />
     <include package="plone.registry" />
     <include package="plone.app.registry.exportimport" file="handlers.zcml" />
@@ -43,7 +45,20 @@ class ExportImportTest(unittest.TestCase):
         self.site = ObjectManager('plone')
         self.registry = Registry('portal_registry')
         provideUtility(provides=IRegistry, component=self.registry)
-        xmlconfig.xmlconfig(StringIO(configuration))
+        context = xmlconfig.string(configuration, execute=True)
+        try:
+            import Zope2.App.zcml
+            self._context = Zope2.App.zcml._context
+            Zope2.App.zcml._context = context
+        except ImportError:
+            pass
+
+    def tearDown(self):
+        try:
+            import Zope2.App.zcml
+            Zope2.App.zcml._context = self._context
+        except ImportError:
+            pass
 
     def assertXmlEquals(self, expected, actual):
 
@@ -304,7 +319,7 @@ class TestImport(ExportImportTest):
 
         self.assertRaises(ImportError, importRegistry, context)
 
-    def test_import_records_nonexistant_interface_condition(self):
+    def test_import_records_nonexistant_interface_condition_not_installed(self):  # noqa
         xml = """\
 <registry>
     <records interface="non.existant.ISchema"
@@ -342,11 +357,65 @@ class TestImport(ExportImportTest):
             self.registry['test.export.simple']
         )
 
-    def test_import_value_only_condition_skip(self):
+    def test_import_value_only_condition_installed(self):
         xml = """\
 <registry>
     <record name="test.export.simple"
             condition="installed non">
+        <value>Imported value</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(
+            u"Simple record",
+            self.registry.records['test.export.simple'].field.title
+        )
+        self.assertEquals(
+            u"Sample value",
+            self.registry['test.export.simple']
+        )
+
+    def test_import_value_only_condition_have(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple"
+            condition="have plone">
+        <value>Imported value</value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+        importRegistry(context)
+
+        self.assertEquals(1, len(self.registry.records))
+        self.assertEquals(
+            u"Simple record",
+            self.registry.records['test.export.simple'].field.title
+        )
+        self.assertEquals(
+            u"Imported value",
+            self.registry['test.export.simple']
+        )
+
+    def test_import_value_only_condition_not_have(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple"
+            condition="not-have plone">
         <value>Imported value</value>
     </record>
 </registry>
