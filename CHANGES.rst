@@ -4,20 +4,12 @@ Changelog
 1.4.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Add support for optional condition attribute in registry.xml entries
   to allow conditional importing of records. Conditions themselves are
   not import (nor exported).
   [datakurre]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.3.12 (2016-06-27)
