@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add support for *have* and *have-not* import conditions in
+  registry.xml
+  [datakurre]
 
 Bug fixes:
 
