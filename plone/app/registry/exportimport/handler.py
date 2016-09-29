@@ -15,6 +15,8 @@ from plone.supermodel.utils import ns
 from plone.supermodel.utils import prettyXML
 from plone.supermodel.utils import valueToElement
 from zope.component import queryUtility
+from zope.configuration import config
+from zope.configuration import xmlconfig
 from zope.dottedname.resolve import resolve
 from zope.schema import getFieldNames
 
@@ -26,29 +28,20 @@ def evaluateCondition(expression):
 
     ``expression`` is a string of the form "verb arguments".
 
-    Currently the supported verbs are ``installed`` and ``not-installed``.
+    Currently the supported verbs are 'have', 'not-have',
+    'installed' and 'not-installed'.
+
+    The 'have' verb takes one argument: the name of a feature.
     """
-    arguments = expression.split(None)
-    verb = arguments.pop(0)
-
-    if verb not in ('installed', 'not-installed'):
-        raise ValueError("Invalid import condition: %r" % expression)
-
-    if not arguments:
-        raise ValueError("Package name missing: %r" % expression)
-    if len(arguments) > 1:
-        raise ValueError("Only one package allowed: %r" % expression)
-
     try:
-        __import__(arguments[0])
-        installed = True
+        import Zope2.App.zcml
+        context = Zope2.App.zcml._context or config.ConfigurationMachine()
     except ImportError:
-        installed = False
+        context = config.ConfigurationMachine()
 
-    if verb == 'installed':
-        return installed
-    elif verb == 'not-installed':
-        return not installed
+    handler = xmlconfig.ConfigurationHandler(context)
+    return handler.evaluateCondition(expression)
+
 
 
 def shouldPurgeList(value_node, key):
