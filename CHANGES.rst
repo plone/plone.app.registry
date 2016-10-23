@@ -4,19 +4,11 @@ Changelog
 1.4.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Add support for *have* and *have-not* import conditions in
   registry.xml
   [datakurre]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.4 (2016-09-14)
