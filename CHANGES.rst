@@ -4,7 +4,16 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+New features:
+
+- Add support for *have* and *have-not* import conditions in
+  registry.xml
+  [datakurre]
+
+- Add support for optional condition attribute in registry.xml entries
+  to allow conditional importing of records. Conditions themselves are
+  not import (nor exported).
+  [datakurre]
 
 
 1.2.4 (2015-05-04)

@@ -20,7 +20,31 @@ from plone.supermodel.debug import parseinfo
 
 from plone.supermodel.utils import prettyXML, elementToValue, valueToElement, ns
 
+from zope.configuration import config
+from zope.configuration import xmlconfig
+
 _marker = object()
+
+
+def evaluateCondition(expression):
+    """Evaluate import condition.
+
+    ``expression`` is a string of the form "verb arguments".
+
+    Currently the supported verbs are 'have', 'not-have',
+    'installed' and 'not-installed'.
+
+    The 'have' verb takes one argument: the name of a feature.
+    """
+    try:
+        import Zope2.App.zcml
+        context = Zope2.App.zcml._context or config.ConfigurationMachine()
+    except ImportError:
+        context = config.ConfigurationMachine()
+
+    handler = xmlconfig.ConfigurationHandler(context)
+    return handler.evaluateCondition(expression)
+
 
 
 def shouldPurgeList(value_node, key):
@@ -87,6 +111,9 @@ class RegistryImporter(object):
 
         for node in tree:
             if not isinstance(node.tag, str):
+                continue
+            condition = node.attrib.get('condition', None)
+            if condition and not evaluateCondition(condition):
                 continue
             if node.tag.lower() == 'record':
                 self.importRecord(node)
