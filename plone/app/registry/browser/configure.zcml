@@ -6,6 +6,11 @@
     <include package="plone.app.z3cform" />
     <include package="plone.autoform" />
 
+    <browser:resourceDirectory
+        name="plone.app.registry"
+        directory="resources"
+        />
+
     <browser:defaultView
         for="plone.registry.interfaces.IRegistry"
         name="configuration_registry"
@@ -34,9 +39,11 @@
         permission="cmf.ManagePortal"
         />
 
-    <browser:resourceDirectory
-        name="plone.app.registry"
-        directory="resources"
+    <browser:page
+        for="plone.registry.interfaces.IRegistry"
+        name="configuration_registry_export_xml"
+        class=".exportxml.RegistryExporterView"
+        permission="cmf.ManagePortal"
         />
 
 </configure>

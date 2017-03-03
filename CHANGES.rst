@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added a pragmatic XML exporter for registry records in a format meant to be used in add-ons or policy profiles.
+  [jensens]
 
 Bug fixes:
 

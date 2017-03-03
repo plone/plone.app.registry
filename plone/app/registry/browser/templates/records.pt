@@ -132,6 +132,8 @@
               <button type="submit" i18n:translate="export_button">Export Now</button>
             </div>
           </form>
+          <hr />
+          <div tal:replace="structure python:context.restrictedTraverse('@@configuration_registry_export_xml')()" />
         </div>
         <div class="tab">
           <h2 i18n:translate="import">Import</h2>
