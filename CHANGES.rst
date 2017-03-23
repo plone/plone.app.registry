@@ -22,6 +22,9 @@ New features:
 - Add ability to delete record through control panel
   [vangheem]
 
+- Document new features
+  [tkimnguyen]
+
 Bug fixes:
 
 - *add item here*
