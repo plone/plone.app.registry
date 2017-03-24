@@ -1,38 +1,4 @@
 /* global require */
-
-if(require === undefined){
-  require = function(reqs, torun){
-    'use strict';
-    return torun(window.jQuery, {
-      scan: function(){
-        /* I don't know if this is necessary....
-           but, this is a way to maintain plone 4 compatibility */
-        window.jQuery('a.recordsEditLink').prepOverlay({
-          subtype: 'ajax',
-          filter: '#content>*:not(div.configlet),dl.portalMessage.error,dl.portalMessage.info',
-          formselector: 'form:has(div[id^="formfield-form-widgets-value"])',
-          closeselector: '[name="form.buttons.cancel"]',
-          noform: function(el) {
-            var o = window.jQuery(el);
-            var emsg = o.find('dl.portalMessage.error');
-            if (emsg.length) {
-                o.children().replaceWith(emsg);
-                return false;
-            } else {
-                return 'reload';
-            }
-          }
-        });
-      }
-    }, {
-      loading: {
-        show: function(){ window.jQuery$('#spinner').show(); },
-        hide: function(){ window.jQuery$('#spinner').hide(); },
-      }
-    });
-  };
-}
-
 require([
   'jquery',
   'pat-registry',
@@ -66,6 +32,7 @@ require([
       utils.loading.show();
       $('#recordsContainer').load(self.attr('href') + ' #recordsTable', function(){
         /* scan registry */
+        Registry.scan($('#recordsTable'));
         loadModals();
         utils.loading.hide();
       });
@@ -81,6 +48,7 @@ require([
         function(){
           $('#spinner').hide();
           $('#searchrow input[name="q"]').trigger('keypress');
+          Registry.scan($('#recordsTable'));
           loadModals();
           utils.loading.hide();
         }

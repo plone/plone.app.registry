@@ -2,7 +2,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.5.1.dev0'
+version = '1.6.0.dev0'
 
 setup(
     name='plone.app.registry',
@@ -19,7 +19,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+    ],
     keywords='plone registry settings configuration',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',

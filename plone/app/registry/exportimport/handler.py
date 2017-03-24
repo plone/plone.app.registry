@@ -69,6 +69,13 @@ def importRegistry(context):
         importer = RegistryImporter(registry, context)
         importer.importDocument(body)
 
+    if context.isDirectory('registry'):
+        for filename in context.listDirectory('registry'):
+            body = context.readDataFile('registry/' + filename)
+            if body is not None:
+                importer = RegistryImporter(registry, context)
+                importer.importDocument(body)
+
 
 def exportRegistry(context):
 

@@ -42,10 +42,16 @@ Each record has a unique name, which must be a *dotted name* prefixed by the
 package owning the record. For example, a record owned by the package
 ``my.package`` could have a name like ``my.package.myrecord``.
 
+As of version 1.6, it is possible to split ``registry.xml`` into
+multiple files; to import and export registry entries via the control
+panel; and to add and delete records via the control panel.
+
 Notes about versions
 ====================
 
-1.3.x versions are for Plone 5. 1.2.x versions are for Plone 4.
+- versions 1.3 and later are for Plone 5.
+
+- versions 1.2.x are for Plone 4.
 
 Usage
 =====
@@ -156,6 +162,30 @@ pairs. They can be configured like so::
             <element key="Elephant">Squirrels</element>
         </value>
     </record>
+
+Using multiple registry XML files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of storing registry entries in a single, large
+``registry.xml`` file, you can have Generic Setup load and process
+registry entries from multiple files. This makes it easier to manage
+and organize the registry entries provided by your applications and
+add-ons.
+
+Your add-on should include a folder named ``registry`` in its
+profile(s) folders, e.g. ``profiles/default/registry``. Any XML files
+in that folder will be read and processed by the registry the same way
+it would have read and processed a single ``registry.xml`` file in
+the ``profiles/default`` folder.
+
+As an example, see how `Castle CMS
+<https://github.com/castlecms/castle.cms>`_ uses multiple XML files in
+its `profiles/default/registry
+<https://github.com/castlecms/castle.cms/tree/master/castle/cms/profiles/default/registry>`_
+folder.
+
+The registry will process both the ``registry.xml`` file and the
+contents of a ``registry`` folder, if both exist.
 
 
 Conditional records
@@ -495,14 +525,6 @@ pertaining to records associated with specific interfaces. For example::
 
 See `plone.registry`_ for details about these event types.
 
-Editing records through the web
--------------------------------
-
-This package provides a control panel found in Plone's Site Setup under
-"Configuration registry". Here, you can view all records with names,
-titles, descriptions, types and current values, as well as edit individual
-records.
-
 Creating a custom control panel
 -------------------------------
 
@@ -567,6 +589,68 @@ import step in your GenericSetup profile::
 The ``icon_expr`` attribute should give a URL for the icon. Here, we have
 assumed that a resource directory called ``my.package`` is registered and
 contains the file ``icon.png``. You may omit the icon as well.
+
+Using the Configuration Registry control panel
+----------------------------------------------
+
+Viewing and editing records through the control panel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This package provides the "Configuration Registry" control panel in
+Plone's Site Setup. Here, you can view all registry records, you can
+search for records using a case sensitive filter field, and you can
+select sets of records according to their prefix
+(e.g. "IDiscussionSettings", "plone.app.caching").
+
+Registry records' names, titles, descriptions, data types and current
+values are displayed.
+
+.. figure:: docs/configuration_registry_screenshot.jpg
+
+	    The Configuration Registry control panel
+
+If you click on a record, an edit form appears that allows you to
+change its value.
+
+.. figure:: docs/configuration_registry_edit_record_screenshot.jpg
+
+	    How to change the value of a registry record
+
+
+Exporting and importing records through the control panel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use the Configuration Registry control panel's Export tab to
+export the entire registry into a single XML file.  When you click the
+Export Now button, a file named ``registry.xml`` will be downloaded to
+your computer.
+
+.. figure:: docs/configuration_registry_export_screenshot.jpg
+
+	    How to export the entire registry
+
+To import registry entries, use the Configuration Registry control
+panel's Import tab, use the Choose File button to select an XML file
+from your computer containing the registry entries, then press the
+Import File button.
+
+.. figure:: docs/configuration_registry_import_screenshot.jpg
+
+	    How to import a registry file
+
+
+Adding and deleting records through the control panel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can add individual registry records using the Configuration
+Registry control panel's "Add new record" tab.
+
+Enter the registry record's name, (human readable) title, select a
+data type, and optionally check the Required box if the record must
+have a value. Then press the "Add field" button.
+
+.. figure:: docs/configuration_registry_add_record_screenshot.jpg
+
 
 Control panel widget settings
 =============================

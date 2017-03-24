@@ -13,12 +13,14 @@ from plone.registry.interfaces import IInterfaceAwareRecord
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.utils import prettyXML
 from plone.testing import zca
+from Products.GenericSetup.tests.common import DummyImportContext as BaseDummyImportContext
 from Products.GenericSetup.tests.common import DummyExportContext
-from Products.GenericSetup.tests.common import DummyImportContext
 from zope.component import provideUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
+
 import unittest2 as unittest
+
 
 configuration = """\
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -29,6 +31,17 @@ configuration = """\
     <include package="plone.app.registry.exportimport" file="handlers.zcml" />
 </configure>
 """
+
+
+class DummyImportContext(BaseDummyImportContext):
+
+    _directories = {}
+
+    def listDirectory(self, path):
+        return self._directories.get(path, [])
+
+    def isDirectory(self, path):
+        return path in self._directories
 
 
 class ExportImportTest(unittest.TestCase):
@@ -1219,6 +1232,73 @@ class TestImport(ExportImportTest):
             u"Sample value",
             self.registry['test.export.simple']
         )
+
+    def test_import_folder(self):
+        xml1 = """\
+<registry>
+    <record name="test.registry.foobar1">
+        <field type="plone.registry.field.TextLine">
+          <default>N/A</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        xml2 = """\
+<registry>
+    <record name="test.registry.foobar2">
+        <field type="plone.registry.field.TextLine">
+          <default>N/A</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        xml3 = """\
+<registry>
+    <record name="test.registry.foobar3">
+        <field type="plone.registry.field.TextLine">
+          <default>N/A</default>
+          <title>Simple record</title>
+        </field>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {
+            'registry.xml': xml1,
+            'registry/foo2.xml': xml2,
+            'registry/foo3.xml': xml3
+        }
+        context._directories = {
+            'registry': [
+                'foo2.xml',
+                'foo3.xml',
+            ]
+        }
+        importRegistry(context)
+
+        self.assertEquals(3, len(self.registry.records))
+
+        for idx in range(1, 4):
+            fieldname = 'test.registry.foobar%i' % idx
+            self.failUnless(
+                isinstance(
+                    self.registry.records[fieldname].field,
+                    field.TextLine)
+            )
+            self.assertEquals(
+                u"Simple record",
+                self.registry.records[fieldname].field.title
+            )
+            self.assertEquals(
+                u"value",
+                self.registry.records[fieldname].field.__name__
+            )
+            self.assertEquals(
+                u"N/A",
+                self.registry[fieldname]
+            )
 
 
 class TestExport(ExportImportTest):

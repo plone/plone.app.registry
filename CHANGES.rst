@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5.1 (unreleased)
+1.6.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,7 +10,20 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- be able to split your registry.xml file into multiple files in a sub-directory `registry`
+  [vangheem]
+
+- Add ability to import/export records through control panel
+  [vangheem]
+
+- Add ability to add new record through control panel
+  [vangheem]
+
+- Add ability to delete record through control panel
+  [vangheem]
+
+- Document new features
+  [tkimnguyen]
 
 Bug fixes:
 

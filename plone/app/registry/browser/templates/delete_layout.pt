@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+<div id="content" metal:fill-slot="prefs_configlet_content">
+
+    <h1 class="documentFirstHeading">Delete Record</h1>
+
+    <p class="documentDescription" i18n:translate="description_record_edit">
+        Are you certain you want to delete this record? This can not be undone
+        and can be potentially harmful if you don't know what you are doing.
+    </p>
+
+    <b>Record</b>: ${request/form/name}
+
+    <form method="POST">
+      <input type="hidden" name="name" value="${request/form/name}" />
+      <div class="formControls">
+        <input id="form-buttons-delete" name="form.buttons.delete"
+               class="submit-widget button-field context" value="Yes, delete" type="submit">
+        <input id="form-buttons-cancel" name="form.buttons.cancel"
+               class="submit-widget button-field standalone" value="Cancel" type="submit">
+      </div>
+    </form>
+
+</div>
+</body>
+</html>

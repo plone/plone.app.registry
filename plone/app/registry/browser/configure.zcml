@@ -14,7 +14,6 @@
     <browser:page
         name="configuration_registry"
         for="plone.registry.interfaces.IRegistry"
-        template="records.pt"
         class=".records.RecordsControlPanel"
         permission="cmf.ManagePortal"
         />
@@ -23,7 +22,15 @@
         name="edit"
         for="plone.registry.interfaces.IRegistry"
         class=".edit.RecordEditView"
-        template="edit_layout.pt"
+        template="templates/edit_layout.pt"
+        permission="cmf.ManagePortal"
+        />
+
+    <browser:page
+        name="delete-record"
+        for="plone.registry.interfaces.IRegistry"
+        class=".delete.RecordDeleteView"
+        template="templates/delete_layout.pt"
         permission="cmf.ManagePortal"
         />
 
