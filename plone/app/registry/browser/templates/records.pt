@@ -136,7 +136,6 @@
         </div>
         <div class="tab">
           <h2 i18n:translate="import">Import</h2>
-          <p i18n:translate="export_registry_text"></p>
           <form method="POST" enctype='multipart/form-data'>
             <div class="form-group field">
               <label for="exportFile" i18n:translate="">Registry XML File</label>
