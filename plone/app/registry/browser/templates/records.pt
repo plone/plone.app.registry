@@ -106,7 +106,7 @@
                               <br />
                               (
                               <a href="${context/absolute_url}/@@delete-record?name=${record/__name__}"
-                                 class="recordsDeleteLink">
+                                 class="recordsDeleteLink" i18n:translate="">
                                  Delete record
                               </a>
                               )
@@ -139,7 +139,7 @@
           <p i18n:translate="export_registry_text"></p>
           <form method="POST" enctype='multipart/form-data'>
             <div class="form-group field">
-              <label for="exportFile">Registry XML File</label>
+              <label for="exportFile" i18n:translate="">Registry XML File</label>
               <input type="file" name="file" id="exportFile" class="form-control" />
             </div>
             <input type="hidden" name="button.importregistry" value="true"/>
