@@ -4,10 +4,6 @@ Changelog
 1.6.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - be able to split your registry.xml file into multiple files in a sub-directory `registry`
@@ -24,10 +20,6 @@ New features:
 
 - Document new features
   [tkimnguyen]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.5 (2016-10-23)
