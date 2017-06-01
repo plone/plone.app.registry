@@ -6,7 +6,7 @@ from plone.app.registry.testing import PLONE_APP_REGISTRY_INTEGRATION_TESTING
 from plone.registry import Record
 from plone.registry.field import TextLine
 
-import unittest2 as unittest
+import unittest
 
 
 class TestRegistryBaseControlpanel(unittest.TestCase):

@@ -19,7 +19,7 @@ from zope.component import provideUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 
-import unittest2 as unittest
+import unittest
 
 
 configuration = """\
