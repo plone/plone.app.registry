@@ -605,14 +605,14 @@ select sets of records according to their prefix
 Registry records' names, titles, descriptions, data types and current
 values are displayed.
 
-.. figure:: docs/configuration_registry_screenshot.jpg
+.. figure:: https://raw.githubusercontent.com/plone/plone.app.registry/master/docs/configuration_registry_screenshot.jpg
 
 	    The Configuration Registry control panel
 
 If you click on a record, an edit form appears that allows you to
 change its value.
 
-.. figure:: docs/configuration_registry_edit_record_screenshot.jpg
+.. figure:: https://raw.githubusercontent.com/plone/plone.app.registry/master/docs/configuration_registry_edit_record_screenshot.jpg
 
 	    How to change the value of a registry record
 
@@ -625,7 +625,7 @@ export the entire registry into a single XML file.  When you click the
 Export Now button, a file named ``registry.xml`` will be downloaded to
 your computer.
 
-.. figure:: docs/configuration_registry_export_screenshot.jpg
+.. figure:: https://raw.githubusercontent.com/plone/plone.app.registry/master/docs/configuration_registry_export_screenshot.jpg
 
 	    How to export the entire registry
 
@@ -634,7 +634,7 @@ panel's Import tab, use the Choose File button to select an XML file
 from your computer containing the registry entries, then press the
 Import File button.
 
-.. figure:: docs/configuration_registry_import_screenshot.jpg
+.. figure:: https://raw.githubusercontent.com/plone/plone.app.registry/master/docs/configuration_registry_import_screenshot.jpg
 
 	    How to import a registry file
 
@@ -649,7 +649,7 @@ Enter the registry record's name, (human readable) title, select a
 data type, and optionally check the Required box if the record must
 have a value. Then press the "Add field" button.
 
-.. figure:: docs/configuration_registry_add_record_screenshot.jpg
+.. figure:: https://raw.githubusercontent.com/plone/plone.app.registry/master/docs/configuration_registry_add_record_screenshot.jpg
 
 
 Control panel widget settings
