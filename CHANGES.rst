@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added traceback info of filename to importer in order to ease debugging.
+  [jensens]
 
 Bug fixes:
 

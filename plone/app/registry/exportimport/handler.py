@@ -70,6 +70,7 @@ def importRegistry(context):
 
     importer = RegistryImporter(registry, context)
     for filepath in filepaths:
+        __traceback_info__ = filepath
         body = context.readDataFile(filepath)
         if body is not None:
             importer.importDocument(body)
