@@ -10,11 +10,13 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added traceback info of filename to importer in order to ease debugging.
+  [jensens]
 
 Bug fixes:
 
-- *add item here*
+- Minor refactoring of registry import (DRY).
+  [jensens]
 
 
 1.6.1 (2017-06-04)
