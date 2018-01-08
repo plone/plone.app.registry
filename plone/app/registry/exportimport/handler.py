@@ -43,7 +43,6 @@ def evaluateCondition(expression):
     return handler.evaluateCondition(expression)
 
 
-
 def shouldPurgeList(value_node, key):
     for child in value_node:
         attrib = child.attrib
@@ -64,17 +63,16 @@ def importRegistry(context):
         logger.info("Cannot find registry")
         return
 
-    body = context.readDataFile('registry.xml')
-    if body is not None:
-        importer = RegistryImporter(registry, context)
-        importer.importDocument(body)
-
+    filepaths = ['registry.xml']
     if context.isDirectory('registry'):
         for filename in context.listDirectory('registry'):
-            body = context.readDataFile('registry/' + filename)
-            if body is not None:
-                importer = RegistryImporter(registry, context)
-                importer.importDocument(body)
+            filepaths.append('registry/' + filename)
+
+    importer = RegistryImporter(registry, context)
+    for filepath in filepaths:
+        body = context.readDataFile(filepath)
+        if body is not None:
+            importer.importDocument(body)
 
 
 def exportRegistry(context):
