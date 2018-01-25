@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from lxml import etree
 from OFS.ObjectManager import ObjectManager
 from plone.app.registry import Registry
@@ -73,15 +74,15 @@ class ExportImportTest(unittest.TestCase):
         actual_tree = etree.XML(actual)
 
         if etree.tostring(expected_tree) != etree.tostring(actual_tree):
-            print
-            print "Expected:"
-            print prettyXML(expected_tree)
-            print
+            print()
+            print("Expected:")
+            print(prettyXML(expected_tree))
+            print()
 
-            print
-            print "Actual:"
-            print prettyXML(actual_tree)
-            print
+            print()
+            print("Actual:")
+            print(prettyXML(actual_tree))
+            print()
 
             raise AssertionError(u"XML mis-match")
 

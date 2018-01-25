@@ -20,6 +20,9 @@ from zope.configuration import xmlconfig
 from zope.dottedname.resolve import resolve
 from zope.schema import getFieldNames
 
+import six
+
+
 _marker = object()
 
 
@@ -367,7 +370,7 @@ class RegistryImporter(object):
                 continue
             elif child.tag.lower() == 'omit':
                 if child.text:
-                    omit.append(unicode(child.text))
+                    omit.append(six.text_type(child.text))
             elif child.tag.lower() == 'value':
                 values.append(child)
 
