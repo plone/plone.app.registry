@@ -15,6 +15,9 @@ New features:
 
 Bug fixes:
 
+- Python 2 / 3 compatible imports.
+  [pbauer]
+
 - Minor refactoring of registry import (DRY).
   [jensens]
 
