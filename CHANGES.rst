@@ -4,10 +4,6 @@ Changelog
 1.6.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Added traceback info of filename to importer in order to ease debugging.
