@@ -54,7 +54,7 @@ class FakeEnv(object):
         return False
 
 
-_valid_field_name_chars = string.letters + '._'
+_valid_field_name_chars = string.ascii_letters + '._'
 
 
 def checkFieldName(val):
