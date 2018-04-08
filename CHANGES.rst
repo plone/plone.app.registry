@@ -4,14 +4,6 @@ Changelog
 1.7.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Python 2 / 3 compatible imports.
