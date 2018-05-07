@@ -60,8 +60,7 @@
                             <div class="row">
                               <div class="col-sm-6">
                                 <span i18n:translate="or">or</span>
-                                <select name="qp" tal:define="prefixes python: view.prefixes.keys();
-                                                              dummy python: prefixes.sort();">
+                                <select name="qp" tal:define="prefixes python: sorted(view.prefixes.keys())">
                                   <option value="" i18n:translate="select_prefix">Select Prefix</option>
                                   <tal:prefixes tal:repeat="prefix prefixes">
                                     <option
