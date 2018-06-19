@@ -4,18 +4,10 @@ Changelog
 1.7.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Added a pragmatic XML exporter for registry records in a format meant to be used in add-ons or policy profiles.
   [jensens]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.7.1 (2018-04-08)
