@@ -26,7 +26,7 @@ setup(
     author_email='optilude@gmail.com',
     url='https://pypi.org/project/plone.app.registry',
     license='GPL',
-    packages=find_packages(exclude=['ez_setup']),
+    packages=find_packages(),
     namespace_packages=['plone', 'plone.app'],
     include_package_data=True,
     zip_safe=False,
