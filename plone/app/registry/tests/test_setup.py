@@ -14,11 +14,11 @@ class TestSetup(unittest.TestCase):
 
         portal = self.layer['portal']
 
-        self.failUnless('portal_registry' in portal.objectIds())
-        self.failUnless(IRegistry.providedBy(portal.portal_registry))
+        self.assertIn('portal_registry', portal.objectIds())
+        self.assertTrue(IRegistry.providedBy(portal.portal_registry))
 
     def test_local_utility_installed(self):
         portal = self.layer['portal']
 
         registry = getUtility(IRegistry)
-        self.failUnless(aq_base(registry) is aq_base(portal.portal_registry))
+        self.assertTrue(aq_base(registry) is aq_base(portal.portal_registry))
