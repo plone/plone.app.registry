@@ -100,7 +100,7 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
+        self.assertEqual(1, len(self.registry.records))
 
     def test_import_purge(self):
 
@@ -113,7 +113,7 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(0, len(self.registry.records))
+        self.assertEqual(0, len(self.registry.records))
 
     def test_import_records(self):
         xml = """\
@@ -129,13 +129,13 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(3, len(self.registry.records))
+        self.assertEqual(3, len(self.registry.records))
 
-        self.failUnless(
-            'plone.app.registry.tests.data.ITestSettings.name' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.ITestSettings.name', self.registry
         )
-        self.failUnless(
-            'plone.app.registry.tests.data.ITestSettings.age' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.ITestSettings.age', self.registry
         )
 
     def test_import_records_disallowed(self):
@@ -174,14 +174,14 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(3, len(self.registry.records))
+        self.assertEqual(3, len(self.registry.records))
 
-        self.failUnless(
-            'plone.app.registry.tests.data.ITestSettingsDisallowed.name' in
+        self.assertIn(
+            'plone.app.registry.tests.data.ITestSettingsDisallowed.name',
             self.registry
         )
-        self.failUnless(
-            'plone.app.registry.tests.data.ITestSettingsDisallowed.age' in
+        self.assertIn(
+            'plone.app.registry.tests.data.ITestSettingsDisallowed.age',
             self.registry
         )
 
@@ -196,7 +196,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
         delete_xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" remove="true"/>
@@ -207,7 +207,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(0, len(self.registry.records))
+        self.assertEqual(0, len(self.registry.records))
 
     def test_import_records_delete_deprecated(self):
         xml = """\
@@ -220,7 +220,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
         delete_xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" delete="true"/>
@@ -231,7 +231,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(0, len(self.registry.records))
+        self.assertEqual(0, len(self.registry.records))
 
     def test_import_records_remove_with_omit(self):
         xml = """\
@@ -244,7 +244,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
         delete_xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" remove="true">
@@ -257,13 +257,13 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
+        self.assertEqual(1, len(self.registry.records))
 
-        self.failUnless(
-            'plone.app.registry.tests.data.ITestSettings.name' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.ITestSettings.name', self.registry
         )
-        self.failIf(
-            'plone.app.registry.tests.data.ITestSettings.age' in self.registry
+        self.assertNotIn(
+            'plone.app.registry.tests.data.ITestSettings.age', self.registry
         )
 
     def test_import_records_remove_with_value(self):
@@ -277,7 +277,7 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
         delete_xml = """\
 <registry>
     <records interface="plone.app.registry.tests.data.ITestSettings" remove="true">
@@ -290,7 +290,7 @@ class TestImport(ExportImportTest):
 
         self.assertRaises(ValueError, importRegistry, context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
 
     def test_import_records_with_prefix(self):
         xml = """\
@@ -303,13 +303,13 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
 
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.name' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.name', self.registry
         )
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.age' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.age', self.registry
         )
 
     def test_import_records_with_values(self):
@@ -326,13 +326,13 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
+        self.assertEqual(2, len(self.registry.records))
 
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.name' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.name', self.registry
         )
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.age' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.age', self.registry
         )
 
         self.assertEqual(
@@ -383,12 +383,12 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.export.simple'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Imported value",
             self.registry['test.export.simple']
         )
@@ -410,12 +410,12 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.export.simple'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Sample value",
             self.registry['test.export.simple']
         )
@@ -437,12 +437,12 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.export.simple'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Imported value",
             self.registry['test.export.simple']
         )
@@ -464,12 +464,12 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.export.simple'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Sample value",
             self.registry['test.export.simple']
         )
@@ -487,12 +487,12 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Age",
             self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.age'].field.title  # noqa
         )
-        self.assertEquals(
+        self.assertEqual(
             2,
             self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.age']  # noqa
         )
@@ -510,12 +510,12 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Age",
             self.registry.records['plone.registry.oops'].field.title
         )
-        self.assertEquals(2, self.registry['plone.registry.oops'])
+        self.assertEqual(2, self.registry['plone.registry.oops'])
 
     def test_import_interface_no_value(self):
         xml = """\
@@ -528,12 +528,12 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Name",
             self.registry.records['plone.app.registry.tests.data.ITestSettingsDisallowed.name'].field.title  # noqa
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Mr. Registry",
             self.registry['plone.app.registry.tests.data.ITestSettingsDisallowed.name']  # noqa
         )
@@ -554,21 +554,21 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.TextLine)
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"value",
             self.registry.records['test.registry.field'].field.__name__
         )
-        self.assertEquals(
+        self.assertEqual(
             u"N/A",
             self.registry['test.registry.field']
         )
@@ -591,20 +591,20 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(2, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(2, len(self.registry.records))
+        self.assertTrue(
             IFieldRef.providedBy(
                 self.registry.records['test.registry.field.override'].field)
             )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field.override'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"value",
             self.registry.records['test.registry.field.override'].field.__name__  # noqa
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Another value",
             self.registry['test.registry.field.override']
         )
@@ -625,18 +625,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.ASCIILine
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             "N/A",
             self.registry['test.registry.field']
         )
@@ -662,17 +662,17 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.ASCIILine)
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             "Nada",
             self.registry['test.registry.field']
         )
@@ -693,18 +693,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Int
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Age",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             None,
             self.registry['test.registry.field']
         )
@@ -736,18 +736,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.FrozenSet
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             frozenset([1, 3]),
             self.registry['test.registry.field']
         )
@@ -777,18 +777,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Set
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             frozenset([4, 6]),
             self.registry['test.registry.field']
         )
@@ -818,18 +818,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Set
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             frozenset([1, 4, 6]),
             self.registry['test.registry.field']
         )
@@ -859,8 +859,8 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals([2, 4, 6], self.registry['test.registry.field'])
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual([2, 4, 6], self.registry['test.registry.field'])
 
     def test_import_collection_tuple_append(self):
         xml = """\
@@ -887,8 +887,8 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             (u"a", u"b", u"c", ),
             self.registry['test.registry.field']
         )
@@ -918,8 +918,8 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(set([2, 4, 6]), self.registry['test.registry.field'])
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(set([2, 4, 6]), self.registry['test.registry.field'])
 
     def test_import_collection_frozenset_append(self):
         xml = """\
@@ -946,8 +946,8 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             frozenset([2, 4, 6]),
             self.registry['test.registry.field']
         )
@@ -982,18 +982,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Dict
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             {'a': 1, 'b': 3},
             self.registry['test.registry.field']
         )
@@ -1021,18 +1021,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Dict
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             {'x': 4, 'y': 6},
             self.registry['test.registry.field']
         )
@@ -1060,18 +1060,18 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Dict
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             {'a': 1, 'x': 4, 'y': 6},
             self.registry['test.registry.field']
         )
@@ -1100,22 +1100,22 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.failUnless(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.Choice
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record", self.registry.records['test.registry.field'].
             field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             [u'One', u'Two'],
             [t.value for t in self.registry.records['test.registry.field'].field.vocabulary]  # noqa
         )
-        self.assertEquals(
+        self.assertEqual(
             None, self.registry['test.registry.field']
         )
 
@@ -1142,32 +1142,32 @@ class TestImport(ExportImportTest):
 
         importRegistry(context)
 
-        self.assertEquals(3, len(self.registry.records))
+        self.assertEqual(3, len(self.registry.records))
 
-        self.failUnless(
+        self.assertTrue(
             isinstance(
                 self.registry.records['test.registry.field'].field,
                 field.TextLine
             )
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.registry.field'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"value",
             self.registry.records['test.registry.field'].field.__name__
         )
-        self.assertEquals(
+        self.assertEqual(
             u"N/A",
             self.registry['test.registry.field']
         )
 
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.name' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.name', self.registry
         )
-        self.failUnless(
-            'plone.app.registry.tests.data.SomethingElse.age' in self.registry
+        self.assertIn(
+            'plone.app.registry.tests.data.SomethingElse.age', self.registry
         )
         self.assertEqual(
             self.registry['plone.app.registry.tests.data.SomethingElse.name'],
@@ -1192,7 +1192,7 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(0, len(self.registry.records))
+        self.assertEqual(0, len(self.registry.records))
 
     def test_delete_deprecated(self):
         xml = """\
@@ -1208,7 +1208,7 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(0, len(self.registry.records))
+        self.assertEqual(0, len(self.registry.records))
 
     def test_delete_not_found(self):
         xml = """\
@@ -1224,12 +1224,12 @@ class TestImport(ExportImportTest):
                    value=u"Sample value")
         importRegistry(context)
 
-        self.assertEquals(1, len(self.registry.records))
-        self.assertEquals(
+        self.assertEqual(1, len(self.registry.records))
+        self.assertEqual(
             u"Simple record",
             self.registry.records['test.export.simple'].field.title
         )
-        self.assertEquals(
+        self.assertEqual(
             u"Sample value",
             self.registry['test.export.simple']
         )
@@ -1279,24 +1279,24 @@ class TestImport(ExportImportTest):
         }
         importRegistry(context)
 
-        self.assertEquals(3, len(self.registry.records))
+        self.assertEqual(3, len(self.registry.records))
 
         for idx in range(1, 4):
             fieldname = 'test.registry.foobar%i' % idx
-            self.failUnless(
+            self.assertTrue(
                 isinstance(
                     self.registry.records[fieldname].field,
                     field.TextLine)
             )
-            self.assertEquals(
+            self.assertEqual(
                 u"Simple record",
                 self.registry.records[fieldname].field.title
             )
-            self.assertEquals(
+            self.assertEqual(
                 u"value",
                 self.registry.records[fieldname].field.__name__
             )
-            self.assertEquals(
+            self.assertEqual(
                 u"N/A",
                 self.registry[fieldname]
             )
@@ -1310,7 +1310,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_simple(self):
@@ -1333,7 +1333,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_interface(self):
@@ -1371,7 +1371,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_field_ref(self):
@@ -1402,7 +1402,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_collection(self):
@@ -1432,7 +1432,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_dict(self):
@@ -1465,7 +1465,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_choice(self):
@@ -1488,7 +1488,7 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_missing_schema_does_not_error(self):
@@ -1521,5 +1521,5 @@ class TestExport(ExportImportTest):
         context = DummyExportContext(self.site)
         exportRegistry(context)
 
-        self.assertEquals('registry.xml', context._wrote[0][0])
+        self.assertEqual('registry.xml', context._wrote[0][0])
         self.assertXmlEquals(xml, context._wrote[0][1])
