@@ -6,6 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 
 import os
+import six
 
 _current_dir = os.path.dirname(__file__)
 
@@ -95,7 +96,7 @@ class RegistryExporterView(BrowserView):
                     xmlel.text = element
             elif isinstance(record.value, bool):
                 xmlvalue.text = 'True' if record.value else 'False'
-            elif isinstance(record.value, basestring):
+            elif isinstance(record.value, six.string_types):
                 xmlvalue.text = record.value
             else:
                 xmlvalue.text = str(record.value)
