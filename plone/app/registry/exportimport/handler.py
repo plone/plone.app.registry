@@ -14,13 +14,13 @@ from plone.supermodel.utils import elementToValue
 from plone.supermodel.utils import ns
 from plone.supermodel.utils import prettyXML
 from plone.supermodel.utils import valueToElement
+from Products.CMFPlone.utils import safe_encode
+from Products.CMFPlone.utils import safe_unicode
 from zope.component import queryUtility
 from zope.configuration import config
 from zope.configuration import xmlconfig
 from zope.dottedname.resolve import resolve
 from zope.schema import getFieldNames
-
-import six
 
 
 _marker = object()
@@ -91,7 +91,7 @@ def exportRegistry(context):
     exporter = RegistryExporter(registry, context)
     body = exporter.exportDocument()
     if body is not None:
-        context.writeDataFile('registry.xml', body, 'text/xml')
+        context.writeDataFile('registry.xml', safe_encode(body), 'text/xml')
 
 
 class RegistryImporter(object):
@@ -370,7 +370,7 @@ class RegistryImporter(object):
                 continue
             elif child.tag.lower() == 'omit':
                 if child.text:
-                    omit.append(six.text_type(child.text))
+                    omit.append(safe_unicode(child.text))
             elif child.tag.lower() == 'value':
                 values.append(child)
 
