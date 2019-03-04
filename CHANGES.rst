@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.4 (2019-03-03)
+------------------
+
+Bug fixes:
+
+
+- Fix export of registry with Generic Setup. [pbauer] (#34)
+
+
 1.7.3 (2019-02-13)
 ------------------
 
