@@ -98,7 +98,7 @@
                           <td tal:content="structure field/description" data-label="Description" />
                           <td tal:content="field/__class__/__name__" data-label="Type" />
                           <td data-label="Value">
-                            <span tal:content="python: unicode(record.value)"
+                            <span tal:content="record/value|nothing"
                                   tal:on-error="string:?"
                                   class="value"/>
                             <tal:non-iface tal:condition="not: record/interfaceName|nothing">
