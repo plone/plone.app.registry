@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.5 (2019-05-01)
+------------------
+
+Bug fixes:
+
+
+- broken value in records table in Python 3
+  [petschki] (#36)
+
+
 1.7.4 (2019-03-03)
 ------------------
 
