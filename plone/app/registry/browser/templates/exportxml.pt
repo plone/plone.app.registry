@@ -10,7 +10,7 @@
         <div class="exporttab"
              id="export-section-interfaces">
           <h3 i18n:translate="registry_export_parts_label_iface" id="h3-interfaces">by Interface</h3>
-          <ul class="collapse_interfaces hidden">
+          <ul class="collapse_interfaces">
             <li tal:repeat="prefix python:view.interfaces()"><a target="_blank" href="${python:prefix[1]}">${python:prefix[0]}</a></li>
           </ul>
         </div>
