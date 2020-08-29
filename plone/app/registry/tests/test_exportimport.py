@@ -14,13 +14,14 @@ from plone.registry.interfaces import IInterfaceAwareRecord
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.utils import prettyXML
 from plone.testing import zca
-from Products.GenericSetup.tests.common import DummyImportContext as BaseDummyImportContext
+from Products.GenericSetup.tests.common import DummyImportContext as BaseDummyImportContext  # noqa
 from Products.GenericSetup.tests.common import DummyExportContext
 from zope.component import provideUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 
 import unittest
+import zope.schema
 
 
 configuration = """\
@@ -392,6 +393,29 @@ class TestImport(ExportImportTest):
             u"Imported value",
             self.registry['test.export.simple']
         )
+
+    def test_import_value_validation(self):
+        xml = """\
+<registry>
+    <record name="test.export.simple">
+        <value></value>
+    </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {'registry.xml': xml}
+
+        self.registry.records['test.export.simple'] = \
+            Record(field.TextLine(title=u"Simple record", default=u"N/A"),
+                   value=u"Sample value")
+
+        try:
+            importRegistry(context)
+        except zope.schema._bootstrapinterfaces.RequiredMissing:
+            # this should raise RequiredMissing
+            pass
+        else:
+            self.fail()
 
     def test_import_value_only_condition_installed(self):
         xml = """\

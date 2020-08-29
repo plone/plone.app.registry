@@ -285,6 +285,9 @@ class RegistryImporter(object):
         if value is _marker:
             value = field.default
             value_purge = True
+        else:
+            # validate incoming value
+            field.validate(value)
 
         if existing_record is not None:
             if change_field:
