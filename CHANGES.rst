@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.7 (2020-09-07)
+------------------
+
+Bug fixes:
+
+
+- Make interface list on configuration export page visible. [jensens] (#41)
+
+
 1.7.6 (2020-04-20)
 ------------------
 
