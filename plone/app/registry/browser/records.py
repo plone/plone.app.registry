@@ -103,6 +103,10 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
     def action(self):
         return '{url}#autotoc-item-autotoc-3'.format(url=self.context.absolute_url())
 
+    def updateActions(self):
+        super(RecordsControlPanel, self).updateActions()
+        self.actions['addfield'].addClass('btn-primary')
+
     @button.buttonAndHandler(u'Add field', name='addfield')
     def action_addfield(self, action):
         data, errors = self.extractData()
