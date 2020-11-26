@@ -28,8 +28,8 @@ class RecordEditForm(form.EditForm):
 
     def updateActions(self):
         super(RecordEditForm, self).updateActions()
-        self.actions['save'].addClass("context")
-        self.actions['cancel'].addClass("standalone")
+        self.actions['save'].addClass("btn btn-primary")
+        self.actions['cancel'].addClass("btn btn-secondary")
 
     @property
     def label(self):
