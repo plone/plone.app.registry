@@ -51,8 +51,8 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
 
     def updateActions(self):
         super(RegistryEditForm, self).updateActions()
-        self.actions['save'].addClass("context")
-        self.actions['cancel'].addClass("standalone")
+        self.actions['save'].addClass("btn btn-primary")
+        self.actions['cancel'].addClass("btn btn-secondary")
 
     @button.buttonAndHandler(_(u"Save"), name='save')
     def handleSave(self, action):
