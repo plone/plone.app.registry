@@ -4,7 +4,7 @@
  <configlet title="Configuration Registry" action_id="plone.app.registry"
     appId="plone.app.registry" category="plone-advanced" condition_expr=""
     url_expr="string:${portal_url}/portal_registry"
-    icon_expr="string:controlpanel/registry"
+    icon_expr="string:gear"
     visible="True" i18n:attributes="title">
   <permission>Manage portal</permission>
  </configlet>
