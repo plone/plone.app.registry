@@ -8,20 +8,20 @@
 
   <!-- export/import steps -->
   <gs:importStep
-      description="Add or remove records, or change values"
+      description="Import into plone.app.registry records/settings, the central configuration key-value store, from registry.xml or a registry folder."
       handler=".handler.importRegistry"
       name="plone.app.registry"
-      title="Manage the configuration registry">
+      title="Configuration Registry (Plone)">
     <depends name="componentregistry" />
     <depends name="toolset" />
     <depends name="typeinfo"/>
   </gs:importStep>
 
   <gs:exportStep
-      description="Exports records and settings"
+      description="Export plone.app.registry, the central configuration key-value store, into a XML file."
       handler=".handler.exportRegistry"
       name="plone.app.registry"
-      title="Export the configuration registry schemata"
+      title="Configuration Registry (Plone)"
   />
 
 </configure>
