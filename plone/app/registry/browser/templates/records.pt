@@ -60,7 +60,7 @@
                   <div class="row justify-content-between">
                     <div class="mb-3 col-auto">
                       <div class="input-group">
-                        <label class="col-form-label mr-2" i18n:translate="or">or</label>
+                        <label class="col-form-label me-2" i18n:translate="or">or</label>
                         <select class="form-select"
                           name="qp"
                           tal:define="prefixes python: sorted(view.prefixes.keys())">
