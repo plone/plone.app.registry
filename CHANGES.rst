@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.8 (2021-01-08)
+------------------
+
+Bug fixes:
+
+
+- Use better titles and descriptions for import and export steps.
+  [jensens] (#1)
+
+
 1.7.7 (2020-09-07)
 ------------------
 
