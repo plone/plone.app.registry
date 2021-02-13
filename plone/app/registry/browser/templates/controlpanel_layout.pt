@@ -7,26 +7,25 @@
       i18n:domain="plone">
 
 <body>
-<div metal:fill-slot="prefs_configlet_main">
+<tal:main metal:fill-slot="prefs_configlet_main">
 
-    <a id="setup-link" class="link-parent"
-       tal:attributes="href view/control_panel_url"
-       i18n:translate="">
-        Site Setup
-    </a>
+  <header>
 
-    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+    <h1 tal:content="view/label">View Title</h1>
+    <p class="lead" tal:condition="view/description | nothing" tal:content="view/description">View Description</p>
 
-    <div metal:use-macro="context/global_statusmessage/macros/portal_message">
-      Portal status message
+  </header>
+
+  <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+    Portal status message
+  </div>
+
+  <div id="content-core">
+    <div id="layout-contents">
+      <span tal:replace="structure view/contents" />
     </div>
+  </div>
 
-    <div id="content-core">
-        <div id="layout-contents">
-            <span tal:replace="structure view/contents" />
-        </div>
-    </div>
-
-</div>
+</tal:main>
 </body>
 </html>
