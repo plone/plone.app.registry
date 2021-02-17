@@ -25,9 +25,9 @@
       <input type="hidden" name="name" value="${request/form/name}" />
       <div class="formControls">
         <input id="form-buttons-delete" name="form.buttons.delete" i18n:attributes="value"
-               class="submit-widget button-field context" value="Yes, delete" type="submit">
+               class="submit-widget button-field btn btn-danger" value="Yes, delete" type="submit">
         <input id="form-buttons-cancel" name="form.buttons.cancel" i18n:attributes="value"
-               class="submit-widget button-field standalone" value="Cancel" type="submit">
+               class="submit-widget button-field btn btn-secondary" value="Cancel" type="submit">
       </div>
     </form>
 
