@@ -2,7 +2,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.7.9.dev0'
+version = '2.0.0.dev0'
 
 setup(
     name='plone.app.registry',
@@ -14,17 +14,16 @@ setup(
     # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.1",
-        "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Core",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Framework :: Zope :: 5",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords='plone registry settings configuration',
     author='Martin Aspeli',
