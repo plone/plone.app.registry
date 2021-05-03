@@ -4,12 +4,13 @@ from setuptools import setup
 
 version = '1.7.9.dev0'
 
+long_description = open("README.rst").read() + "\n" + open("CHANGES.rst").read()
+
 setup(
     name='plone.app.registry',
     version=version,
     description="Zope 2 and Plone  integration for plone.registry",
-    long_description=(open("README.rst").read() + "\n" +
-                      open("CHANGES.rst").read()),
+    long_description=long_description,
     # Get more strings from
     # https://pypi.org/classifiers/
     classifiers=[
