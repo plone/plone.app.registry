@@ -7,17 +7,18 @@ from plone.supermodel.exportimport import DictHandler
 
 class PersistentFieldHandler(BaseHandler):
     filteredAttributes = BaseHandler.filteredAttributes.copy()
-    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+    filteredAttributes.update({"interfaceName": "rw", "fieldName": "rw"})
 
 
 class PersistentDictHandler(DictHandler):
     filteredAttributes = DictHandler.filteredAttributes.copy()
-    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+    filteredAttributes.update({"interfaceName": "rw", "fieldName": "rw"})
 
 
 class PersistentChoiceHandler(ChoiceHandler):
     filteredAttributes = ChoiceHandler.filteredAttributes.copy()
-    filteredAttributes.update({'interfaceName': 'rw', 'fieldName': 'rw'})
+    filteredAttributes.update({"interfaceName": "rw", "fieldName": "rw"})
+
 
 # Field import/export handlers
 
@@ -52,3 +53,5 @@ FrozenSetHandler = PersistentFieldHandler(field.FrozenSet)
 DictHandler = PersistentDictHandler(field.Dict)
 
 ChoiceHandler = PersistentChoiceHandler(field.Choice)
+
+JSONFieldHandler = PersistentFieldHandler(field.JSONField)
