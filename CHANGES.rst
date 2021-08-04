@@ -8,6 +8,19 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a2 (2021-08-04)
+--------------------
+
+New features:
+
+
+- Add JSONField Handler for plone.registry.field.JSONField
+  - add component JSONFieldHandler
+  - add Tests for Import and Export JSONField
+  - add towncrier message
+  [1letter] (#48)
+
+
 2.0.0a1 (2021-04-20)
 --------------------
 
