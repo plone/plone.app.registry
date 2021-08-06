@@ -5,6 +5,7 @@ from plone.app.registry.browser.records import RecordsControlPanel
 from plone.app.registry.testing import PLONE_APP_REGISTRY_INTEGRATION_TESTING
 from plone.registry import Record
 from plone.registry.field import TextLine
+from zope.component import getMultiAdapter
 
 import unittest
 
@@ -77,3 +78,32 @@ class TestRecordsControlPanel(unittest.TestCase):
         view = RecordDeleteView(registry, self.request)
         view()
         self.assertTrue('foobar' not in registry.records)
+
+    def test_edit_record_with_slash(self):
+        # Prepare a new record "foo/bar"
+        registry = self.portal.portal_registry
+        new_field = TextLine()
+        new_record = Record(new_field)
+        registry.records["foo/bar"] = new_record
+
+        # the record has no value set
+        self.assertIsNone(new_record.value)
+
+        # prepare a request
+        request = self.request.clone()
+        request.form = {
+            "form.widgets.value": "baz",
+            "form.buttons.save": "Save",
+        }
+        request.method = "POST"
+        request["TraversalRequestNameStack"] = []
+
+        # get the view and fake the traversal
+        edit_form = getMultiAdapter(
+            (registry, request),
+            name="edit",
+        ).publishTraverse(request, "foo/bar")
+
+        # call the view and verify the value has changed
+        edit_form()
+        self.assertEqual(new_record.value, "baz")

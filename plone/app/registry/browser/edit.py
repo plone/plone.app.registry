@@ -16,6 +16,13 @@ class RecordEditForm(form.EditForm):
 
     record = None
 
+    @property
+    def action(self):
+        return "{}/edit/{}".format(
+            self.context.absolute_url(),
+            self.record.__name__,
+        )
+
     def getContent(self):
         return ImplicitAcquisitionWrapper(
             {'value': self.record.value},
