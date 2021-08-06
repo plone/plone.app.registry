@@ -21,6 +21,13 @@ New features:
   [1letter] (#48)
 
 
+Bug fixes:
+
+
+- Fix an issue that was preventing the edit of a registry record containing a "/" in its name
+  [ale-rt] (#51)
+
+
 2.0.0a1 (2021-04-20)
 --------------------
 
