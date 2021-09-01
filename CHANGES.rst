@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.9 (2021-09-01)
+------------------
+
+Bug fixes:
+
+
+- Fix an issue that was preventing the edit of a registry record containing a "/" in its name [ale-rt] (#51)
+
+
 1.7.8 (2021-01-08)
 ------------------
 
