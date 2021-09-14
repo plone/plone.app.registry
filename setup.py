@@ -42,7 +42,6 @@ setup(
         'plone.registry>=1.0b1',
         'plone.supermodel>=1.1dev',
         'Products.CMFCore',
-        'Products.CMFPlone',
         'Products.GenericSetup',
         'Products.statusmessages',
         'setuptools',
