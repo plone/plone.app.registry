@@ -30,7 +30,7 @@
       <div class="pat-autotoc autotabs"
            data-pat-autotoc="section:.tab;levels:h2;">
         <div id="recordsContainer" class="tab">
-          <h2>Records</h2>
+          <h2 i18n:translate="heading_records">Records</h2>
           <div id="recordsTable">
 
             <div id="searchrow">
