@@ -10,8 +10,6 @@
 <tal:defines tal:define="dummy python:request.set('disable_border', 1);
                          disable_column_one python:request.set('disable_plone.leftcolumn', 1);
                          disable_column_two python:request.set('disable_plone.rightcolumn', 0);"/>
-    <link rel="stylesheet" type="text/css"
-          tal:attributes="href string:${context/portal_url}/++resource++plone.app.registry/style.css" />
 </metal:block>
 
 <body>
@@ -77,7 +75,7 @@
                     <div class="mb-3 col-auto">
                       <form id="clear-filter">
                           <button class="btn btn-secondary"
-                            type="submit"
+                            type="reset"
                             i18n:translate="clear_filter">
                               Clear filter
                           </button>
