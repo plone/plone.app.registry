@@ -6,10 +6,10 @@
     <include package="plone.app.z3cform" />
     <include package="plone.autoform" />
 
-    <browser:resourceDirectory
+    <!-- <browser:resourceDirectory
         name="plone.app.registry"
         directory="resources"
-        />
+        /> -->
 
     <browser:defaultView
         for="plone.registry.interfaces.IRegistry"

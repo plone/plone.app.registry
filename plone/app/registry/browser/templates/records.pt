@@ -31,7 +31,7 @@
            data-pat-autotoc="section:.tab;levels:h2;">
         <div id="recordsContainer" class="tab">
           <h2 i18n:translate="heading_records">Records</h2>
-          <div id="recordsTable">
+          <div id="recordsTable" class="pat-registry">
 
             <div id="searchrow">
 
@@ -171,8 +171,6 @@
           </metal:block>
         </div>
       </div>
-      <script type="text/javascript" src="${context/portal_url}/++resource++plone.app.registry/registry.js">
-      </script>
     </div>
 </article>
 </body>
