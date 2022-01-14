@@ -69,7 +69,8 @@ def importRegistry(context):
     filepaths = ['registry.xml']
     if context.isDirectory('registry'):
         for filename in context.listDirectory('registry'):
-            filepaths.append('registry/' + filename)
+            if not filename.startswith('.'):
+                filepaths.append('registry/' + filename)
 
     importer = RegistryImporter(registry, context)
     for filepath in filepaths:
