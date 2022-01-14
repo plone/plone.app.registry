@@ -1173,6 +1173,7 @@ class TestImport(ExportImportTest):
         context = DummyImportContext(self.site, purge=False)
         context._files = {
             "registry.xml": xml1,
+            ".ignored_file" : "",
             "registry/foo2.xml": xml2,
             "registry/foo3.xml": xml3,
         }
@@ -1180,6 +1181,7 @@ class TestImport(ExportImportTest):
             "registry": [
                 "foo2.xml",
                 "foo3.xml",
+                ".ignored_file",
             ]
         }
         importRegistry(context)
