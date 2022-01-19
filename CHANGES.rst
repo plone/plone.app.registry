@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a6 (2022-01-19)
+--------------------
+
+Bug fixes:
+
+
+- Ignoring dotted files in registry directories. [iham] (#3990)
+
+
 2.0.0a5 (2021-10-16)
 --------------------
 
