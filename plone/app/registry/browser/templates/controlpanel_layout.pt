@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="here/prefs_main_template/macros/master"
+      metal:use-macro="context/@@prefs_main_template/macros/master"
       i18n:domain="plone">
 
 <body>
@@ -12,11 +12,11 @@
   <header>
 
     <h1 tal:content="view/label">View Title</h1>
-    <p class="lead" tal:condition="view/description | nothing" tal:content="view/description">View Description</p>
+    <p class="lead" tal:condition="view/description | nothing" tal:content="structure view/description">View Description</p>
 
   </header>
 
-  <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+  <div metal:use-macro="context/@@global_statusmessage/macros/portal_message">
     Portal status message
   </div>
 
