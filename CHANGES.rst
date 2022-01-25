@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a7 (2022-01-25)
+--------------------
+
+Bug fixes:
+
+
+- structured form description and explicit macro call
+  [petschki] (#60)
+
+
 2.0.0a6 (2022-01-19)
 --------------------
 
