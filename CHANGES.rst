@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a8 (2022-04-04)
+--------------------
+
+Breaking changes:
+
+
+- Remove registry.js, lives now in mockup [MrTango] (#57)
+
+
 2.0.0a7 (2022-01-25)
 --------------------
 
