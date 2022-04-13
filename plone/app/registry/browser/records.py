@@ -21,6 +21,7 @@ from zope.interface import Invalid
 from zope.schema.vocabulary import SimpleVocabulary
 
 import logging
+import re
 import string
 
 
