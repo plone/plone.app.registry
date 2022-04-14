@@ -21,6 +21,7 @@ from zope.interface import Invalid
 from zope.schema.vocabulary import SimpleVocabulary
 
 import logging
+import re
 import string
 
 
@@ -58,16 +59,20 @@ _valid_field_name_chars = string.ascii_letters + '._'
 
 
 def checkFieldName(val):
-    for letter in val:
-        if letter not in _valid_field_name_chars:
-            raise Invalid('Not a valid field name')
+    # Reuse same regex as in plone.registry.registry._Records to allow dottedname with one '/'
+    validkey = re.compile(
+        r"([a-zA-Z][a-zA-Z0-9_-]*)((?:\.[a-zA-Z0-9][a-zA-Z0-9_-]*)*)"
+        r"([/][a-zA-Z0-9][a-zA-Z0-9_-]*)?((?:\.[a-zA-Z0-9][a-zA-Z0-9_-]*)*)$"
+    ).match
+    if not validkey(val):
+        raise Invalid('Not a valid field name')
     return True
 
 
 class IAddFieldForm(Interface):
-    name = schema.ASCIILine(
+    name = schema.TextLine(
         title=_(u'label_field_name', default=u'Field Name'),
-        description=u'Must be in a format like "plone.my_name". Only letters, periods and underscores.',
+        description=u'Must be in a format like "plone.my_name". Only letters, periods, underscores and up to one /.',
         required=True,
         constraint=checkFieldName)
 
