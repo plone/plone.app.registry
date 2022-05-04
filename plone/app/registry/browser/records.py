@@ -2,7 +2,7 @@ from lxml.etree import XMLSyntaxError
 from plone.app.registry.exportimport.handler import RegistryExporter
 from plone.app.registry.exportimport.handler import RegistryImporter
 from plone.autoform.form import AutoExtensibleForm
-from plone.base import _
+from plone.base import PloneMessageFactory as _
 from plone.base.batch import Batch
 from plone.registry import field as registry_field
 from plone.registry import Record

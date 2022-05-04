@@ -1,0 +1,2 @@
+isort, black, pyupgrade. Use plone.base and dependency cleanup.
+[jensens]
