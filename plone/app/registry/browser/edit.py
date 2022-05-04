@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
 from plone.z3cform import layout
 from Products.statusmessages.interfaces import IStatusMessage
@@ -29,10 +28,10 @@ class RecordEditForm(form.EditForm):
         self.fields = field.Fields(
             self.record.field,
         )
-        super(RecordEditForm, self).update()
+        super().update()
 
     def updateActions(self):
-        super(RecordEditForm, self).updateActions()
+        super().updateActions()
         self.actions["save"].addClass("btn btn-primary")
         self.actions["cancel"].addClass("btn btn-secondary")
 
@@ -61,7 +60,7 @@ class RecordEditView(layout.FormWrapper):
     form = RecordEditForm
 
     def __init__(self, context, request):
-        super(RecordEditView, self).__init__(context, request)
+        super().__init__(context, request)
         self.request["disable_border"] = True
 
     def publishTraverse(self, request, name):

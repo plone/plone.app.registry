@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.delete import RecordDeleteView
 from plone.app.registry.browser.records import RecordsControlPanel
@@ -20,7 +19,7 @@ class TestRegistryBaseControlpanel(unittest.TestCase):
         """
         view = ControlPanelFormWrapper(None, None)
         self.assertEqual(
-            view.control_panel_url, u"http://nohost/plone/@@overview-controlpanel"
+            view.control_panel_url, "http://nohost/plone/@@overview-controlpanel"
         )
 
 
@@ -38,7 +37,7 @@ class TestRecordsControlPanel(unittest.TestCase):
         """
         view = RecordsControlPanel(None, None)
         self.assertEqual(
-            view.control_panel_url, u"http://nohost/plone/@@overview-controlpanel"
+            view.control_panel_url, "http://nohost/plone/@@overview-controlpanel"
         )
 
     def test_add_new_record(self):

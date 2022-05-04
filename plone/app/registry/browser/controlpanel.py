@@ -47,25 +47,25 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
         )
 
     def updateActions(self):
-        super(RegistryEditForm, self).updateActions()
+        super().updateActions()
         self.actions["save"].addClass("btn btn-primary")
         self.actions["cancel"].addClass("btn btn-secondary")
 
-    @button.buttonAndHandler(_(u"Save"), name="save")
+    @button.buttonAndHandler(_("Save"), name="save")
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved."), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Changes saved."), "info")
         self.request.response.redirect(self.request.getURL())
 
-    @button.buttonAndHandler(_(u"Cancel"), name="cancel")
+    @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes canceled."), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Changes canceled."), "info")
         self.request.response.redirect(
-            u"{0}/{1}".format(getSite().absolute_url(), self.control_panel_view)
+            f"{getSite().absolute_url()}/{self.control_panel_view}"
         )
 
 
@@ -78,4 +78,4 @@ class ControlPanelFormWrapper(layout.FormWrapper):
 
     @property
     def control_panel_url(self):
-        return u"{0}/@@overview-controlpanel".format(getSite().absolute_url())
+        return f"{getSite().absolute_url()}/@@overview-controlpanel"

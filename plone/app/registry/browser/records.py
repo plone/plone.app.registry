@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from lxml.etree import XMLSyntaxError
 from plone.app.registry.exportimport.handler import RegistryExporter
 from plone.app.registry.exportimport.handler import RegistryImporter
@@ -43,7 +42,7 @@ def _starts_with(s, v):
 _okay_prefixes = ["Products", "plone.app", "plone"]
 
 
-class FakeEnv(object):
+class FakeEnv:
     def getLogger(self, name):
         return logger
 
@@ -67,18 +66,18 @@ def checkFieldName(val):
 
 class IAddFieldForm(Interface):
     name = schema.TextLine(
-        title=_(u"label_field_name", default=u"Field Name"),
-        description=u'Must be in a format like "plone.my_name". Only letters, periods, underscores and up to one /.',
+        title=_("label_field_name", default="Field Name"),
+        description='Must be in a format like "plone.my_name". Only letters, periods, underscores and up to one /.',
         required=True,
         constraint=checkFieldName,
     )
 
     title = schema.TextLine(
-        title=_(u"label_field_title", default=u"Field Title"), required=True
+        title=_("label_field_title", default="Field Title"), required=True
     )
 
     field_type = schema.Choice(
-        title=u"Field Type",
+        title="Field Type",
         vocabulary=SimpleVocabulary.fromValues(
             [
                 "Bytes",
@@ -105,7 +104,7 @@ class IAddFieldForm(Interface):
         ),
     )
 
-    required = schema.Bool(title=u"Required", default=False)
+    required = schema.Bool(title="Required", default=False)
 
 
 class RecordsControlPanel(AutoExtensibleForm, form.Form):
@@ -117,13 +116,13 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
 
     @property
     def action(self):
-        return "{url}#autotoc-item-autotoc-3".format(url=self.context.absolute_url())
+        return f"{self.context.absolute_url()}#autotoc-item-autotoc-3"
 
     def updateActions(self):
-        super(RecordsControlPanel, self).updateActions()
+        super().updateActions()
         self.actions["addfield"].addClass("btn-primary")
 
-    @button.buttonAndHandler(u"Add field", name="addfield")
+    @button.buttonAndHandler("Add field", name="addfield")
     def action_addfield(self, action):
         data, errors = self.extractData()
         self.submitted = True
@@ -154,7 +153,7 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
             new_record = Record(new_field)
             self.context.records[data["name"]] = new_record
             messages = IStatusMessage(self.request)
-            messages.add(u"Successfully added field %s" % data["name"], type=u"info")
+            messages.add("Successfully added field %s" % data["name"], type="info")
             return self.request.response.redirect(
                 "{url}/edit/{field}".format(
                     url=self.context.absolute_url(), field=data["name"]
@@ -167,7 +166,7 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
             body = fi.read()
         except (AttributeError, KeyError):
             messages = IStatusMessage(self.request)
-            messages.add(u"Must provide XML file", type=u"error")
+            messages.add("Must provide XML file", type="error")
             body = None
         if body is not None:
             importer = RegistryImporter(self.context, FakeEnv())
@@ -175,7 +174,7 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
                 importer.importDocument(body)
             except XMLSyntaxError:
                 messages = IStatusMessage(self.request)
-                messages.add(u"Must provide valid XML file", type=u"error")
+                messages.add("Must provide valid XML file", type="error")
         return self.request.response.redirect(self.context.absolute_url())
 
     def export_registry(self):
@@ -189,7 +188,7 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
 
     @property
     def control_panel_url(self):
-        return u"{0}/@@overview-controlpanel".format(getSite().absolute_url())
+        return f"{getSite().absolute_url()}/@@overview-controlpanel"
 
     def __call__(self):
         form = self.request.form
@@ -231,4 +230,4 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
             if compare(search, prefixValue) or compare(search, record.__name__):
                 self.records.append(record)
         self.records = Batch(self.records, 15, int(form.get("b_start", "0")), orphan=1)
-        return super(RecordsControlPanel, self).__call__()
+        return super().__call__()

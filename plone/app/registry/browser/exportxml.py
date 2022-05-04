@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from lxml import etree
 from plone.registry.interfaces import IRegistry
 from Products.Five import BrowserView
@@ -6,7 +5,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 
 import os
-import six
 
 
 _current_dir = os.path.dirname(__file__)
@@ -37,14 +35,14 @@ class RegistryExporterView(BrowserView):
     def interfaces(self):
         prefixes = []
         registry = getUtility(IRegistry)
-        baseurl = "{0}/@@configuration_registry_export_xml?interface=".format(
+        baseurl = "{}/@@configuration_registry_export_xml?interface=".format(
             self.context.absolute_url()
         )
         for record in registry.records.values():
             if record.interfaceName is None:
                 continue
             name = record.interfaceName
-            url = "{0}{1}".format(baseurl, record.interfaceName)
+            url = f"{baseurl}{record.interfaceName}"
             pair = (name, url)
             if pair not in prefixes:
                 prefixes.append(pair)
@@ -54,7 +52,7 @@ class RegistryExporterView(BrowserView):
     def prefixes(self):
         prefixes = []
         registry = getUtility(IRegistry)
-        baseurl = "{0}/@@configuration_registry_export_xml?".format(
+        baseurl = "{}/@@configuration_registry_export_xml?".format(
             self.context.absolute_url()
         )
         for record in registry.records.values():
@@ -62,7 +60,7 @@ class RegistryExporterView(BrowserView):
                 continue
 
             def add_split(part):
-                url = "{0}name={1}".format(baseurl, part)
+                url = f"{baseurl}name={part}"
                 pair = (part, url)
                 if pair not in prefixes:
                     prefixes.append(pair)
@@ -97,7 +95,7 @@ class RegistryExporterView(BrowserView):
                     xmlel.text = element
             elif isinstance(record.value, bool):
                 xmlvalue.text = "True" if record.value else "False"
-            elif isinstance(record.value, six.string_types):
+            elif isinstance(record.value, str):
                 xmlvalue.text = record.value
             else:
                 xmlvalue.text = str(record.value)
@@ -130,7 +128,7 @@ class RegistryExporterView(BrowserView):
         if sname:
             filename += sname
         self.request.response.setHeader(
-            "Content-Disposition", "attachment; filename={0}.xml".format(filename)
+            "Content-Disposition", f"attachment; filename={filename}.xml"
         )
         return etree.tostring(
             root, pretty_print=True, xml_declaration=True, encoding="UTF-8"

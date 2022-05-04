@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from lxml import etree
 from plone.registry import FieldRef
 from plone.registry import Record
@@ -96,7 +95,7 @@ def exportRegistry(context):
         context.writeDataFile("registry.xml", safe_encode(body), "text/xml")
 
 
-class RegistryImporter(object):
+class RegistryImporter:
     """Helper classt to import a registry file"""
 
     LOGGER_ID = "plone.app.registry"
@@ -133,8 +132,8 @@ class RegistryImporter(object):
         name = node.get("name", "")
         if node.get("delete") is not None:
             self.logger.warning(
-                u"The 'delete' attribute of <record /> nodes is deprecated, "
-                u"it should be replaced with 'remove'."
+                "The 'delete' attribute of <record /> nodes is deprecated, "
+                "it should be replaced with 'remove'."
             )
         remove = node.get("remove", node.get("delete", "false"))
         interfaceName = node.get("interface", None)
@@ -145,14 +144,14 @@ class RegistryImporter(object):
             if prefix is None:
                 prefix = interfaceName
 
-            name = "%s.%s" % (prefix, fieldName)
+            name = f"{prefix}.{fieldName}"
 
         if not name:
             raise NameError("No name given for <record /> node!")
 
         # Unicode is not supported
         name = str(name)
-        __traceback_info__ = "record name: {0}".format(name)
+        __traceback_info__ = f"record name: {name}"
 
         # Handle deletion and quit
         if remove.lower() == "true":
@@ -161,7 +160,7 @@ class RegistryImporter(object):
                 self.logger.info("Removed record %s." % name)
             else:
                 self.logger.warning(
-                    "Record {0} was marked for deletion, but was not "
+                    "Record {} was marked for deletion, but was not "
                     "found.".format(name)
                 )
             return
@@ -181,21 +180,21 @@ class RegistryImporter(object):
                 field = IPersistentField(interface[fieldName])
             except ImportError:
                 self.logger.warning(
-                    "Failed to import interface {0} for "
-                    "record {1}".format(interfaceName, name)
+                    "Failed to import interface {} for "
+                    "record {}".format(interfaceName, name)
                 )
                 interface = None
                 field = None
             except KeyError:
                 self.logger.warning(
-                    "Interface {0} specified for record %s has "
-                    "no field {1}.".format(interfaceName, name, fieldName)
+                    "Interface {} specified for record %s has "
+                    "no field {}.".format(interfaceName, name, fieldName)
                 )
                 interface = None
                 field = None
             except TypeError:
                 self.logger.warning(
-                    "Field {0} in interface {1} specified for record {2} "
+                    "Field {} in interface {} specified for record {} "
                     "cannot be used as a persistent field.".format(
                         fieldName, interfaceName, name
                     )
@@ -223,8 +222,8 @@ class RegistryImporter(object):
                 # We have a field reference
                 if field_ref not in self.context:
                     raise KeyError(
-                        u"Record {0} references field for record {1}, "
-                        u"which does not exist".format(name, field_ref)
+                        "Record {} references field for record {}, "
+                        "which does not exist".format(name, field_ref)
                     )
                 ref_record = self.context.records[field_ref]
                 field = FieldRef(field_ref, ref_record.field)
@@ -236,15 +235,15 @@ class RegistryImporter(object):
                 )
                 if field_type_handler is None:
                     raise TypeError(
-                        "Field of type {0} used for record {1} is not "
+                        "Field of type {} used for record {} is not "
                         "supported.".format(field_type, name)
                     )
                 else:
                     field = field_type_handler.read(field_node)
                     if not IPersistentField.providedBy(field):
                         raise TypeError(
-                            "Only persistent fields may be imported. {0} used "
-                            "for record {1} is invalid.".format(field_type, name)
+                            "Only persistent fields may be imported. {} used "
+                            "for record {} is invalid.".format(field_type, name)
                         )
 
         if field is not None and not IFieldRef.providedBy(field):
@@ -263,7 +262,7 @@ class RegistryImporter(object):
 
         if field is None:
             raise ValueError(
-                "Cannot find a field for the record {0}. Add a <field /> "
+                "Cannot find a field for the record {}. Add a <field /> "
                 "element or reference an interface and field name.".format(name)
             )
 
@@ -292,7 +291,7 @@ class RegistryImporter(object):
                         ]
                     elif isinstance(value, tuple):
                         value = existing_value + tuple(
-                            [v for v in value if v not in existing_value]
+                            v for v in value if v not in existing_value
                         )
                     elif isinstance(
                         value,
@@ -334,7 +333,7 @@ class RegistryImporter(object):
 
         interfaceName = node.attrib.get("interface", None)
         if interfaceName is None:
-            raise KeyError(u"A <records /> node must have an 'interface' attribute.")
+            raise KeyError("A <records /> node must have an 'interface' attribute.")
 
         __traceback_info__ = "records name: " + interfaceName
 
@@ -344,8 +343,8 @@ class RegistryImporter(object):
 
         if node.attrib.get("delete") is not None:
             self.logger.warning(
-                u"The 'delete' attribute of <record /> nodes is deprecated, "
-                u"it should be replaced with 'remove'."
+                "The 'delete' attribute of <record /> nodes is deprecated, "
+                "it should be replaced with 'remove'."
             )
         remove = node.attrib.get("remove", node.attrib.get("delete", "false"))
         remove = remove.lower() == "true"
@@ -402,7 +401,7 @@ class RegistryImporter(object):
             self.importRecord(field)
 
 
-class RegistryExporter(object):
+class RegistryExporter:
 
     LOGGER_ID = "plone.app.registry"
 
@@ -441,7 +440,7 @@ class RegistryExporter(object):
             handler = queryUtility(IFieldExportImportHandler, name=field_type)
             if handler is None:
                 self.logger.warning(
-                    "Field type {0} specified for record {1} "
+                    "Field type {} specified for record {} "
                     "cannot be exported".format(field_type, record.__name__)
                 )
             else:

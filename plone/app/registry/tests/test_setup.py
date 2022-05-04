@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from plone.app.registry.testing import PLONE_APP_REGISTRY_INTEGRATION_TESTING
 from plone.registry.interfaces import IRegistry

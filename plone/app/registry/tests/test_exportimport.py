@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-
 from lxml import etree
 from OFS.ObjectManager import ObjectManager
 from plone.app.registry import Registry
@@ -89,7 +86,7 @@ class ExportImportTest(unittest.TestCase):
             print(prettyXML(actual_tree))
             print()
 
-            raise AssertionError(u"XML mis-match")
+            raise AssertionError("XML mis-match")
 
 
 class TestImport(ExportImportTest):
@@ -100,8 +97,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -114,8 +111,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -131,8 +128,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -151,8 +148,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         try:
@@ -174,8 +171,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -370,16 +367,16 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Simple record", self.registry.records["test.export.simple"].field.title
+            "Simple record", self.registry.records["test.export.simple"].field.title
         )
-        self.assertEqual(u"Imported value", self.registry["test.export.simple"])
+        self.assertEqual("Imported value", self.registry["test.export.simple"])
 
     def test_import_value_only_condition_installed(self):
         xml = """\
@@ -394,16 +391,16 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Simple record", self.registry.records["test.export.simple"].field.title
+            "Simple record", self.registry.records["test.export.simple"].field.title
         )
-        self.assertEqual(u"Sample value", self.registry["test.export.simple"])
+        self.assertEqual("Sample value", self.registry["test.export.simple"])
 
     def test_import_value_only_condition_have(self):
         xml = """\
@@ -418,16 +415,16 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Simple record", self.registry.records["test.export.simple"].field.title
+            "Simple record", self.registry.records["test.export.simple"].field.title
         )
-        self.assertEqual(u"Imported value", self.registry["test.export.simple"])
+        self.assertEqual("Imported value", self.registry["test.export.simple"])
 
     def test_import_value_only_condition_not_have(self):
         xml = """\
@@ -442,16 +439,16 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Simple record", self.registry.records["test.export.simple"].field.title
+            "Simple record", self.registry.records["test.export.simple"].field.title
         )
-        self.assertEqual(u"Sample value", self.registry["test.export.simple"])
+        self.assertEqual("Sample value", self.registry["test.export.simple"])
 
     def test_import_interface_and_value(self):
         xml = """\
@@ -468,7 +465,7 @@ class TestImport(ExportImportTest):
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Age",
+            "Age",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.age"
             ].field.title,  # noqa
@@ -495,7 +492,7 @@ class TestImport(ExportImportTest):
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Age", self.registry.records["plone.registry.oops"].field.title
+            "Age", self.registry.records["plone.registry.oops"].field.title
         )
         self.assertEqual(2, self.registry["plone.registry.oops"])
 
@@ -512,13 +509,13 @@ class TestImport(ExportImportTest):
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Name",
+            "Name",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
             ].field.title,  # noqa
         )
         self.assertEqual(
-            u"Mr. Registry",
+            "Mr. Registry",
             self.registry[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
             ],  # noqa
@@ -547,12 +544,12 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(
-            u"value", self.registry.records["test.registry.field"].field.__name__
+            "value", self.registry.records["test.registry.field"].field.__name__
         )
-        self.assertEqual(u"N/A", self.registry["test.registry.field"])
+        self.assertEqual("N/A", self.registry["test.registry.field"])
 
     def test_import_field_ref(self):
         xml = """\
@@ -567,8 +564,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         importRegistry(context)
@@ -580,18 +577,16 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record",
+            "Simple record",
             self.registry.records["test.registry.field.override"].field.title,
         )
         self.assertEqual(
-            u"value",
+            "value",
             self.registry.records[
                 "test.registry.field.override"
             ].field.__name__,  # noqa
         )
-        self.assertEqual(
-            u"Another value", self.registry["test.registry.field.override"]
-        )
+        self.assertEqual("Another value", self.registry["test.registry.field.override"])
 
     def test_import_field_and_interface(self):
         xml = """\
@@ -616,7 +611,7 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual("N/A", self.registry["test.registry.field"])
 
@@ -633,7 +628,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Old value"
+            field.TextLine(title="Simple record", default="N/A"), value="Old value"
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -648,7 +643,7 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual("Nada", self.registry["test.registry.field"])
 
@@ -660,7 +655,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Old value"
+            field.TextLine(title="Simple record", default="N/A"), value="Old value"
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -673,7 +668,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Int)
         )
         self.assertEqual(
-            u"Age", self.registry.records["test.registry.field"].field.title
+            "Age", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(None, self.registry["test.registry.field"])
 
@@ -696,7 +691,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Old value"
+            field.TextLine(title="Simple record", default="N/A"), value="Old value"
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -711,7 +706,7 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(frozenset([1, 3]), self.registry["test.registry.field"])
 
@@ -728,8 +723,8 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
-            value=set([1]),
+            field.Set(title="Simple record", value_type=field.Int(title="Val")),
+            value={1},
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -742,7 +737,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Set)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(frozenset([4, 6]), self.registry["test.registry.field"])
 
@@ -759,8 +754,8 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
-            value=set([1]),
+            field.Set(title="Simple record", value_type=field.Int(title="Val")),
+            value={1},
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -773,7 +768,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Set)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(frozenset([1, 4, 6]), self.registry["test.registry.field"])
 
@@ -790,7 +785,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.List(title=u"Simple record", value_type=field.Int(title=u"Val")),
+            field.List(title="Simple record", value_type=field.Int(title="Val")),
             value=[2, 4],
         )
 
@@ -815,12 +810,10 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.Tuple(
-                title=u"Simple record", value_type=field.TextLine(title=u"Val")
-            ),
+            field.Tuple(title="Simple record", value_type=field.TextLine(title="Val")),
             value=(
-                u"a",
-                u"b",
+                "a",
+                "b",
             ),
         )
 
@@ -832,9 +825,9 @@ class TestImport(ExportImportTest):
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
             (
-                u"a",
-                u"b",
-                u"c",
+                "a",
+                "b",
+                "c",
             ),
             self.registry["test.registry.field"],
         )
@@ -852,8 +845,8 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.Set(title=u"Simple record", value_type=field.Int(title=u"Val")),
-            value=set([2, 4]),
+            field.Set(title="Simple record", value_type=field.Int(title="Val")),
+            value={2, 4},
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -862,7 +855,7 @@ class TestImport(ExportImportTest):
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
-        self.assertEqual(set([2, 4, 6]), self.registry["test.registry.field"])
+        self.assertEqual({2, 4, 6}, self.registry["test.registry.field"])
 
     def test_import_collection_frozenset_append(self):
         xml = """\
@@ -877,7 +870,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.FrozenSet(title=u"Simple record", value_type=field.Int(title=u"Val")),
+            field.FrozenSet(title="Simple record", value_type=field.Int(title="Val")),
             value=frozenset([2, 4]),
         )
 
@@ -911,7 +904,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Old value"
+            field.TextLine(title="Simple record", default="N/A"), value="Old value"
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -924,7 +917,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Dict)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual({"a": 1, "b": 3}, self.registry["test.registry.field"])
 
@@ -942,9 +935,9 @@ class TestImport(ExportImportTest):
 
         self.registry.records["test.registry.field"] = Record(
             field.Dict(
-                title=u"Simple record",
-                key_type=field.ASCIILine(title=u"Key"),
-                value_type=field.Int(title=u"Val"),
+                title="Simple record",
+                key_type=field.ASCIILine(title="Key"),
+                value_type=field.Int(title="Val"),
             ),
             value={"a": 1},
         )
@@ -959,7 +952,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Dict)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual({"x": 4, "y": 6}, self.registry["test.registry.field"])
 
@@ -977,9 +970,9 @@ class TestImport(ExportImportTest):
 
         self.registry.records["test.registry.field"] = Record(
             field.Dict(
-                title=u"Simple record",
-                key_type=field.ASCIILine(title=u"Key"),
-                value_type=field.Int(title=u"Val"),
+                title="Simple record",
+                key_type=field.ASCIILine(title="Key"),
+                value_type=field.Int(title="Val"),
             ),
             value={"a": 1},
         )
@@ -994,7 +987,7 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Dict)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual({"a": 1, "x": 4, "y": 6}, self.registry["test.registry.field"])
 
@@ -1014,7 +1007,7 @@ class TestImport(ExportImportTest):
 """
 
         self.registry.records["test.registry.field"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"), value=u"Old value"
+            field.TextLine(title="Simple record", default="N/A"), value="Old value"
         )
 
         context = DummyImportContext(self.site, purge=False)
@@ -1027,10 +1020,10 @@ class TestImport(ExportImportTest):
             isinstance(self.registry.records["test.registry.field"].field, field.Choice)
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(
-            [u"One", u"Two"],
+            ["One", "Two"],
             [
                 t.value
                 for t in self.registry.records["test.registry.field"].field.vocabulary
@@ -1069,12 +1062,12 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"Simple record", self.registry.records["test.registry.field"].field.title
+            "Simple record", self.registry.records["test.registry.field"].field.title
         )
         self.assertEqual(
-            u"value", self.registry.records["test.registry.field"].field.__name__
+            "value", self.registry.records["test.registry.field"].field.__name__
         )
-        self.assertEqual(u"N/A", self.registry["test.registry.field"])
+        self.assertEqual("N/A", self.registry["test.registry.field"])
 
         self.assertIn("plone.app.registry.tests.data.SomethingElse.name", self.registry)
         self.assertIn("plone.app.registry.tests.data.SomethingElse.age", self.registry)
@@ -1095,8 +1088,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -1112,8 +1105,8 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
@@ -1129,16 +1122,16 @@ class TestImport(ExportImportTest):
         context._files = {"registry.xml": xml}
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
         importRegistry(context)
 
         self.assertEqual(1, len(self.registry.records))
         self.assertEqual(
-            u"Simple record", self.registry.records["test.export.simple"].field.title
+            "Simple record", self.registry.records["test.export.simple"].field.title
         )
-        self.assertEqual(u"Sample value", self.registry["test.export.simple"])
+        self.assertEqual("Sample value", self.registry["test.export.simple"])
 
     def test_import_folder(self):
         xml1 = """\
@@ -1195,10 +1188,10 @@ class TestImport(ExportImportTest):
                 isinstance(self.registry.records[fieldname].field, field.TextLine)
             )
             self.assertEqual(
-                u"Simple record", self.registry.records[fieldname].field.title
+                "Simple record", self.registry.records[fieldname].field.title
             )
-            self.assertEqual(u"value", self.registry.records[fieldname].field.__name__)
-            self.assertEqual(u"N/A", self.registry[fieldname])
+            self.assertEqual("value", self.registry.records[fieldname].field.__name__)
+            self.assertEqual("N/A", self.registry[fieldname])
 
     def test_import_jsonfield_only(self):
         xml = """\
@@ -1223,7 +1216,7 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"JSON record", self.registry.records["test.registry.field"].field.title
+            "JSON record", self.registry.records["test.registry.field"].field.title
         )
         self.assertDictEqual({}, self.registry["test.registry.field"])
 
@@ -1251,7 +1244,7 @@ class TestImport(ExportImportTest):
             )
         )
         self.assertEqual(
-            u"JSON record", self.registry.records["test.registry.field"].field.title
+            "JSON record", self.registry.records["test.registry.field"].field.title
         )
         self.assertDictEqual(
             {
@@ -1288,8 +1281,8 @@ class TestExport(ExportImportTest):
 </registry>"""
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         context = DummyExportContext(self.site)
@@ -1325,8 +1318,8 @@ class TestExport(ExportImportTest):
 </registry>"""
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         self.registry.registerInterface(data.ITestSettings)
@@ -1355,12 +1348,12 @@ class TestExport(ExportImportTest):
 </registry>"""
 
         self.registry.records["test.export.simple"] = refRecord = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         self.registry.records["test.export.simple.override"] = Record(
-            FieldRef(refRecord.__name__, refRecord.field), value=u"Another value"
+            FieldRef(refRecord.__name__, refRecord.field), value="Another value"
         )
 
         context = DummyExportContext(self.site)
@@ -1386,7 +1379,7 @@ class TestExport(ExportImportTest):
   </record>
 </registry>"""
         self.registry.records["test.export.simple"] = Record(
-            field.List(title=u"Simple record", value_type=field.Int(title=u"Val")),
+            field.List(title="Simple record", value_type=field.Int(title="Val")),
             value=[2],
         )
 
@@ -1419,10 +1412,10 @@ class TestExport(ExportImportTest):
 
         self.registry.records["test.export.dict"] = Record(
             field.Dict(
-                title=u"Dict",
+                title="Dict",
                 default={},
-                key_type=field.ASCIILine(title=u"Key"),
-                value_type=field.Int(title=u"Value"),
+                key_type=field.ASCIILine(title="Key"),
+                value_type=field.Int(title="Value"),
             ),
             value={"a": 1},
         )
@@ -1447,7 +1440,7 @@ class TestExport(ExportImportTest):
 </registry>"""
 
         self.registry.records["test.export.choice"] = Record(
-            field.Choice(title=u"Simple record", vocabulary=u"dummy.vocab")
+            field.Choice(title="Simple record", vocabulary="dummy.vocab")
         )
 
         context = DummyExportContext(self.site)
@@ -1470,8 +1463,8 @@ class TestExport(ExportImportTest):
 </registry>"""
 
         self.registry.records["test.export.simple"] = Record(
-            field.TextLine(title=u"Simple record", default=u"N/A"),
-            value=u"Sample value",
+            field.TextLine(title="Simple record", default="N/A"),
+            value="Sample value",
         )
 
         # Note: These are nominally read-only!
@@ -1503,7 +1496,7 @@ class TestExport(ExportImportTest):
 
         self.registry.records["test.export.field"] = Record(
             field.JSONField(
-                title=u"Dict",
+                title="Dict",
                 default={},
             ),
             value={
