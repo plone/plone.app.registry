@@ -4,8 +4,7 @@ from plone.registry import registry
 
 
 class Registry(registry.Registry, SimpleItem):
-    """A Zope 2 style registry
-    """
+    """A Zope 2 style registry"""
 
     def __init__(self, id, title=None):
         super(Registry, self).__init__()

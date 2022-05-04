@@ -25,7 +25,7 @@ import re
 import string
 
 
-logger = logging.getLogger('plone.app.registry')
+logger = logging.getLogger("plone.app.registry")
 
 
 def _true(s, v):
@@ -40,14 +40,10 @@ def _starts_with(s, v):
     return v.startswith(s)
 
 
-_okay_prefixes = [
-    'Products',
-    'plone.app',
-    'plone']
+_okay_prefixes = ["Products", "plone.app", "plone"]
 
 
 class FakeEnv(object):
-
     def getLogger(self, name):
         return logger
 
@@ -55,7 +51,7 @@ class FakeEnv(object):
         return False
 
 
-_valid_field_name_chars = string.ascii_letters + '._'
+_valid_field_name_chars = string.ascii_letters + "._"
 
 
 def checkFieldName(val):
@@ -65,36 +61,51 @@ def checkFieldName(val):
         r"([/][a-zA-Z0-9][a-zA-Z0-9_-]*)?((?:\.[a-zA-Z0-9][a-zA-Z0-9_-]*)*)$"
     ).match
     if not validkey(val):
-        raise Invalid('Not a valid field name')
+        raise Invalid("Not a valid field name")
     return True
 
 
 class IAddFieldForm(Interface):
     name = schema.TextLine(
-        title=_(u'label_field_name', default=u'Field Name'),
+        title=_(u"label_field_name", default=u"Field Name"),
         description=u'Must be in a format like "plone.my_name". Only letters, periods, underscores and up to one /.',
         required=True,
-        constraint=checkFieldName)
+        constraint=checkFieldName,
+    )
 
     title = schema.TextLine(
-        title=_(u'label_field_title', default=u'Field Title'),
-        required=True)
+        title=_(u"label_field_title", default=u"Field Title"), required=True
+    )
 
     field_type = schema.Choice(
-        title=u'Field Type',
-        vocabulary=SimpleVocabulary.fromValues([
-            'Bytes', 'BytesLine', 'ASCII', 'ASCIILine', 'Text', 'TextLine', 'Bool', 'Int',
-            'Float', 'Decimal', 'Password',
-            'Datetime', 'Date', 'Timedelta', 'SourceText', 'URI', 'Id', 'DottedName',
-            # XXX not supporting these types yet as it requires additional config
-            # 'Tuple', 'List', 'Set', 'FrozenSet', 'Dict',
-        ])
+        title=u"Field Type",
+        vocabulary=SimpleVocabulary.fromValues(
+            [
+                "Bytes",
+                "BytesLine",
+                "ASCII",
+                "ASCIILine",
+                "Text",
+                "TextLine",
+                "Bool",
+                "Int",
+                "Float",
+                "Decimal",
+                "Password",
+                "Datetime",
+                "Date",
+                "Timedelta",
+                "SourceText",
+                "URI",
+                "Id",
+                "DottedName",
+                # XXX not supporting these types yet as it requires additional config
+                # 'Tuple', 'List', 'Set', 'FrozenSet', 'Dict',
+            ]
+        ),
     )
 
-    required = schema.Bool(
-        title=u'Required',
-        default=False
-    )
+    required = schema.Bool(title=u"Required", default=False)
 
 
 class RecordsControlPanel(AutoExtensibleForm, form.Form):
@@ -102,47 +113,57 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
     ignoreContext = True
     submitted = False
 
-    template = ViewPageTemplateFile('templates/records.pt')
+    template = ViewPageTemplateFile("templates/records.pt")
 
     @property
     def action(self):
-        return '{url}#autotoc-item-autotoc-3'.format(url=self.context.absolute_url())
+        return "{url}#autotoc-item-autotoc-3".format(url=self.context.absolute_url())
 
     def updateActions(self):
         super(RecordsControlPanel, self).updateActions()
-        self.actions['addfield'].addClass('btn-primary')
+        self.actions["addfield"].addClass("btn-primary")
 
-    @button.buttonAndHandler(u'Add field', name='addfield')
+    @button.buttonAndHandler(u"Add field", name="addfield")
     def action_addfield(self, action):
         data, errors = self.extractData()
         self.submitted = True
         if not errors:
-            field_class = getattr(registry_field, data['field_type'], None)
+            field_class = getattr(registry_field, data["field_type"], None)
             if field_class is None:
                 notify(
                     ActionErrorOccurred(
                         action,
-                        WidgetActionExecutionError('field_type', Invalid('Invalid Field'))))
+                        WidgetActionExecutionError(
+                            "field_type", Invalid("Invalid Field")
+                        ),
+                    )
+                )
                 return
-            if data['name'] in self.context:
+            if data["name"] in self.context:
                 notify(
                     ActionErrorOccurred(
                         action,
-                        WidgetActionExecutionError('name', Invalid('Field name already in use'))))
+                        WidgetActionExecutionError(
+                            "name", Invalid("Field name already in use")
+                        ),
+                    )
+                )
                 return
 
-            new_field = field_class(title=data['title'], required=data['required'])
+            new_field = field_class(title=data["title"], required=data["required"])
             new_record = Record(new_field)
-            self.context.records[data['name']] = new_record
+            self.context.records[data["name"]] = new_record
             messages = IStatusMessage(self.request)
-            messages.add(u"Successfully added field %s" % data['name'], type=u"info")
-            return self.request.response.redirect('{url}/edit/{field}'.format(
-                url=self.context.absolute_url(),
-                field=data['name']))
+            messages.add(u"Successfully added field %s" % data["name"], type=u"info")
+            return self.request.response.redirect(
+                "{url}/edit/{field}".format(
+                    url=self.context.absolute_url(), field=data["name"]
+                )
+            )
 
     def import_registry(self):
         try:
-            fi = self.request.form['file']
+            fi = self.request.form["file"]
             body = fi.read()
         except (AttributeError, KeyError):
             messages = IStatusMessage(self.request)
@@ -161,8 +182,8 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
         exporter = RegistryExporter(self.context, FakeEnv())
         body = exporter.exportDocument()
         resp = self.request.response
-        resp.setHeader('Content-type', 'text/xml')
-        resp.setHeader('Content-Disposition', 'attachment; filename=registry.xml')
+        resp.setHeader("Content-type", "text/xml")
+        resp.setHeader("Content-Disposition", "attachment; filename=registry.xml")
         resp.setHeader("Content-Length", len(body))
         return body
 
@@ -172,18 +193,18 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
 
     def __call__(self):
         form = self.request.form
-        if self.request.REQUEST_METHOD == 'POST':
-            if form.get('button.exportregistry'):
+        if self.request.REQUEST_METHOD == "POST":
+            if form.get("button.exportregistry"):
                 return self.export_registry()
-            if form.get('button.importregistry'):
+            if form.get("button.importregistry"):
                 return self.import_registry()
-        search = form.get('q')
-        searchp = form.get('qp')
+        search = form.get("q")
+        searchp = form.get("qp")
         compare = _is_in
-        if searchp not in (None, ''):
+        if searchp not in (None, ""):
             search = searchp
-        if search is not None and search.startswith('prefix:'):
-            search = search[len('prefix:'):]
+        if search is not None and search.startswith("prefix:"):
+            search = search[len("prefix:") :]
             compare = _starts_with
         if not search:
             compare = _true
@@ -193,25 +214,21 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
         for record in self.context.records.values():
             ifaceName = record.interfaceName
             if ifaceName is not None:
-                recordPrefix = ifaceName.split('.')[-1]
+                recordPrefix = ifaceName.split(".")[-1]
                 prefixValue = record.interfaceName
             else:
                 prefixValue = record.__name__
                 for prefix in _okay_prefixes:
                     name = record.__name__
                     if name.startswith(prefix):
-                        recordPrefix = '.'.join(
-                            name.split('.')[:len(prefix.split('.')) + 1])
+                        recordPrefix = ".".join(
+                            name.split(".")[: len(prefix.split(".")) + 1]
+                        )
                         prefixValue = recordPrefix
                         break
             if recordPrefix not in self.prefixes:
                 self.prefixes[recordPrefix] = prefixValue
-            if (compare(search, prefixValue) or compare(search, record.__name__)):
+            if compare(search, prefixValue) or compare(search, record.__name__):
                 self.records.append(record)
-        self.records = Batch(
-            self.records,
-            15,
-            int(form.get('b_start', '0')),
-            orphan=1
-        )
+        self.records = Batch(self.records, 15, int(form.get("b_start", "0")), orphan=1)
         return super(RecordsControlPanel, self).__call__()
