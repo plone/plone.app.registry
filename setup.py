@@ -38,17 +38,11 @@ setup(
         "lxml",
         "plone.app.z3cform",
         "plone.autoform>=1.0b2",
+        "plone.base",
         "plone.registry>=1.0b1",
         "plone.supermodel>=1.1dev",
-        "Products.CMFCore",
-        "Products.GenericSetup",
         "Products.statusmessages",
         "setuptools",
-        "zope.component",
-        "zope.dottedname",
-        "zope.i18nmessageid",
-        "zope.interface",
-        "Zope2",
     ],
     extras_require={
         "test": [

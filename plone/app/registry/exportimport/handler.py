@@ -1,4 +1,6 @@
 from lxml import etree
+from plone.base.utils import safe_bytes
+from plone.base.utils import safe_text
 from plone.registry import FieldRef
 from plone.registry import Record
 from plone.registry.interfaces import IFieldRef
@@ -13,8 +15,6 @@ from plone.supermodel.utils import elementToValue
 from plone.supermodel.utils import ns
 from plone.supermodel.utils import prettyXML
 from plone.supermodel.utils import valueToElement
-from Products.CMFPlone.utils import safe_encode
-from Products.CMFPlone.utils import safe_unicode
 from zope.component import queryUtility
 from zope.configuration import config
 from zope.configuration import xmlconfig
@@ -92,7 +92,7 @@ def exportRegistry(context):
     exporter = RegistryExporter(registry, context)
     body = exporter.exportDocument()
     if body is not None:
-        context.writeDataFile("registry.xml", safe_encode(body), "text/xml")
+        context.writeDataFile("registry.xml", safe_bytes(body), "text/xml")
 
 
 class RegistryImporter:
@@ -361,7 +361,7 @@ class RegistryImporter:
                 continue
             elif child.tag.lower() == "omit":
                 if child.text:
-                    omit.append(safe_unicode(child.text))
+                    omit.append(safe_text(child.text))
             elif child.tag.lower() == "value":
                 values.append(child)
 
