@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.0.0a9.dev0'
+
+version = "2.0.0a9.dev0"
 
 setup(
-    name='plone.app.registry',
+    name="plone.app.registry",
     version=version,
     description="Zope 2 and Plone  integration for plone.registry",
-    long_description=(open("README.rst").read() + "\n" +
-                      open("CHANGES.rst").read()),
+    long_description=(open("README.rst").read() + "\n" + open("CHANGES.rst").read()),
     # Get more strings from
     # https://pypi.org/classifiers/
     classifiers=[
@@ -26,32 +25,30 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    keywords='plone registry settings configuration',
-    author='Martin Aspeli',
-    author_email='optilude@gmail.com',
-    url='https://pypi.org/project/plone.app.registry',
-    license='GPL',
+    keywords="plone registry settings configuration",
+    author="Martin Aspeli",
+    author_email="optilude@gmail.com",
+    url="https://pypi.org/project/plone.app.registry",
+    license="GPL",
     packages=find_packages(),
-    namespace_packages=['plone', 'plone.app'],
+    namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'lxml',
-        'plone.app.z3cform',
-        'plone.autoform>=1.0b2',
-        'plone.registry>=1.0b1',
-        'plone.supermodel>=1.1dev',
-        'Products.CMFCore',
-        'Products.GenericSetup',
-        'Products.statusmessages',
-        'setuptools',
-        'zope.component',
-        'zope.dottedname',
-        'zope.i18nmessageid',
-        'zope.interface',
-        'Zope2',
+        "lxml",
+        "plone.app.z3cform",
+        "plone.autoform>=1.0b2",
+        "plone.base",
+        "plone.registry>=1.0b1",
+        "plone.supermodel>=1.1dev",
+        "Products.statusmessages",
+        "setuptools",
     ],
-    extras_require={'test': ['plone.app.testing', ]},
+    extras_require={
+        "test": [
+            "plone.app.testing",
+        ]
+    },
     entry_points="""
     # -*- Entry points: -*-
     """,

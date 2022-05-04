@@ -1,19 +1,16 @@
-from zope.component import getUtility
-
-from plone.registry.interfaces import IRegistry
-
-from z3c.form import form, button
-
-from plone.z3cform import layout
 from plone.autoform.form import AutoExtensibleForm
-
+from plone.registry.interfaces import IRegistry
+from plone.z3cform import layout
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
+from z3c.form import button
+from z3c.form import form
+from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 
-_ = MessageFactory('plone')
+
+_ = MessageFactory("plone")
 
 
 class RegistryEditForm(AutoExtensibleForm, form.EditForm):
@@ -46,43 +43,39 @@ class RegistryEditForm(AutoExtensibleForm, form.EditForm):
 
     def getContent(self):
         return getUtility(IRegistry).forInterface(
-            self.schema,
-            prefix=self.schema_prefix)
+            self.schema, prefix=self.schema_prefix
+        )
 
     def updateActions(self):
-        super(RegistryEditForm, self).updateActions()
-        self.actions['save'].addClass("btn btn-primary")
-        self.actions['cancel'].addClass("btn btn-secondary")
+        super().updateActions()
+        self.actions["save"].addClass("btn btn-primary")
+        self.actions["cancel"].addClass("btn btn-secondary")
 
-    @button.buttonAndHandler(_(u"Save"), name='save')
+    @button.buttonAndHandler(_("Save"), name="save")
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(
-            _(u"Changes saved."),
-            "info")
+        IStatusMessage(self.request).addStatusMessage(_("Changes saved."), "info")
         self.request.response.redirect(self.request.getURL())
 
-    @button.buttonAndHandler(_(u"Cancel"), name='cancel')
+    @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(
-            _(u"Changes canceled."),
-            "info")
-        self.request.response.redirect(u"{0}/{1}".format(
-            getSite().absolute_url(),
-            self.control_panel_view
-        ))
+        IStatusMessage(self.request).addStatusMessage(_("Changes canceled."), "info")
+        self.request.response.redirect(
+            f"{getSite().absolute_url()}/{self.control_panel_view}"
+        )
 
 
 class ControlPanelFormWrapper(layout.FormWrapper):
     """Use this form as the plone.z3cform layout wrapper to get the control
     panel layout.
     """
-    index = ViewPageTemplateFile('templates/controlpanel_layout.pt')
+
+    index = ViewPageTemplateFile("templates/controlpanel_layout.pt")
 
     @property
     def control_panel_url(self):
-        return u"{0}/@@overview-controlpanel".format(getSite().absolute_url())
+        return f"{getSite().absolute_url()}/@@overview-controlpanel"
