@@ -1,17 +1,14 @@
-from zope.component import getUtility
-
-from plone.registry.interfaces import IRegistry
-
-from z3c.form import form, button
-
-from plone.z3cform import layout
 from plone.autoform.form import AutoExtensibleForm
-
+from plone.registry.interfaces import IRegistry
+from plone.z3cform import layout
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
+from z3c.form import button
+from z3c.form import form
+from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
+
 
 _ = MessageFactory('plone')
 

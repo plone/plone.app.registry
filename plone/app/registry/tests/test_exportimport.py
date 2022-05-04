@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+
 from lxml import etree
 from OFS.ObjectManager import ObjectManager
 from plone.app.registry import Registry
@@ -14,10 +15,10 @@ from plone.registry.interfaces import IInterfaceAwareRecord
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.utils import prettyXML
 from plone.testing import zca
+from Products.GenericSetup.tests.common import DummyExportContext
 from Products.GenericSetup.tests.common import (
     DummyImportContext as BaseDummyImportContext,
 )
-from Products.GenericSetup.tests.common import DummyExportContext
 from zope.component import provideUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides

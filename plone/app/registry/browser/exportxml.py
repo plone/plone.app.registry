@@ -8,6 +8,7 @@ from zope.component import getUtility
 import os
 import six
 
+
 _current_dir = os.path.dirname(__file__)
 
 

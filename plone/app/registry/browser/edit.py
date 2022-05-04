@@ -2,10 +2,13 @@
 from Acquisition import ImplicitAcquisitionWrapper
 from plone.z3cform import layout
 from Products.statusmessages.interfaces import IStatusMessage
-from z3c.form import form, field, button
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 from zope.i18nmessageid import MessageFactory
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
 
 _ = MessageFactory('plone')
 
