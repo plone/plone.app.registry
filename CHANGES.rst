@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a9 (2022-05-09)
+--------------------
+
+Breaking changes:
+
+
+- isort, black, pyupgrade. Use plone.base and dependency cleanup.
+  [jensens] (#63)
+
+
+Bug fixes:
+
+
+- Allow up to one dash in key when creating an a record ttw.
+  [pbauer] (#62)
+
+
 2.0.0a8 (2022-04-04)
 --------------------
 
