@@ -38,10 +38,10 @@ setup(
     install_requires=[
         "lxml",
         "plone.app.z3cform",
-        "plone.autoform>=1.0b2",
+        "plone.autoform>=1.0",
         "plone.base",
-        "plone.registry>=1.0b1",
-        "plone.supermodel>=1.1dev",
+        "plone.registry>=1.0",
+        "plone.supermodel>=1.1",
         "Products.statusmessages",
         "setuptools",
     ],
