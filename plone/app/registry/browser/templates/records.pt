@@ -88,7 +88,8 @@
 
             </div>
 
-          <table class="table table-responsive table-bordered table-striped">
+          <div class="table-responsive">
+          <table class="table table-bordered table-striped">
               <thead>
                   <tr>
                       <th i18n:translate="heading_name">Name</th>
@@ -135,6 +136,7 @@
                   </tr>
               </tfoot>
           </table>
+          </div>
         </div>
         </div>
         <div class="tab">
