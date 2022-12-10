@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.1 (2022-12-10)
+------------------
+
+Bug fixes:
+
+
+- Fix responsive table.
+  [petschki] (#64)
+
+
 2.0.0 (2022-11-30)
 ------------------
 
