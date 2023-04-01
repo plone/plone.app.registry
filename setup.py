@@ -45,10 +45,15 @@ setup(
         "plone.supermodel>=1.1",
         "Products.statusmessages",
         "setuptools",
+        "Products.GenericSetup",
+        "plone.z3cform",
+        "z3c.form",
+        "zope.dottedname",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
+            "plone.testing",
         ]
     },
     entry_points="""
