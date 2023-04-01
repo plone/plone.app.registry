@@ -35,7 +35,6 @@ configuration = """\
 
 
 class DummyImportContext(BaseDummyImportContext):
-
     _directories = {}
 
     def listDirectory(self, path):
@@ -46,7 +45,6 @@ class DummyImportContext(BaseDummyImportContext):
 
 
 class ExportImportTest(unittest.TestCase):
-
     layer = zca.UNIT_TESTING
 
     def setUp(self):
@@ -71,7 +69,6 @@ class ExportImportTest(unittest.TestCase):
             pass
 
     def assertXmlEquals(self, expected, actual):
-
         expected_tree = etree.XML(expected)
         actual_tree = etree.XML(actual)
 
@@ -91,7 +88,6 @@ class ExportImportTest(unittest.TestCase):
 
 class TestImport(ExportImportTest):
     def test_empty_import_no_purge(self):
-
         xml = "<registry/>"
         context = DummyImportContext(self.site, purge=False)
         context._files = {"registry.xml": xml}
@@ -105,7 +101,6 @@ class TestImport(ExportImportTest):
         self.assertEqual(1, len(self.registry.records))
 
     def test_import_purge(self):
-
         xml = "<registry/>"
         context = DummyImportContext(self.site, purge=True)
         context._files = {"registry.xml": xml}
@@ -1259,7 +1254,6 @@ class TestImport(ExportImportTest):
 
 class TestExport(ExportImportTest):
     def test_export_empty(self):
-
         xml = """<registry />"""
         context = DummyExportContext(self.site)
         exportRegistry(context)
@@ -1268,7 +1262,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_simple(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1331,7 +1324,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_field_ref(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1363,7 +1355,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_collection(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1390,7 +1381,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_dict(self):
-
         xml = """\
 <registry>
   <record name="test.export.dict">
@@ -1427,7 +1417,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_choice(self):
-
         xml = """\
 <registry>
   <record name="test.export.choice">
@@ -1450,7 +1439,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_missing_schema_does_not_error(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple" interface="non.existant.ISchema" field="blah">
@@ -1482,7 +1470,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_jsonfield(self):
-
         xml = """\
 <registry>
   <record name="test.export.field">

@@ -7,11 +7,9 @@ import unittest
 
 
 class TestSetup(unittest.TestCase):
-
     layer = PLONE_APP_REGISTRY_INTEGRATION_TESTING
 
     def test_tool_installed(self):
-
         portal = self.layer["portal"]
 
         self.assertIn("portal_registry", portal.objectIds())

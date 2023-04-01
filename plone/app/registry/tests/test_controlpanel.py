@@ -10,7 +10,6 @@ import unittest
 
 
 class TestRegistryBaseControlpanel(unittest.TestCase):
-
     layer = PLONE_APP_REGISTRY_INTEGRATION_TESTING
 
     def test_registry_base_controlpanel__control_panel_url(self):
@@ -24,7 +23,6 @@ class TestRegistryBaseControlpanel(unittest.TestCase):
 
 
 class TestRecordsControlPanel(unittest.TestCase):
-
     layer = PLONE_APP_REGISTRY_INTEGRATION_TESTING
 
     def setUp(self):
