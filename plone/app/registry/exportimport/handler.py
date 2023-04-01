@@ -185,7 +185,7 @@ class RegistryImporter:
                 field = None
             except KeyError:
                 self.logger.warning(
-                    "Interface {} specified for record %s has "
+                    "Interface {} specified for record {} has "
                     "no field {}.".format(interfaceName, name, fieldName)
                 )
                 interface = None
