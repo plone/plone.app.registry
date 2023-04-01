@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <tool-setup>
-    <required
-        tool_id="portal_registry"
-        class="plone.app.registry.registry.Registry"
-        />
+  <required class="plone.app.registry.registry.Registry"
+            tool_id="portal_registry"
+  />
 </tool-setup>

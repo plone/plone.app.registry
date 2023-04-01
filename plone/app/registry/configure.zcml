@@ -2,35 +2,39 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <include package="Products.CMFCore" file="permissions.zcml" />
+  <include
+      package="Products.CMFCore"
+      file="permissions.zcml"
+      />
 
-    <include package="plone.registry" />
+  <include package="plone.registry" />
 
-    <include package=".exportimport" />
-    <include package=".browser" />
+  <include package=".exportimport" />
+  <include package=".browser" />
 
-    <five:registerClass
-        class=".registry.Registry"
-        meta_type="Plone Configuration Registry"
+  <five:registerClass
+      class=".registry.Registry"
+      permission="cmf.ManagePortal"
+      meta_type="Plone Configuration Registry"
+      />
+
+  <class class=".registry.Registry">
+    <require
         permission="cmf.ManagePortal"
+        interface="plone.registry.interfaces.IRegistry"
         />
+  </class>
 
-    <class class=".registry.Registry">
-        <require
-            permission="cmf.ManagePortal"
-            interface="plone.registry.interfaces.IRegistry"
-            />
-    </class>
-
-    <gs:registerProfile
-        name="default"
-        directory="profiles/default"
-        title="Configuration registry"
-        description="A 'Mozilla about:config' style configuration registry"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <gs:registerProfile
+      name="default"
+      title="Configuration registry"
+      description="A 'Mozilla about:config' style configuration registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      directory="profiles/default"
+      />
 
 </configure>

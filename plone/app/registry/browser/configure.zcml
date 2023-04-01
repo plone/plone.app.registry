@@ -1,49 +1,50 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <include package="plone.app.z3cform" />
-    <include package="plone.autoform" />
+  <include package="plone.app.z3cform" />
+  <include package="plone.autoform" />
 
-    <!-- <browser:resourceDirectory
+  <!-- <browser:resourceDirectory
         name="plone.app.registry"
         directory="resources"
         /> -->
 
-    <browser:defaultView
-        for="plone.registry.interfaces.IRegistry"
-        name="configuration_registry"
-        />
+  <browser:defaultView
+      name="configuration_registry"
+      for="plone.registry.interfaces.IRegistry"
+      />
 
-    <browser:page
-        name="configuration_registry"
-        for="plone.registry.interfaces.IRegistry"
-        class=".records.RecordsControlPanel"
-        permission="cmf.ManagePortal"
-        />
+  <browser:page
+      name="configuration_registry"
+      for="plone.registry.interfaces.IRegistry"
+      class=".records.RecordsControlPanel"
+      permission="cmf.ManagePortal"
+      />
 
-    <browser:page
-        name="edit"
-        for="plone.registry.interfaces.IRegistry"
-        class=".edit.RecordEditView"
-        template="templates/edit_layout.pt"
-        permission="cmf.ManagePortal"
-        />
+  <browser:page
+      name="edit"
+      for="plone.registry.interfaces.IRegistry"
+      class=".edit.RecordEditView"
+      template="templates/edit_layout.pt"
+      permission="cmf.ManagePortal"
+      />
 
-    <browser:page
-        name="delete-record"
-        for="plone.registry.interfaces.IRegistry"
-        class=".delete.RecordDeleteView"
-        template="templates/delete_layout.pt"
-        permission="cmf.ManagePortal"
-        />
+  <browser:page
+      name="delete-record"
+      for="plone.registry.interfaces.IRegistry"
+      class=".delete.RecordDeleteView"
+      template="templates/delete_layout.pt"
+      permission="cmf.ManagePortal"
+      />
 
-    <browser:page
-        for="plone.registry.interfaces.IRegistry"
-        name="configuration_registry_export_xml"
-        class=".exportxml.RegistryExporterView"
-        permission="cmf.ManagePortal"
-        />
+  <browser:page
+      name="configuration_registry_export_xml"
+      for="plone.registry.interfaces.IRegistry"
+      class=".exportxml.RegistryExporterView"
+      permission="cmf.ManagePortal"
+      />
 
 </configure>
