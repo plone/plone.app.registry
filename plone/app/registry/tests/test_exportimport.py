@@ -338,7 +338,7 @@ class TestImport(ExportImportTest):
 
         self.assertRaises(ImportError, importRegistry, context)
 
-    def test_import_records_nonexistant_interface_condition_not_installed(self):  # noqa
+    def test_import_records_nonexistant_interface_condition_not_installed(self):
         xml = """\
 <registry>
     <records interface="non.existent.ISchema"
@@ -463,13 +463,11 @@ class TestImport(ExportImportTest):
             "Age",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.age"
-            ].field.title,  # noqa
+            ].field.title,
         )
         self.assertEqual(
             2,
-            self.registry[
-                "plone.app.registry.tests.data.ITestSettingsDisallowed.age"
-            ],  # noqa
+            self.registry["plone.app.registry.tests.data.ITestSettingsDisallowed.age"],
         )
 
     def test_import_interface_with_differnet_name(self):
@@ -507,13 +505,11 @@ class TestImport(ExportImportTest):
             "Name",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
-            ].field.title,  # noqa
+            ].field.title,
         )
         self.assertEqual(
             "Mr. Registry",
-            self.registry[
-                "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
-            ],  # noqa
+            self.registry["plone.app.registry.tests.data.ITestSettingsDisallowed.name"],
         )
 
     def test_import_field_only(self):
@@ -577,9 +573,7 @@ class TestImport(ExportImportTest):
         )
         self.assertEqual(
             "value",
-            self.registry.records[
-                "test.registry.field.override"
-            ].field.__name__,  # noqa
+            self.registry.records["test.registry.field.override"].field.__name__,
         )
         self.assertEqual("Another value", self.registry["test.registry.field.override"])
 
@@ -1022,7 +1016,7 @@ class TestImport(ExportImportTest):
             [
                 t.value
                 for t in self.registry.records["test.registry.field"].field.vocabulary
-            ],  # noqa
+            ],
         )
         self.assertEqual(None, self.registry["test.registry.field"])
 
