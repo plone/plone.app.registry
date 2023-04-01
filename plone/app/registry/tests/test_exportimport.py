@@ -83,7 +83,7 @@ class ExportImportTest(unittest.TestCase):
             print(prettyXML(actual_tree))
             print()
 
-            raise AssertionError("XML mis-match")
+            raise AssertionError("XML mismatch")
 
 
 class TestImport(ExportImportTest):
@@ -330,7 +330,7 @@ class TestImport(ExportImportTest):
     def test_import_records_nonexistant_interface(self):
         xml = """\
 <registry>
-    <records interface="non.existant.ISchema" />
+    <records interface="non.existent.ISchema" />
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
@@ -341,7 +341,7 @@ class TestImport(ExportImportTest):
     def test_import_records_nonexistant_interface_condition_not_installed(self):  # noqa
         xml = """\
 <registry>
-    <records interface="non.existant.ISchema"
+    <records interface="non.existent.ISchema"
              condition="not-installed non" />
 </registry>
 """
@@ -1441,7 +1441,7 @@ class TestExport(ExportImportTest):
     def test_export_with_missing_schema_does_not_error(self):
         xml = """\
 <registry>
-  <record name="test.export.simple" interface="non.existant.ISchema" field="blah">
+  <record name="test.export.simple" interface="non.existent.ISchema" field="blah">
     <field type="plone.registry.field.TextLine">
       <default>N/A</default>
       <title>Simple record</title>
@@ -1458,7 +1458,7 @@ class TestExport(ExportImportTest):
         # Note: These are nominally read-only!
         self.registry.records[
             "test.export.simple"
-        ].field.interfaceName = "non.existant.ISchema"  # noqa
+        ].field.interfaceName = "non.existent.ISchema"
         self.registry.records["test.export.simple"].field.fieldName = "blah"
 
         alsoProvides(self.registry.records["test.export.simple"], IInterfaceAwareRecord)

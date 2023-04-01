@@ -301,7 +301,7 @@ class RegistryImporter:
                     elif isinstance(value, dict):
                         for key, value in value.items():
                             # check if value is list, if so, let's add
-                            # instead of overridding
+                            # instead of overriding
                             if (
                                 type(value) == list
                                 and key in existing_value
