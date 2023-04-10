@@ -35,7 +35,6 @@ configuration = """\
 
 
 class DummyImportContext(BaseDummyImportContext):
-
     _directories = {}
 
     def listDirectory(self, path):
@@ -46,7 +45,6 @@ class DummyImportContext(BaseDummyImportContext):
 
 
 class ExportImportTest(unittest.TestCase):
-
     layer = zca.UNIT_TESTING
 
     def setUp(self):
@@ -71,7 +69,6 @@ class ExportImportTest(unittest.TestCase):
             pass
 
     def assertXmlEquals(self, expected, actual):
-
         expected_tree = etree.XML(expected)
         actual_tree = etree.XML(actual)
 
@@ -86,12 +83,11 @@ class ExportImportTest(unittest.TestCase):
             print(prettyXML(actual_tree))
             print()
 
-            raise AssertionError("XML mis-match")
+            raise AssertionError("XML mismatch")
 
 
 class TestImport(ExportImportTest):
     def test_empty_import_no_purge(self):
-
         xml = "<registry/>"
         context = DummyImportContext(self.site, purge=False)
         context._files = {"registry.xml": xml}
@@ -105,7 +101,6 @@ class TestImport(ExportImportTest):
         self.assertEqual(1, len(self.registry.records))
 
     def test_import_purge(self):
-
         xml = "<registry/>"
         context = DummyImportContext(self.site, purge=True)
         context._files = {"registry.xml": xml}
@@ -335,7 +330,7 @@ class TestImport(ExportImportTest):
     def test_import_records_nonexistant_interface(self):
         xml = """\
 <registry>
-    <records interface="non.existant.ISchema" />
+    <records interface="non.existent.ISchema" />
 </registry>
 """
         context = DummyImportContext(self.site, purge=False)
@@ -343,10 +338,10 @@ class TestImport(ExportImportTest):
 
         self.assertRaises(ImportError, importRegistry, context)
 
-    def test_import_records_nonexistant_interface_condition_not_installed(self):  # noqa
+    def test_import_records_nonexistant_interface_condition_not_installed(self):
         xml = """\
 <registry>
-    <records interface="non.existant.ISchema"
+    <records interface="non.existent.ISchema"
              condition="not-installed non" />
 </registry>
 """
@@ -468,13 +463,11 @@ class TestImport(ExportImportTest):
             "Age",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.age"
-            ].field.title,  # noqa
+            ].field.title,
         )
         self.assertEqual(
             2,
-            self.registry[
-                "plone.app.registry.tests.data.ITestSettingsDisallowed.age"
-            ],  # noqa
+            self.registry["plone.app.registry.tests.data.ITestSettingsDisallowed.age"],
         )
 
     def test_import_interface_with_differnet_name(self):
@@ -512,13 +505,11 @@ class TestImport(ExportImportTest):
             "Name",
             self.registry.records[
                 "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
-            ].field.title,  # noqa
+            ].field.title,
         )
         self.assertEqual(
             "Mr. Registry",
-            self.registry[
-                "plone.app.registry.tests.data.ITestSettingsDisallowed.name"
-            ],  # noqa
+            self.registry["plone.app.registry.tests.data.ITestSettingsDisallowed.name"],
         )
 
     def test_import_field_only(self):
@@ -582,9 +573,7 @@ class TestImport(ExportImportTest):
         )
         self.assertEqual(
             "value",
-            self.registry.records[
-                "test.registry.field.override"
-            ].field.__name__,  # noqa
+            self.registry.records["test.registry.field.override"].field.__name__,
         )
         self.assertEqual("Another value", self.registry["test.registry.field.override"])
 
@@ -1027,7 +1016,7 @@ class TestImport(ExportImportTest):
             [
                 t.value
                 for t in self.registry.records["test.registry.field"].field.vocabulary
-            ],  # noqa
+            ],
         )
         self.assertEqual(None, self.registry["test.registry.field"])
 
@@ -1259,7 +1248,6 @@ class TestImport(ExportImportTest):
 
 class TestExport(ExportImportTest):
     def test_export_empty(self):
-
         xml = """<registry />"""
         context = DummyExportContext(self.site)
         exportRegistry(context)
@@ -1268,7 +1256,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_simple(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1331,7 +1318,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_field_ref(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1363,7 +1349,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_collection(self):
-
         xml = """\
 <registry>
   <record name="test.export.simple">
@@ -1390,7 +1375,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_dict(self):
-
         xml = """\
 <registry>
   <record name="test.export.dict">
@@ -1427,7 +1411,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_choice(self):
-
         xml = """\
 <registry>
   <record name="test.export.choice">
@@ -1450,10 +1433,9 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_missing_schema_does_not_error(self):
-
         xml = """\
 <registry>
-  <record name="test.export.simple" interface="non.existant.ISchema" field="blah">
+  <record name="test.export.simple" interface="non.existent.ISchema" field="blah">
     <field type="plone.registry.field.TextLine">
       <default>N/A</default>
       <title>Simple record</title>
@@ -1470,7 +1452,7 @@ class TestExport(ExportImportTest):
         # Note: These are nominally read-only!
         self.registry.records[
             "test.export.simple"
-        ].field.interfaceName = "non.existant.ISchema"  # noqa
+        ].field.interfaceName = "non.existent.ISchema"
         self.registry.records["test.export.simple"].field.fieldName = "blah"
 
         alsoProvides(self.registry.records["test.export.simple"], IInterfaceAwareRecord)
@@ -1482,7 +1464,6 @@ class TestExport(ExportImportTest):
         self.assertXmlEquals(xml, context._wrote[0][1])
 
     def test_export_with_jsonfield(self):
-
         xml = """\
 <registry>
   <record name="test.export.field">

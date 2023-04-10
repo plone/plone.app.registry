@@ -1,75 +1,99 @@
 <configure
+    xmlns="http://namespaces.zope.org/zope"
     i18n_domain="plone"
-    xmlns="http://namespaces.zope.org/zope">
+    >
   <include package="plone.supermodel" />
   <!-- plone.supermodel field handlers -->
   <utility
+      name="plone.registry.field.Bytes"
       component=".fields.BytesHandler"
-      name="plone.registry.field.Bytes" />
+      />
   <utility
+      name="plone.registry.field.BytesLine"
       component=".fields.BytesLineHandler"
-      name="plone.registry.field.BytesLine" />
+      />
   <utility
+      name="plone.registry.field.ASCII"
       component=".fields.ASCIIHandler"
-      name="plone.registry.field.ASCII" />
+      />
   <utility
+      name="plone.registry.field.ASCIILine"
       component=".fields.ASCIILineHandler"
-      name="plone.registry.field.ASCIILine" />
+      />
   <utility
+      name="plone.registry.field.Text"
       component=".fields.TextHandler"
-      name="plone.registry.field.Text" />
+      />
   <utility
+      name="plone.registry.field.TextLine"
       component=".fields.TextLineHandler"
-      name="plone.registry.field.TextLine" />
+      />
   <utility
+      name="plone.registry.field.Bool"
       component=".fields.BoolHandler"
-      name="plone.registry.field.Bool" />
+      />
   <utility
+      name="plone.registry.field.Int"
       component=".fields.IntHandler"
-      name="plone.registry.field.Int" />
+      />
   <utility
+      name="plone.registry.field.Float"
       component=".fields.FloatHandler"
-      name="plone.registry.field.Float" />
+      />
   <utility
+      name="plone.registry.field.Tuple"
       component=".fields.TupleHandler"
-      name="plone.registry.field.Tuple" />
+      />
   <utility
+      name="plone.registry.field.List"
       component=".fields.ListHandler"
-      name="plone.registry.field.List" />
+      />
   <utility
+      name="plone.registry.field.Set"
       component=".fields.SetHandler"
-      name="plone.registry.field.Set" />
+      />
   <utility
+      name="plone.registry.field.FrozenSet"
       component=".fields.FrozenSetHandler"
-      name="plone.registry.field.FrozenSet" />
+      />
   <utility
+      name="plone.registry.field.Password"
       component=".fields.PasswordHandler"
-      name="plone.registry.field.Password" />
+      />
   <utility
+      name="plone.registry.field.Dict"
       component=".fields.DictHandler"
-      name="plone.registry.field.Dict" />
+      />
   <utility
+      name="plone.registry.field.Datetime"
       component=".fields.DatetimeHandler"
-      name="plone.registry.field.Datetime" />
+      />
   <utility
+      name="plone.registry.field.Date"
       component=".fields.DateHandler"
-      name="plone.registry.field.Date" />
+      />
   <utility
+      name="plone.registry.field.SourceText"
       component=".fields.SourceTextHandler"
-      name="plone.registry.field.SourceText" />
+      />
   <utility
+      name="plone.registry.field.URI"
       component=".fields.URIHandler"
-      name="plone.registry.field.URI" />
+      />
   <utility
+      name="plone.registry.field.Id"
       component=".fields.IdHandler"
-      name="plone.registry.field.Id" />
+      />
   <utility
+      name="plone.registry.field.DottedName"
       component=".fields.DottedNameHandler"
-      name="plone.registry.field.DottedName" />
+      />
   <utility
+      name="plone.registry.field.Choice"
       component=".fields.ChoiceHandler"
-      name="plone.registry.field.Choice" />
+      />
   <utility
+      name="plone.registry.field.JSONField"
       component=".fields.JSONFieldHandler"
-      name="plone.registry.field.JSONField" />
+      />
 </configure>

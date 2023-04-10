@@ -1,1 +1,1 @@
-from plone.app.registry.registry import Registry
+from plone.app.registry.registry import Registry  # noqa: F401

@@ -6,7 +6,7 @@ Detailed documentation
 class IMyPackage(Interface):
 
     field1 = TextLine(title="Field1", default="")
-    field2 = TextLine(title="Field2", defualt="Initial value")
+    field2 = TextLine(title="Field2", default="Initial value")
 
 
 

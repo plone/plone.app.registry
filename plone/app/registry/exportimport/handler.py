@@ -58,7 +58,6 @@ def shouldPurgeList(value_node, key):
 
 
 def importRegistry(context):
-
     logger = context.getLogger("plone.app.registry")
     registry = queryUtility(IRegistry)
 
@@ -81,7 +80,6 @@ def importRegistry(context):
 
 
 def exportRegistry(context):
-
     logger = context.getLogger("plone.app.registry")
     registry = queryUtility(IRegistry)
 
@@ -187,7 +185,7 @@ class RegistryImporter:
                 field = None
             except KeyError:
                 self.logger.warning(
-                    "Interface {} specified for record %s has "
+                    "Interface {} specified for record {} has "
                     "no field {}.".format(interfaceName, name, fieldName)
                 )
                 interface = None
@@ -283,7 +281,6 @@ class RegistryImporter:
                 existing_record.field = field
             existing_value = existing_record.value
             if change_field or value != existing_value:
-
                 if not value_purge and type(value) == type(existing_value):
                     if isinstance(value, list):
                         value = existing_value + [
@@ -304,7 +301,7 @@ class RegistryImporter:
                     elif isinstance(value, dict):
                         for key, value in value.items():
                             # check if value is list, if so, let's add
-                            # instead of overridding
+                            # instead of overriding
                             if (
                                 type(value) == list
                                 and key in existing_value
@@ -327,7 +324,6 @@ class RegistryImporter:
             self.context.records[name] = Record(field, value)
 
     def importRecords(self, node):
-
         # May raise ImportError if interface can't be found or KeyError if
         # attribute is missing.
 
@@ -402,7 +398,6 @@ class RegistryImporter:
 
 
 class RegistryExporter:
-
     LOGGER_ID = "plone.app.registry"
 
     def __init__(self, context, environ):
@@ -420,7 +415,6 @@ class RegistryExporter:
         return prettyXML(root)
 
     def exportRecord(self, record):
-
         node = etree.Element("record")
         node.attrib["name"] = record.__name__
 

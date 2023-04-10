@@ -6,7 +6,6 @@ from zope.configuration import xmlconfig
 
 
 class PloneAppRegistry(PloneSandboxLayer):
-
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
