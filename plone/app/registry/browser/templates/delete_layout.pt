@@ -30,7 +30,10 @@
         and can be potentially harmful if you don't know what you are doing.
       </p>
 
-      <b i18n:translate="">Record</b>: ${request/form/name}
+      <b i18n:translate="">Record</b>
+      <span tal:omit=""
+            i18n:ignore="true"
+      >: ${request/form/name}</span>
 
       <form method="POST">
         <input name="name"
