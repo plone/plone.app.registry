@@ -32,9 +32,15 @@ class RecordEditForm(form.EditForm):
 
     def updateActions(self):
         super().updateActions()
-        self.actions["save"].addClass("btn btn-primary close-panel")
-        self.actions["cancel"].addClass("btn btn-secondary close-panel")
-        # TODO: add formnovalidate attribute
+
+        for a in self.actions:
+            if a == "save":
+                self.actions[a].addClass("btn btn-primary close-panel")
+            else:
+                self.actions[a].addClass("btn btn-secondary close-panel")
+                # this sets 'formnovalidate' attribute in markup
+                # to ignore HTML5 validation when clicking buttons other than "save"
+                self.actions[a].ignoreRequiredOnValidation = True
 
     @property
     def label(self):
