@@ -13,7 +13,7 @@ _ = MessageFactory("plone")
 
 
 class RecordEditForm(form.EditForm):
-    """Edit a single record"""
+    """Edit a single record."""
 
     record = None
 
@@ -32,8 +32,9 @@ class RecordEditForm(form.EditForm):
 
     def updateActions(self):
         super().updateActions()
-        self.actions["save"].addClass("btn btn-primary")
-        self.actions["cancel"].addClass("btn btn-secondary")
+        self.actions["save"].addClass("btn btn-primary close-panel")
+        self.actions["cancel"].addClass("btn btn-secondary close-panel")
+        # TODO: add formnovalidate attribute
 
     @property
     def label(self):

@@ -127,6 +127,7 @@
               </div>
 
               <div class="table-responsive">
+                <dialog id="record_edit_modal"></dialog>
                 <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -148,12 +149,10 @@
                           "
                       >
                         <td data-label="Name">
-                          <a class="recordsEditLink"
-                             tal:content="python:record.__name__.replace('.', ' ')"
-                             tal:attributes="
-                               href string:${context/absolute_url}/edit/${record/__name__};
-                             "
-                          ></a>
+                          <a class="recordsEditLink pat-inject"
+                             href="${context/absolute_url}/edit/${record/__name__}"
+                             data-pat-inject="source: #content; target: #record_edit_modal"
+                          >${python:record.__name__.replace('.', ' ')}</a>
                         </td>
                         <td data-label="Title"
                             tal:content="field/title"
