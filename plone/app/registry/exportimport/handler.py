@@ -281,7 +281,9 @@ class RegistryImporter:
                 existing_record.field = field
             existing_value = existing_record.value
             if change_field or value != existing_value:
-                if not value_purge and type(value) == type(existing_value):
+                new_type = type(value)
+                existing_type = type(existing_value)
+                if not value_purge and new_type == existing_type:
                     if isinstance(value, list):
                         value = existing_value + [
                             v for v in value if v not in existing_value
@@ -303,7 +305,7 @@ class RegistryImporter:
                             # check if value is list, if so, let's add
                             # instead of overriding
                             if (
-                                type(value) == list
+                                isinstance(value, list)
                                 and key in existing_value
                                 and not shouldPurgeList(value_node, key)
                             ):
