@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.3 (2023-10-18)
+------------------
+
+Internal:
+
+
+- Require ``setuptools`` 68.2+ for building the package.
+  [plone devs] (18d04723)
+- Update configuration files.
+  [plone devs] (cfffba8c)
+
+
 2.0.2 (2023-04-15)
 ------------------
 
