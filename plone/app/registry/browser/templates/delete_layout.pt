@@ -31,7 +31,7 @@
       </p>
 
       <b i18n:translate="">Record</b>
-      <span tal:omit=""
+      <span tal:omit-tag=""
             i18n:ignore="true"
       >: ${request/form/name}</span>
 
