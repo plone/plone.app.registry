@@ -12,7 +12,7 @@
     <tal:defines tal:define="
                    dummy python:request.set('disable_border', 1);
                    disable_column_one python:request.set('disable_plone.leftcolumn', 1);
-                   disable_column_two python:request.set('disable_plone.rightcolumn', 0);
+                   disable_column_two python:request.set('disable_plone.rightcolumn', 1);
                  " />
   </metal:block>
 
