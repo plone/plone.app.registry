@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.4 (2023-12-14)
+------------------
+
+Bug fixes:
+
+
+- disable visibility of the right column in records template
+  [1letter] (#71)
+- Fix template error deleting registry record.
+  [maurits] (#76)
+
+
 2.0.3 (2023-10-18)
 ------------------
 
