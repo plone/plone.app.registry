@@ -1450,9 +1450,9 @@ class TestExport(ExportImportTest):
         )
 
         # Note: These are nominally read-only!
-        self.registry.records[
-            "test.export.simple"
-        ].field.interfaceName = "non.existent.ISchema"
+        self.registry.records["test.export.simple"].field.interfaceName = (
+            "non.existent.ISchema"
+        )
         self.registry.records["test.export.simple"].field.fieldName = "blah"
 
         alsoProvides(self.registry.records["test.export.simple"], IInterfaceAwareRecord)
