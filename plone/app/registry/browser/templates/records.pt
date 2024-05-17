@@ -17,11 +17,10 @@
   </metal:block>
 
   <body>
-    <metal:main
-             metal:fill-slot="prefs_configlet_main"
-             tal:define="
-               records view/records;
-             "
+    <metal:main metal:fill-slot="prefs_configlet_main"
+                tal:define="
+                  records view/records;
+                "
     >
 
       <header>
