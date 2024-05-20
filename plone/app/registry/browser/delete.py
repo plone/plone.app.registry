@@ -15,6 +15,6 @@ class RecordDeleteView(BrowserView):
                     messages.add("Successfully deleted field %s" % name, type="info")
             elif self.request.form.get("form.buttons.cancel") and name:
                 messages = IStatusMessage(self.request)
-                messages.add("Successfully deleted field %s" % name, type="info")
+                messages.add("Field %s was not deleted" % name, type="info")
             return self.request.response.redirect(self.context.absolute_url())
         return super().__call__()
