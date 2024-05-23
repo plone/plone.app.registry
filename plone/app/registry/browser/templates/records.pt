@@ -17,11 +17,10 @@
   </metal:block>
 
   <body>
-    <article id="content"
-             metal:fill-slot="prefs_configlet_main"
-             tal:define="
-               records view/records;
-             "
+    <metal:main metal:fill-slot="prefs_configlet_main"
+                tal:define="
+                  records view/records;
+                "
     >
 
       <header>
@@ -251,6 +250,6 @@
           </div>
         </div>
       </div>
-    </article>
+    </metal:main>
   </body>
 </html>
