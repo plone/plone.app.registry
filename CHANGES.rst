@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.5 (2024-05-30)
+------------------
+
+Bug fixes:
+
+
+- Removes duplicate `<article id="content">`
+  [@szakitibi] (#84)
+- Fix misleading portal message when NOT deleting records @gforcada
+
+
 2.0.4 (2023-12-14)
 ------------------
 
