@@ -54,7 +54,7 @@ setup(
         "Products.GenericSetup",
         "plone.z3cform",
         "z3c.form",
-        "zope.dottedname",
+        "Zope",
     ],
     extras_require={
         "test": [
