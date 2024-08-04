@@ -94,7 +94,7 @@ def exportRegistry(context):
 
 
 class RegistryImporter:
-    """Helper classt to import a registry file"""
+    """Helper class to import a registry file"""
 
     LOGGER_ID = "plone.app.registry"
 
