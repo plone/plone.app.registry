@@ -1245,6 +1245,42 @@ class TestImport(ExportImportTest):
             self.registry["test.registry.field"],
         )
 
+    def test_import_no_overwrite_existing_value(self):
+        """Extend the purge=False on value to also account for simple fields
+
+        purge=False is already used for tuples, lists, dictionaries but it was
+        not for URI, TextLine, ASCII, etc.
+        """
+        xml = """\
+<registry>
+  <record name="newsletter-url">
+    <field type="plone.registry.field.URI">
+      <title>Latest newsletter URL</title>
+    </field>
+    <value purge="False"/>
+  </record>
+</registry>
+"""
+        context = DummyImportContext(self.site, purge=False)
+        context._files = {"registry.xml": xml}
+
+        importRegistry(context)
+        self.assertEqual(1, len(self.registry.records))
+
+        record = self.registry.records["newsletter-url"]
+        self.assertTrue(isinstance(record.field, field.URI))
+        self.assertIsNone(record.value)
+
+        # add a value
+        record.value = "https://www.plone.org/newsletter"
+
+        # import again, the value should be kept
+        importRegistry(context)
+        self.assertEqual(
+            self.registry.records["newsletter-url"].value,
+            "https://www.plone.org/newsletter",
+        )
+
 
 class TestExport(ExportImportTest):
     def test_export_empty(self):
