@@ -1,0 +1,1 @@
+Prevent deprecation warning for `Products.CMFPlone.interfaces.IPloneSiteRoot`. [maurits]
