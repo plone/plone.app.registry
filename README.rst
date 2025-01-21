@@ -557,7 +557,7 @@ Register the ``ZooControlPanelView`` as a view::
 
     <browser:page
         name="zoo-controlpanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="plone.base.interfaces.IPloneSiteRoot"
         permission="cmf.ManagePortal"
         class=".controlpanel.ZooControlPanelView"
         />
