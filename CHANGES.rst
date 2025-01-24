@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.6 (2025-01-24)
+------------------
+
+Bug fixes:
+
+
+- Prevent deprecation warning for `Products.CMFPlone.interfaces.IPloneSiteRoot`. [maurits] (#4090)
+
+
 2.0.5 (2024-05-30)
 ------------------
 
