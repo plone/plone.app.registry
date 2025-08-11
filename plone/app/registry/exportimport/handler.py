@@ -94,7 +94,7 @@ def exportRegistry(context):
 
 
 class RegistryImporter:
-    """Helper classt to import a registry file"""
+    """Helper class to import a registry file"""
 
     LOGGER_ID = "plone.app.registry"
 
@@ -283,6 +283,7 @@ class RegistryImporter:
             if change_field or value != existing_value:
                 new_type = type(value)
                 existing_type = type(existing_value)
+
                 if not value_purge and new_type == existing_type:
                     if isinstance(value, list):
                         value = existing_value + [
@@ -321,7 +322,8 @@ class RegistryImporter:
                             existing_value[key] = value
                         value = existing_value
 
-                existing_record.value = value
+                if value or value_purge:
+                    existing_record.value = value
         else:
             self.context.records[name] = Record(field, value)
 
