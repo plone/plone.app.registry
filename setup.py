@@ -45,7 +45,6 @@ setup(
         "plone.registry>=1.0",
         "plone.supermodel>=1.1",
         "Products.statusmessages",
-        "setuptools",
         "Products.GenericSetup",
         "plone.z3cform",
         "z3c.form",
