@@ -8,7 +8,6 @@ from zope.i18nmessageid import MessageFactory
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-
 _ = MessageFactory("plone")
 
 

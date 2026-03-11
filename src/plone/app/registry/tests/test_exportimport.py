@@ -22,7 +22,6 @@ from zope.interface import alsoProvides
 
 import unittest
 
-
 configuration = """\
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:meta="http://namespaces.zope.org/meta">
