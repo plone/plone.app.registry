@@ -9,7 +9,6 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 
-
 _ = MessageFactory("plone")
 
 

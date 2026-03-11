@@ -23,7 +23,6 @@ import logging
 import re
 import string
 
-
 logger = logging.getLogger("plone.app.registry")
 
 

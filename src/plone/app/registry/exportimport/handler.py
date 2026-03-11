@@ -21,7 +21,6 @@ from zope.configuration import xmlconfig
 from zope.dottedname.resolve import resolve
 from zope.schema import getFieldNames
 
-
 _marker = object()
 
 
