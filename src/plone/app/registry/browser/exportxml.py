@@ -17,7 +17,7 @@ class RegistryExporterView(BrowserView):
     """this view make sane exports of the registry.
 
     Main goal is to export in a way, that the output can be reused as
-    best practive settings
+    best practice settings
     """
 
     template = ViewPageTemplateFile(
