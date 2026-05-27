@@ -13,7 +13,6 @@
   <include package="plone.registry" />
 
   <include package=".exportimport" />
-  <include package=".browser" />
 
   <five:registerClass
       class=".registry.Registry"

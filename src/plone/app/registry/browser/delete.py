@@ -1,20 +1,8 @@
-from Products.Five import BrowserView
-from Products.statusmessages.interfaces import IStatusMessage
+import zope.deferredimport
 
+zope.deferredimport.initialize()
 
-class RecordDeleteView(BrowserView):
-    def __call__(self):
-        if self.request.REQUEST_METHOD == "POST":
-            name = self.request.form.get("name")
-            if isinstance(name, list) and len(name) > 0:
-                name = name[0]
-            if self.request.form.get("form.buttons.delete"):
-                if name in self.context:
-                    del self.context.records[name]
-                    messages = IStatusMessage(self.request)
-                    messages.add("Successfully deleted field %s" % name, type="info")
-            elif self.request.form.get("form.buttons.cancel") and name:
-                messages = IStatusMessage(self.request)
-                messages.add("Field %s was not deleted" % name, type="info")
-            return self.request.response.redirect(self.context.absolute_url())
-        return super().__call__()
+zope.deferredimport.deprecated(
+    "Please use from plone.app.layout.controlpanels.registry_records import RecordDeleteView instead.",
+    RecordDeleteView="plone.app.layout.controlpanels.registry_records:RecordDeleteView",
+)
