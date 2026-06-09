@@ -42,20 +42,15 @@ setup(
     install_requires=[
         "lxml",
         "plone.app.z3cform",
-        "plone.autoform>=1.0",
         "plone.base",
         "plone.registry>=1.0",
         "plone.supermodel>=1.1",
-        "Products.statusmessages",
         "Products.GenericSetup",
-        "plone.z3cform",
-        "z3c.form",
         "Zope",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
-            "plone.testing",
         ]
     },
     entry_points="""
