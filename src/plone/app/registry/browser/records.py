@@ -110,6 +110,9 @@ class RecordsControlPanel(AutoExtensibleForm, form.Form):
     schema = IAddFieldForm
     ignoreContext = True
     submitted = False
+    # The add-record form sits in the last tab at the bottom of the page.
+    # Autofocusing its first input would scroll the page down on load.
+    enable_autofocus = False
 
     template = ViewPageTemplateFile("templates/records.pt")
 
