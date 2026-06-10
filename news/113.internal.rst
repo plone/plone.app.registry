@@ -1,0 +1,4 @@
+Package configured and tested against Plone 6.3 only. Updated configuration
+with ``plone.meta``, added ``uv.lock`` to ``.gitignore``, applied code
+formatting, and fixed ``jbot`` deprecations caused by the templates folder
+addition in ``plone.app.layouts``.

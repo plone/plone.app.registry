@@ -7,3 +7,6 @@ commit-id = "2.9.0"
 
 [tox]
 test_matrix = {"6.3" = ["*"]}
+
+[pyproject]
+dependencies_ignores = "['z3c.jbot']"
