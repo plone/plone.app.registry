@@ -8,6 +8,27 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a1 (2026-06-15)
+--------------------
+
+Breaking changes:
+
+
+- Removed Classic-UI browser templates, control panel views, resources, and
+  related tests. These have been moved to ``plone.app.layout``. (#113)
+
+
+Internal:
+
+
+- Package configured and tested against Plone 6.3 only. Updated configuration
+  with ``plone.meta``, added ``uv.lock`` to ``.gitignore``, applied code
+  formatting, and fixed ``jbot`` deprecations caused by the templates folder
+  addition in ``plone.app.layouts``. (#113)
+- Update configuration files.
+  [plone devs]
+
+
 3.0.0 (2026-05-16)
 ------------------
 

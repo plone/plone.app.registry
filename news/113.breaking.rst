@@ -1,2 +1,0 @@
-Removed Classic-UI browser templates, control panel views, resources, and
-related tests. These have been moved to ``plone.app.layout``.
