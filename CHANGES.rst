@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.1 (2026-09-08)
+------------------
+
+Bug fixes:
+
+
+- Fix the "scroll to bottom" effect on portal_registry view.  @petschki
+
+
 3.0.0 (2026-05-16)
 ------------------
 
